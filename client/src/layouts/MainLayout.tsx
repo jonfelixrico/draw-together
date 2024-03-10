@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
+import Container from 'react-bootstrap/Container'
 
 export function Component () {
-  return <div>
-    test
+  return <Container className="vh-100">
     <Outlet />
-  </div>
+  </Container>
 }
