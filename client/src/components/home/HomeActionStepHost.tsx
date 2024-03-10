@@ -14,6 +14,7 @@ export default function HomeActionStepHost () {
   async function createRoomAndNavigate () {
     const { data } = await api.post<ResponseBody>('room')
     // TODO handle errors
+    // TODO add spinner
     navigate(`rooms/${data.id}`)
   }
 
