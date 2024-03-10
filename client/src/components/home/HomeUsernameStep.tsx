@@ -19,11 +19,11 @@ export default function HomeUsernameStep (props: {
           value={value}
           onChange={e => setValue(e.target.value)}
         />
-        
+
         <Button
           type='submit'
           disabled={!value}
-          onSubmit={() => props.onInput(value)}
+          onClick={() => props.onInput(value)}
         >
           Confirm Name
         </Button>

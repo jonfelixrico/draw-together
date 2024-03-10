@@ -5,7 +5,7 @@ import HomeActionStep from '../components/home/HomeActionStep'
 import HomeUsernameStep from '../components/home/HomeUsernameStep'
 
 export function Component () {
-  const [username] = useLocalStorage('username', undefined)
+  const [username, setUsername] = useLocalStorage('username', '')
 
   return <Container className="vh-100 d-flex flex-column justify-content-center">
     <If condition={!!username}>
@@ -14,7 +14,7 @@ export function Component () {
       </Then>
 
       <Else>
-        <HomeUsernameStep />
+        <HomeUsernameStep onInput={setUsername} />
       </Else>
     </If>
   </Container>
