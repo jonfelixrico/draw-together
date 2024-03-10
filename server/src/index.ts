@@ -13,6 +13,7 @@ app.get('/', (_, res) => {
 })
 
 const roomObjects: Record<string, Object> = {}
+
 app.post('/room', (_, res) => {
   const id = nanoid()
   roomObjects[id]
@@ -20,6 +21,16 @@ app.post('/room', (_, res) => {
   res.json({
     id
   })
+})
+
+app.get('/room/:roomId', (req, res) => {
+  const { roomId } = req.params
+
+  if (!roomObjects[roomId]) {
+    return res.sendStatus(404)
+  }
+
+  res.sendStatus(404)
 })
 
 app.listen(3000)
