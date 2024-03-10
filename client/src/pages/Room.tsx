@@ -1,14 +1,8 @@
 import { Container } from "react-bootstrap";
 import { getApiClient } from "../services/api-client";
-import { useParams } from "react-router-dom";
+import { LoaderFunction, useParams } from "react-router-dom";
 
-type Params =  {
-  roomId: string
-} & Record<string, string | undefined>
-
-export async function loader ({ params }: {
-  params: Params
-}) {
+export const loader: LoaderFunction = async ({ params }) => {
   const api = getApiClient()
 
   if (!params.roomId) {
@@ -19,7 +13,7 @@ export async function loader ({ params }: {
 }
 
 export function Component () {
-  const params = useParams<Params>()
+  const params = useParams<{ roomId: string }>()
 
   // This block shouldn't be possible. The loader should've taken care of it.
   if (!params.roomId) {
