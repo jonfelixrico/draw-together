@@ -30,7 +30,7 @@ app.get('/room/:roomId', (req, res) => {
     return res.sendStatus(404)
   }
 
-  res.sendStatus(404)
+  res.sendStatus(200)
 })
 
 app.listen(3000)
