@@ -1,3 +1,5 @@
+import { Route } from "react-router-dom";
+
 export const routes = <>
-  {/* TODO add route elements here */}
+  <Route path="/" lazy={() => import('../pages/IndexPage')} />
 </>
