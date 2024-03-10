@@ -16,7 +16,7 @@ const roomObjects: Record<string, Object> = {}
 
 app.post('/room', (_, res) => {
   const id = nanoid()
-  roomObjects[id]
+  roomObjects[id] = {}
   
   res.json({
     id
