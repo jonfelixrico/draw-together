@@ -1,10 +1,17 @@
-import { Container } from "react-bootstrap";
+import Container from 'react-bootstrap/Container'
 import { getApiClient } from "../services/api-client";
-import { LoaderFunction, useParams } from "react-router-dom";
+import { LoaderFunction, useParams, useRouteError } from "react-router-dom";
+import { HttpStatusCode, isAxiosError } from 'axios';
+import { Case, Default, Switch } from 'react-if';
+import RoomLoaderErrorNotFound from '../components/room/error-boundary/RoomLoaderErrorNotFound';
+import RoomLoaderErrorNoName from '../components/room/error-boundary/RoomLoaderErrorNoName';
+import RoomLoaderErrorUnexpected from '../components/room/error-boundary/RoomLoaderErrorUnexpected';
 
 enum RoomErrorType {
-  NO_ROOM_ID,
-  NO_USERNAME
+  NO_USERNAME,
+
+  UNEXPECTED,
+  NOT_FOUND
 }
 
 class RoomError extends Error {
@@ -17,14 +24,26 @@ export const loader: LoaderFunction = async ({ params }) => {
   const api = getApiClient()
 
   if (!params.roomId) {
-    throw new RoomError(RoomErrorType.NO_ROOM_ID)
+    throw new RoomError(RoomErrorType.UNEXPECTED)
   }
 
   if (!window.localStorage.getItem('username')) {
     throw new RoomError(RoomErrorType.NO_USERNAME)
   }
 
-  return await api.get(`room/${params.roomId}`)
+  try {
+    await api.get(`room/${params.roomId}`)
+  } catch (e) {
+    if (!isAxiosError(e)) {
+      throw new RoomError(RoomErrorType.UNEXPECTED)
+    }
+
+    if (e.status === HttpStatusCode.NotFound) {
+      throw new RoomError(RoomErrorType.NOT_FOUND)
+    }
+
+    throw new RoomError(RoomErrorType.UNEXPECTED)
+  }
 }
 
 export function Component () {
@@ -41,7 +60,21 @@ export function Component () {
 }
 
 export function ErrorBoundary () {
-  return <Container>
-    Error boundary
+  const error = useRouteError() as RoomError
+
+  return <Container className="vh-100">
+    <Switch>
+      <Case condition={error.type === RoomErrorType.NOT_FOUND}>
+        <RoomLoaderErrorNotFound />
+      </Case>
+
+      <Case condition={error.type === RoomErrorType.NO_USERNAME}>
+        <RoomLoaderErrorNoName />
+      </Case>
+
+      <Default>
+        <RoomLoaderErrorUnexpected />
+      </Default>
+    </Switch>
   </Container>
 }
