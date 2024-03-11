@@ -32,13 +32,9 @@ export const loader: LoaderFunction = async ({ params }) => {
   }
 
   try {
-    await api.get(`room/${params.roomId}`)
+    return await api.get(`room/${params.roomId}`)
   } catch (e) {
-    if (!isAxiosError(e)) {
-      throw new RoomError(RoomErrorType.UNEXPECTED)
-    }
-
-    if (e.status === HttpStatusCode.NotFound) {
+    if (isAxiosError(e) && e.status === HttpStatusCode.NotFound) {
       throw new RoomError(RoomErrorType.NOT_FOUND)
     }
 
