@@ -1,4 +1,4 @@
-import Card from "react-bootstrap/card"
+import Card from "react-bootstrap/Card"
 
 export default function RoomLoaderErrorNotFound () {
   return <Card>
