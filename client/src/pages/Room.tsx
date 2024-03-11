@@ -59,7 +59,7 @@ export function Component () {
 export function ErrorBoundary () {
   const error = useRouteError() as RoomError
 
-  return <Container className="vh-100">
+  return <div className='vh-100 d-flex justify-content-center align-items-center'>
     <Switch>
       <Case condition={error.type === RoomErrorType.NOT_FOUND}>
         <RoomLoaderErrorNotFound />
@@ -73,5 +73,5 @@ export function ErrorBoundary () {
         <RoomLoaderErrorUnexpected />
       </Default>
     </Switch>
-  </Container>
+  </div>
 }
