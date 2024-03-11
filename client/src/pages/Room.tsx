@@ -36,6 +36,10 @@ export const loader: LoaderFunction = async ({ params }) => {
 
     return data
   } catch (e) {
+    if (e instanceof RoomError) {
+      throw e
+    }
+
     if (isAxiosError(e) && e.response?.status === HttpStatusCode.NotFound) {
       throw new RoomError(RoomErrorType.NOT_FOUND)
     }
