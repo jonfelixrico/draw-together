@@ -27,12 +27,13 @@ export const loader: LoaderFunction = async ({ params }) => {
     throw new RoomError(RoomErrorType.UNEXPECTED)
   }
 
-  if (!window.localStorage.getItem('username')) {
-    throw new RoomError(RoomErrorType.NO_USERNAME)
-  }
-
   try {
     const { data } = await api.get(`room/${params.roomId}`)
+
+    if (!window.localStorage.getItem('username')) {
+      throw new RoomError(RoomErrorType.NO_USERNAME)
+    }
+
     return data
   } catch (e) {
     if (isAxiosError(e) && e.response?.status === HttpStatusCode.NotFound) {
@@ -46,18 +47,14 @@ export const loader: LoaderFunction = async ({ params }) => {
 export function Component () {
   const params = useParams<{ roomId: string }>()
 
-  // This block shouldn't be possible. The loader should've taken care of it.
-  if (!params.roomId) {
-    throw new Error()
-  }
-
   return <Container>
-    In room {params.roomId}
+    In room {params.roomId as string}
   </Container>
 }
 
 export function ErrorBoundary () {
   const error = useRouteError() as RoomError
+  const params = useParams<{ roomId: string }>()
 
   return <div className='vh-100 d-flex justify-content-center align-items-center'>
     <Switch>
@@ -66,7 +63,7 @@ export function ErrorBoundary () {
       </Case>
 
       <Case condition={error.type === RoomErrorType.NO_USERNAME}>
-        <RoomLoaderErrorNoName />
+        <RoomLoaderErrorNoName roomId={params.roomId as string} />
       </Case>
 
       <Default>
