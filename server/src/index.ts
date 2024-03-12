@@ -38,7 +38,11 @@ app.get('/room/:roomId', (req, res) => {
 })
 
 function getRoomId ({ request }: Socket) {
-  const url = new URL(request.headers.host || 'http://localhost', request.url)
+  /*
+   * No need to provide a real base URL since we're only using `url` to extract the query
+   * params from the relative path provided by request.url
+   */
+  const url = new URL(request.url as string, 'http://localhost')
   return url.searchParams.get('roomId')
 }
 
