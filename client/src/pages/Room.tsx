@@ -49,9 +49,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 }
 
 export function Component () {
-  const params = useParams<{ roomId: string }>()
-
-  return <RoomContent roomId={params.roomId as string} />
+  return <RoomContent />
 }
 
 export function ErrorBoundary () {
