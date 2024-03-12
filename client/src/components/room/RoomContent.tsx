@@ -2,22 +2,22 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useRoomSocket } from './room-socket.hook'
-import { useEffect } from 'react'
 import { JoinedPayload, RoomSocketCode, UserDataPayload } from '../../typings/room-socket-code.types'
 import { getClientUUID } from '../../utils/local-storage-vars.util'
+import { useUnmount } from 'react-use'
+import { useMount } from '../../hooks/lifecycle.hook'
 
 export default function RoomContent () {
-  const { broadcastMessage, socket, listenForMessage } = useRoomSocket()
+  const { broadcastMessage, listenForMessage, socket } = useRoomSocket()
 
-  // UseEffect for cleanup
-  useEffect(() => {
+  useUnmount(() => {
     return () => {
       console.log('Disconnected')
       socket.disconnect()
     }
-  }, [])
+  })
 
-  useEffect(() => {
+  useMount(() => {
     console.log('Sent init message')
     broadcastMessage(RoomSocketCode.JOINED, {
       uuid: getClientUUID()
@@ -31,7 +31,7 @@ export default function RoomContent () {
         name: window.localStorage.getItem('username') as string // casted as string since user can't reach this page without username in LS
       } as UserDataPayload)
     })
-  }, [])
+  })
 
   return <Container>
     <Row>
