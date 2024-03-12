@@ -3,16 +3,17 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useRoomSocket } from './room-socket.hook'
 import { useEffect } from 'react'
-import { RoomSocketCode } from '../../typings/room-socket-code.types'
+import { JoinedPayload, RoomSocketCode } from '../../typings/room-socket-code.types'
 import { getClientUUID } from '../../utils/local-storage-vars.util'
 
 export default function RoomContent () {
   const { sendCode, socket } = useRoomSocket()
 
   useEffect(() => {
+    console.log('Sent init message')
     sendCode(RoomSocketCode.JOINED, {
       uuid: getClientUUID()
-    })
+    } as JoinedPayload)
 
     return () => {
       console.log('Disconnected')
