@@ -3,7 +3,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useRoomSocket } from './room-socket.hook'
 import { useEffect } from 'react'
-import { RoomSocketCode } from '../../typings/room-socket-code.enum'
+import { RoomSocketCode } from '../../typings/room-socket-code.types'
 import { getClientUUID } from '../../utils/local-storage-vars.util'
 
 export default function RoomContent () {
