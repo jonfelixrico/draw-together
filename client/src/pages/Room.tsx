@@ -41,7 +41,8 @@ export const loader: LoaderFunction = async ({ params }) => {
     const socket = await createSocket({
       query: {
         roomId: params.roomId
-      }
+      },
+      path: '/api/socket.io'
     })
 
     return {
@@ -55,7 +56,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     }
 
     if (e instanceof SocketIoError) {
-      // TODO log
+      console.error('Encountered error while trying to connect to SocketIO', e)
       throw new RoomError(RoomErrorType.SOCKET_CONNECT_ERROR)
     }
 
