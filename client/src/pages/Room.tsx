@@ -6,6 +6,7 @@ import RoomLoaderErrorNotFound from '../components/room/error-boundary/RoomLoade
 import RoomLoaderErrorNoName from '../components/room/error-boundary/RoomLoaderErrorNoName';
 import RoomLoaderErrorUnexpected from '../components/room/error-boundary/RoomLoaderErrorUnexpected';
 import RoomContent from '../components/room/RoomContent';
+import { Room } from "../typings/room.types";
 
 enum RoomErrorType {
   NO_USERNAME,
@@ -28,7 +29,7 @@ export const loader: LoaderFunction = async ({ params }) => {
   }
 
   try {
-    const { data } = await api.get(`room/${params.roomId}`)
+    const { data } = await api.get<Room>(`room/${params.roomId}`)
 
     if (!window.localStorage.getItem('username')) {
       throw new RoomError(RoomErrorType.NO_USERNAME)
