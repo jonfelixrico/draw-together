@@ -65,5 +65,4 @@ io.on('connect', (socket: Socket) => {
   })
 })
 
-app.listen(3000)
-io.listen(3000)
+server.listen(3000)
