@@ -1,4 +1,3 @@
-import Container from 'react-bootstrap/Container'
 import { getApiClient } from "../services/api-client";
 import { LoaderFunction, useParams, useRouteError } from "react-router-dom";
 import { HttpStatusCode, isAxiosError } from 'axios';
@@ -6,6 +5,7 @@ import { Case, Default, Switch } from 'react-if';
 import RoomLoaderErrorNotFound from '../components/room/error-boundary/RoomLoaderErrorNotFound';
 import RoomLoaderErrorNoName from '../components/room/error-boundary/RoomLoaderErrorNoName';
 import RoomLoaderErrorUnexpected from '../components/room/error-boundary/RoomLoaderErrorUnexpected';
+import RoomContent from '../components/room/RoomContent';
 
 enum RoomErrorType {
   NO_USERNAME,
@@ -51,9 +51,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 export function Component () {
   const params = useParams<{ roomId: string }>()
 
-  return <Container>
-    In room {params.roomId as string}
-  </Container>
+  return <RoomContent roomId={params.roomId as string} />
 }
 
 export function ErrorBoundary () {
