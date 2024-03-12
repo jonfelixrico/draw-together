@@ -53,6 +53,8 @@ io.on('connect', (socket: Socket) => {
     return
   }
 
+  // TODO add checking for nonexistent rooms
+
   socket.join(roomId)
   console.debug('Connected socket %s to room %s', socket.id, roomId)
 
