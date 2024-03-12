@@ -7,12 +7,15 @@ import RoomLoaderErrorNoName from '../components/room/error-boundary/RoomLoaderE
 import RoomLoaderErrorUnexpected from '../components/room/error-boundary/RoomLoaderErrorUnexpected';
 import RoomContent from '../components/room/RoomContent';
 import { Room } from "../typings/room.types";
+import { SocketIoError, createSocket } from "../utils/socket-io.util";
 
 enum RoomErrorType {
   NO_USERNAME,
 
   UNEXPECTED,
-  NOT_FOUND
+  NOT_FOUND,
+
+  SOCKET_CONNECT_ERROR
 }
 
 class RoomError extends Error {
@@ -35,10 +38,21 @@ export const loader: LoaderFunction = async ({ params }) => {
       throw new RoomError(RoomErrorType.NO_USERNAME)
     }
 
-    return data
+    const socket = await createSocket(`/room/${params.roomId}`)
+
+    return {
+      room: data,
+      socket
+    }
   } catch (e) {
     if (e instanceof RoomError) {
+      // Error is already processed, so we'll just throw it again
       throw e
+    }
+
+    if (e instanceof SocketIoError) {
+      // TODO log
+      throw new RoomError(RoomErrorType.SOCKET_CONNECT_ERROR)
     }
 
     if (isAxiosError(e) && e.response?.status === HttpStatusCode.NotFound) {
