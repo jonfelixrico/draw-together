@@ -54,6 +54,7 @@ io.on('connect', (socket: Socket) => {
   socket.join(roomId)
   console.debug('Connected socket %s to room %s', socket.id, roomId)
 
+  // The purpose of this is to just relay the message to all participants
   socket.on('BROADCAST', (payload: Record<string, unknown>) => {
     console.debug('Relayed %o to room %s', payload, roomId)
     socket.to(roomId).emit('BROADCAST', payload)
