@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router-dom";
 import { Socket } from "socket.io-client";
-import { RoomSocketCode } from "../../typings/room-socket-code.types";
+import { BroadcastPayload, RoomSocketCode } from "../../typings/room-socket-code.types";
 
 export function useRoomSocket () {
   const { socket } = useLoaderData() as { socket: Socket }
@@ -12,8 +12,17 @@ export function useRoomSocket () {
     })
   }
 
+  function listenForMessage <T = unknown>(code: RoomSocketCode, handler: (payload: T) => void) {
+    socket.on('BROADCAST', (broadcastPayload: BroadcastPayload<T>) => {
+      if (code === broadcastPayload.code) {
+        handler(broadcastPayload.payload)
+      }
+    })
+  }
+
   return {
     socket,
-    broadcastMessage
+    broadcastMessage,
+    listenForMessage
   }
 }
