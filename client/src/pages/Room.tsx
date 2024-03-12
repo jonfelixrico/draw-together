@@ -38,7 +38,11 @@ export const loader: LoaderFunction = async ({ params }) => {
       throw new RoomError(RoomErrorType.NO_USERNAME)
     }
 
-    const socket = await createSocket(`/room/${params.roomId}`)
+    const socket = await createSocket({
+      query: {
+        roomId: params.roomId
+      }
+    })
 
     return {
       room: data,

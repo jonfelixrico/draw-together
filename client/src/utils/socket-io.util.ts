@@ -7,8 +7,9 @@ export class SocketIoError extends Error {
   }
 }
 
-export function createSocket (url: string, options?: Partial<ManagerOptions & SocketOptions>): Promise<Socket> {
-  const socket = io(url, options)
+
+export function createSocket (options: Partial<ManagerOptions & SocketOptions>): Promise<Socket> {
+  const socket = io(options)
 
   return new Promise((resolve, reject) => {
     socket.once('connect_error', (error: Error) => {
