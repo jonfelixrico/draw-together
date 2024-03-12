@@ -1,11 +1,18 @@
 import { ManagerOptions, SocketOptions, io, Socket } from "socket.io-client";
 
-export function createSocket (options: Partial<ManagerOptions & SocketOptions>): Promise<Socket> {
-  const socket = io(options)
+export class SocketIoError extends Error {
+  constructor (cause: Error) {
+    // TODO find a way to pass cause as an error
+    super(cause.message)
+  }
+}
+
+export function createSocket (url: string, options?: Partial<ManagerOptions & SocketOptions>): Promise<Socket> {
+  const socket = io(url, options)
 
   return new Promise((resolve, reject) => {
     socket.once('connect_error', (error: Error) => {
-      reject(error)
+      reject(new SocketIoError(error))
     })
 
     socket.once('connect', () => {
