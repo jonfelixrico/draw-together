@@ -1,6 +1,6 @@
 export enum RoomSocketCode {
-  JOINED,
-  USER_DATA
+  JOINED = 'JOINED',
+  USER_DATA = 'USER_DATA'
 }
 
 export interface BroadcastPayload<T = unknown> {
