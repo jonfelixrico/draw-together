@@ -8,6 +8,7 @@ import RoomLoaderErrorUnexpected from '../components/room/error-boundary/RoomLoa
 import RoomContent from '../components/room/RoomContent';
 import { Room } from "../typings/room.types";
 import { SocketIoError, createSocket } from "../utils/socket-io.util";
+import { getClientUUID } from "../utils/local-storage-vars.util";
 
 enum RoomErrorType {
   NO_USERNAME,
@@ -40,7 +41,8 @@ export const loader: LoaderFunction = async ({ params }) => {
 
     const socket = await createSocket({
       query: {
-        roomId: params.roomId
+        roomId: params.roomId,
+        clientId: getClientUUID()
       },
       path: '/api/socket.io'
     })
