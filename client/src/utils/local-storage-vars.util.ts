@@ -9,6 +9,6 @@ export function getClientUUID() {
   }
 
   uuid = nanoid()
-  window.localStorage.setItem('uuid', CLIENT_UUID_LS_KEY)
+  window.localStorage.setItem(CLIENT_UUID_LS_KEY, uuid)
   return uuid
 }
