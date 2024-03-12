@@ -43,6 +43,8 @@ function getRoomId ({ request }: Socket) {
 }
 
 io.on('connect', (socket: Socket) => {
+  console.debug('Socket %s has connected', socket.id)
+
   const roomId = getRoomId(socket)
   if (!roomId) {
     socket.emit('ERROR', 'NO_ROOM_ID')
