@@ -7,11 +7,11 @@ import { JoinedPayload, RoomSocketCode } from '../../typings/room-socket-code.ty
 import { getClientUUID } from '../../utils/local-storage-vars.util'
 
 export default function RoomContent () {
-  const { sendCode, socket } = useRoomSocket()
+  const { broadcastMessage, socket } = useRoomSocket()
 
   useEffect(() => {
     console.log('Sent init message')
-    sendCode(RoomSocketCode.JOINED, {
+    broadcastMessage(RoomSocketCode.JOINED, {
       uuid: getClientUUID()
     } as JoinedPayload)
 
