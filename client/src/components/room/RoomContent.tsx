@@ -1,21 +1,33 @@
 import Container from 'react-bootstrap/Container'
-import { useLoaderData, useParams } from 'react-router-dom'
-import { Room } from '../../typings/room.types'
-import { Socket } from 'socket.io-client'
-
-interface LoaderData {
-  room: Room
-  socket: Socket
-}
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import { useRoomSocket } from './room-socket.hook'
+import { useEffect } from 'react'
+import { RoomSocketCode } from '../../typings/room-socket-code.enum'
+import { getClientUUID } from '../../utils/local-storage-vars.util'
 
 export default function RoomContent () {
-  const params = useParams<{ roomId: string }>()
-  const {
-    room,
-    socket
-  } = useLoaderData() as LoaderData
+  const { sendCode, socket } = useRoomSocket()
+
+  useEffect(() => {
+    sendCode(RoomSocketCode.JOINED, {
+      uuid: getClientUUID()
+    })
+
+    return () => {
+      console.log('Disconnected')
+      socket.disconnect()
+    }
+  }, [])
 
   return <Container>
-    {params.roomId}
+    <Row>
+      <Col xs="2">
+        Test
+      </Col>
+      <Col>
+        Test 2
+      </Col>
+    </Row>
   </Container>
 }
