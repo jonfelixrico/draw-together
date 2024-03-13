@@ -14,6 +14,7 @@ export function useRoomSocket () {
       code,
       payload
     } as BroadcastPayload)
+    console.debug('Sent message with code %s and payload %o', code, payload)
   }, [socket])
 
   useEffect(() => {
