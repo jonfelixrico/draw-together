@@ -47,7 +47,7 @@ export function socketIOHandler (io: Server) {
 
     socket.join(roomId)
     socket.broadcast.to(roomId).emit('BROADCAST', {
-      code: 'CONN_USER',
+      code: 'CONN_ACTIVITY',
       payload: {
         id: clientId,
         name,        
