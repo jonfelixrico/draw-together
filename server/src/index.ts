@@ -4,9 +4,10 @@ config({
 })
 
 import express from 'express'
-import { nanoid } from 'nanoid'
+
 import { createServer } from 'http'
 import { Server } from 'socket.io'
+import { nanoid } from 'nanoid'
 import { socketIOHandler } from './socket.controller'
 
 const app = express()
