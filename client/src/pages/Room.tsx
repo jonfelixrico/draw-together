@@ -1,5 +1,5 @@
 import { getApiClient } from "../services/api-client";
-import { LoaderFunction, useParams, useRouteError } from "react-router-dom";
+import { LoaderFunction, useLoaderData, useParams, useRouteError } from "react-router-dom";
 import { HttpStatusCode, isAxiosError } from 'axios';
 import { Case, Default, Switch } from 'react-if';
 import RoomLoaderErrorNotFound from '../components/room/error-boundary/RoomLoaderErrorNotFound';
@@ -9,6 +9,8 @@ import RoomContent from '../components/room/RoomContent';
 import { Room } from "../typings/room.types";
 import { SocketIoError, createSocket } from "../utils/socket-io.util";
 import { getClientUUID } from "../utils/local-storage-vars.util";
+import { useUnmount } from "react-use";
+import { Socket } from "socket.io-client";
 
 enum RoomErrorType {
   NO_USERNAME,
@@ -71,6 +73,15 @@ export const loader: LoaderFunction = async ({ params }) => {
 }
 
 export function Component () {
+  const { socket } = useLoaderData() as { socket: Socket }
+
+  useUnmount(() => {
+    return () => {
+      console.log('Unmount detected, disconnecting socket.io id %s', socket.id)
+      socket.disconnect()
+    }
+  })
+
   return <RoomContent />
 }
 
