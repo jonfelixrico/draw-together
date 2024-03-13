@@ -48,6 +48,7 @@ export const loader: LoaderFunction = async ({ params }) => {
       },
       path: '/api/socket.io'
     })
+    console.debug('Connected to room %s', params.roomId)
 
     return {
       room: data,
