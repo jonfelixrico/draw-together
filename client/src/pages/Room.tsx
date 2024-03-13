@@ -44,7 +44,8 @@ export const loader: LoaderFunction = async ({ params }) => {
     const socket = await createSocket({
       query: {
         roomId: params.roomId,
-        clientId: getClientUUID()
+        clientId: getClientUUID(),
+        name: window.localStorage.getItem('username')
       },
       path: '/api/socket.io'
     })
