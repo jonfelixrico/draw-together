@@ -6,9 +6,9 @@
     "emitDecoratorMetadata": true,
     "module": "ESNext",
     "moduleResolution": "node",
-    "baseUrl": "src/",
+    "baseUrl": ".",
     "resolveJsonModule": true,
-    "outDir": "./dist",
+    "outDir": "dist",
     "removeComments": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -18,7 +18,7 @@
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
   },
-  "include": ["./src/**/*.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "test/**/*.ts"],
   "ts-node": {
     "esm": true
