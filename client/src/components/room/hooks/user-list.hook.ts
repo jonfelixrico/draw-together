@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useRoomSocket, useRoomSocketManager } from "./room-socket.hook";
-import { RoomSocketCode } from "../../../typings/room-socket-code.types";
-import { useImmer } from "use-immer"
+import { RoomSocketCode, RoomSocketEvent } from "../../../typings/room-socket-code.types";
+import { useImmer } from 'use-immer'
 
 interface ConnectedUser {
   id: string
@@ -14,8 +14,16 @@ export function useUserList () {
   const { lastMessage } = useRoomSocketManager()
 
   useEffect(() => {
-    
-  }, [socket])
+    async function getList () {
+      const list = await socket.emitWithAck(RoomSocketEvent.SERVER_REQ, {
+        code: RoomSocketCode.CONN_LIST
+      }) as ConnectedUser[]
+
+      setList(list)
+    }
+
+    getList()
+  }, [socket, setList])
 
   useEffect(() => {
     if (lastMessage?.code !== RoomSocketCode.CONN_ACTIVITY) {
