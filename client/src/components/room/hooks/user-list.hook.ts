@@ -40,7 +40,5 @@ export function useUserList () {
     })
   }, [lastMessage, setList])
 
-  return {
-    list
-  }
+  return list
 }
