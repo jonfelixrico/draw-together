@@ -49,7 +49,8 @@ export function socketIOHandler (io: Server) {
     socket.broadcast.to(roomId).emit('BROADCAST', {
       code: 'CONN_USER',
       payload: {
-        clientId,
+        id: clientId,
+        name,        
         action: 'join'
       }
     })
@@ -70,7 +71,8 @@ export function socketIOHandler (io: Server) {
       io.to(roomId).emit('BROADCAST', {
         code: 'CONN_ACTIVITY',
         payload: {
-          clientId,
+          id: clientId,
+          name,
           action: 'leave'
         }
       })
