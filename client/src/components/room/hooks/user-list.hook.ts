@@ -44,6 +44,11 @@ export function useUserList () {
       // reaching this line means that a user left
 
       const idx = list.findIndex(user => user.id === payload.id)
+      if (idx === -1) {
+        console.warn('Leave message received, but did not find id %s', payload.id)
+        return
+      }
+
       list.splice(idx, 1)
     })
   }, [lastMessage, setList])
