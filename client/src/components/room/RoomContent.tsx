@@ -2,7 +2,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useMount } from '../../hooks/lifecycle.hook'
-import { useRoomSocket } from './room-socket.hook'
+import { useRoomSocket } from './hooks/room-socket.hook'
 
 export default function RoomContent () {
   const socket = useRoomSocket()

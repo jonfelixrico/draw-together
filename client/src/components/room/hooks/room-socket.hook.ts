@@ -1,5 +1,5 @@
 import { Socket } from "socket.io-client"
-import { BroadcastPayload, RoomSocketCode, RoomSocketEvent } from "../../typings/room-socket-code.types"
+import { BroadcastPayload, RoomSocketCode, RoomSocketEvent } from "../../../typings/room-socket-code.types"
 import { useCallback, useEffect, useState } from "react"
 import { useLoaderData } from "react-router-dom"
 
