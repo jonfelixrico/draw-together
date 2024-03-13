@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router-dom"
 import { Socket } from "socket.io-client"
-import { BroadcastPayload, RoomSocketCode } from "../typings/room-socket-code.types"
+import { BroadcastPayload, RoomSocketCode } from "../../typings/room-socket-code.types"
 import { useCallback, useEffect, useState } from "react"
 
 const EVENT_NAME = 'BROADCAST'
