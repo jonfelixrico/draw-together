@@ -9,7 +9,7 @@ interface ConnectedUser {
   name: string
 }
 
-export function useUserList () {
+export function useConnectedUsers () {
   const [userMap, setUserMap] = useImmer<Record<string, ConnectedUser>>({})
   const socket = useRoomSocket()
   const { lastMessage } = useRoomSocketManager()
@@ -47,5 +47,5 @@ export function useUserList () {
     })
   }, [lastMessage, setUserMap])
 
-  return Object.values(userMap)
+  return userMap
 }
