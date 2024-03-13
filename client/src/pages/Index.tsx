@@ -5,7 +5,9 @@ import HomeActionStep from '../components/home/HomeActionStep'
 import HomeUsernameStep from '../components/home/HomeUsernameStep'
 
 export function Component () {
-  const [username, setUsername, clearUsername] = useLocalStorage('username', '')
+  const [username, setUsername, clearUsername] = useLocalStorage('username', '', {
+    raw: true
+  })
 
   return <Container className="vh-100 d-flex flex-column justify-content-center">
     <If condition={!!username}>
