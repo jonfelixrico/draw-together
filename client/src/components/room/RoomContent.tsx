@@ -4,18 +4,10 @@ import Col from 'react-bootstrap/Col'
 import { useRoomSocket } from './room-socket.hook'
 import { JoinedPayload, RoomSocketCode, UserDataPayload } from '../../typings/room-socket-code.types'
 import { getClientUUID } from '../../utils/local-storage-vars.util'
-import { useUnmount } from 'react-use'
 import { useMount } from '../../hooks/lifecycle.hook'
 
 export default function RoomContent () {
   const { broadcastMessage, listenForMessage, socket } = useRoomSocket()
-
-  useUnmount(() => {
-    return () => {
-      console.log('Disconnected')
-      socket.disconnect()
-    }
-  })
 
   useMount(() => {
     console.log('Sent init message')
