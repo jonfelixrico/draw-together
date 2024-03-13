@@ -4,9 +4,15 @@ config({
 })
 
 import express from 'express'
+
+import { createServer } from 'http'
+import { Server } from 'socket.io'
 import { nanoid } from 'nanoid'
+import { socketIOHandler } from './socket.controller'
 
 const app = express()
+const server = createServer(app)
+const io = new Server(server)
 
 app.get('/', (_, res) => {
   res.send('Hello World')
@@ -33,4 +39,6 @@ app.get('/room/:roomId', (req, res) => {
   res.sendStatus(200)
 })
 
-app.listen(3000)
+socketIOHandler(io)
+
+server.listen(3000)

@@ -10,7 +10,9 @@ export default function RoomLoaderErrorNoName (props: {
   roomId: string
 }) {
   const [username, setUsername] = useState('')
-  const [_, setLsUsername] = useLocalStorage('username', '')
+  const [_, setLsUsername] = useLocalStorage('username', '', {
+    raw: true
+  })
   const navigate = useNavigate()
 
   function setUsernameAndNavigate () {

@@ -1,17 +1,24 @@
-import Container from 'react-bootstrap/Container'
 import { getApiClient } from "../services/api-client";
-import { LoaderFunction, useParams, useRouteError } from "react-router-dom";
+import { LoaderFunction, useLoaderData, useParams, useRouteError } from "react-router-dom";
 import { HttpStatusCode, isAxiosError } from 'axios';
 import { Case, Default, Switch } from 'react-if';
 import RoomLoaderErrorNotFound from '../components/room/error-boundary/RoomLoaderErrorNotFound';
 import RoomLoaderErrorNoName from '../components/room/error-boundary/RoomLoaderErrorNoName';
 import RoomLoaderErrorUnexpected from '../components/room/error-boundary/RoomLoaderErrorUnexpected';
+import RoomContent from '../components/room/RoomContent';
+import { Room } from "../typings/room.types";
+import { SocketIoError, createSocket } from "../utils/socket-io.util";
+import { getClientUUID } from "../utils/local-storage-vars.util";
+import { useUnmount } from "react-use";
+import { Socket } from "socket.io-client";
 
 enum RoomErrorType {
   NO_USERNAME,
 
   UNEXPECTED,
-  NOT_FOUND
+  NOT_FOUND,
+
+  SOCKET_CONNECT_ERROR
 }
 
 class RoomError extends Error {
@@ -28,16 +35,35 @@ export const loader: LoaderFunction = async ({ params }) => {
   }
 
   try {
-    const { data } = await api.get(`room/${params.roomId}`)
+    const { data } = await api.get<Room>(`room/${params.roomId}`)
 
     if (!window.localStorage.getItem('username')) {
       throw new RoomError(RoomErrorType.NO_USERNAME)
     }
 
-    return data
+    const socket = await createSocket({
+      query: {
+        roomId: params.roomId,
+        clientId: getClientUUID(),
+        name: window.localStorage.getItem('username')
+      },
+      path: '/api/socket.io'
+    })
+    console.debug('Connected to room %s', params.roomId)
+
+    return {
+      room: data,
+      socket
+    }
   } catch (e) {
     if (e instanceof RoomError) {
+      // Error is already processed, so we'll just throw it again
       throw e
+    }
+
+    if (e instanceof SocketIoError) {
+      console.error('Encountered error while trying to connect to SocketIO', e)
+      throw new RoomError(RoomErrorType.SOCKET_CONNECT_ERROR)
     }
 
     if (isAxiosError(e) && e.response?.status === HttpStatusCode.NotFound) {
@@ -49,11 +75,16 @@ export const loader: LoaderFunction = async ({ params }) => {
 }
 
 export function Component () {
-  const params = useParams<{ roomId: string }>()
+  const { socket } = useLoaderData() as { socket: Socket }
 
-  return <Container>
-    In room {params.roomId as string}
-  </Container>
+  useUnmount(() => {
+    return () => {
+      console.log('Unmount detected, disconnecting socket.io id %s', socket.id)
+      socket.disconnect()
+    }
+  })
+
+  return <RoomContent />
 }
 
 export function ErrorBoundary () {
