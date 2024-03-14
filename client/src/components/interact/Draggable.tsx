@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, CSSProperties } from 'react'
 import interact from 'interactjs'
 import { Point } from '../../typings/geometry.types'
 
@@ -9,7 +9,8 @@ export interface DragEvent extends Point {
 
 export default function Draggable ({
   dimensions,
-  onDrag
+  onDrag,
+  cursor
 }: {
   onDrag: (event: DragEvent) => void
   
@@ -17,6 +18,8 @@ export default function Draggable ({
     width: number
     height: number
   }
+
+  cursor?: CSSProperties['cursor']
 }) {
   const elRef = useRef<HTMLDivElement>(null)
 
@@ -77,6 +80,7 @@ export default function Draggable ({
           prevRef.current = point
         },
       })
+      .styleCursor(false)
 
     return () => {
       interactable.unset()
@@ -85,6 +89,9 @@ export default function Draggable ({
 
   return <div
     ref={elRef}
-    style={dimensions}
+    style={{
+      ...dimensions,
+      cursor
+    }}
   />
 }
