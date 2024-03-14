@@ -18,5 +18,6 @@ export default function PadPath ({ value }: { value: PathData}) {
     strokeWidth={thickness}
     fill="none"
     strokeLinecap="round"
+    strokeLinejoin="round"
   />
 }
