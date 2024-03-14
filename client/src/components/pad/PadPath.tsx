@@ -6,7 +6,7 @@ export default function PadPath ({ value }: { value: PathData}) {
   const transformed: string[] = []
 
   const firstPoint = points[0]
-  transformed.push(`M ${firstPoint.x},{${firstPoint.y}}`)
+  transformed.push(`M ${firstPoint.x},${firstPoint.y}`)
 
   for (const { x, y } of points) {
     transformed.push(`L ${x},${y}`)
