@@ -1,6 +1,6 @@
 import { useRef, useEffect, CSSProperties } from 'react'
 import interact from 'interactjs'
-import { Point } from '../../typings/geometry.types'
+import { Dimensions, Point } from '../../typings/geometry.types'
 
 export interface DraggableEvent extends Point {
   isStart?: boolean
@@ -19,10 +19,7 @@ export default function Draggable ({
 }: {
   onDrag: (event: DraggableEvent) => void
   
-  dimensions: {
-    width: number
-    height: number
-  }
+  dimensions: Dimensions
 
   cursor?: CSSProperties['cursor']
 
