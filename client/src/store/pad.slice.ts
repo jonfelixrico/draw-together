@@ -30,8 +30,9 @@ export const padSlice = createSlice({
   name: 'pad',
   initialState: INITIAL_STATE,
   reducers: {
-    storePath: (state, { payload }: PayloadAction<StatePathData>) => {
+    savePath: (state, { payload }: PayloadAction<StatePathData>) => {
       state.paths[payload.id] = payload
+      delete state.creatingPaths[payload.id]
     },
 
     createCreatingPath: (state, { payload }: PayloadAction<PathCreatingStartPayload>) => {
