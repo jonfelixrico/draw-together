@@ -41,10 +41,25 @@ describe('home', () => {
   })
 
   it('supports hosting', () => {
+    cy.visit('/')
 
+    cy.dataCy('host-action').find('button').click()
+    cy.location('pathname').should('include', '/rooms/')
   })
 
   it('supports joining', () => {
-    // TODO add test
+    cy.request({
+      url: '/api/room',
+      method: 'POST',
+    })
+      .then(response => {
+        const id = response.body.id as string
+
+        cy.visit('/')
+        cy.dataCy('join-action').find('input').type(id)
+        cy.dataCy('join-action').find('button').click()
+
+        cy.location('pathname').should('equal', `/rooms/${id}`)
+      })
   })
 })

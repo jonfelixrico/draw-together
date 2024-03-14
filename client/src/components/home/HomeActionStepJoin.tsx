@@ -9,7 +9,7 @@ export default function HomeActionStepJoin () {
   const [roomId, setRoomId] = useState('')
   const navigate = useNavigate()
 
-  return <Card className="h-100">
+  return <Card className="h-100" data-cy="join-action">
     <Card.Body>
       <Card.Title as="h4" className='text-center'>
         Join a Room
