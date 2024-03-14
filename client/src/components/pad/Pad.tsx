@@ -51,13 +51,13 @@ export default function Pad ({ dimensions }: {
   }, [dispatch])
 
   return <div className='position-relative'>
-    <div className='position-absolute' style={{ zIndex: 999 }}>
+    <div className='position-absolute' style={{ zIndex: 2 }}>
       <Draggable dimensions={dimensions} onDrag={handleDrag} cursor='crosshair' />
     </div>
 
     <div style={dimensions}>
       {combinedPaths.map(data => {
-        return <svg {...dimensions} key={data.id} className='position-absolute'>
+        return <svg {...dimensions} key={data.id} className='position-absolute' style={{ zIndex: 1 }}>
           <PadPath value={data} />
         </svg>
       })}
