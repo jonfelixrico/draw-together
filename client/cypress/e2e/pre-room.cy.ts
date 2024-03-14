@@ -59,7 +59,37 @@ describe('pre-room', () => {
         cy.dataCy('join-action').find('input').type(id)
         cy.dataCy('join-action').find('button').click()
 
-        cy.location('pathname').should('equal', `/rooms/${id}`)
+        cy.dataCy('room-page').should('exist')
       })
+  })
+
+  it('handles join attempts to nonexistent room ids', () => {
+    cy.visit('/rooms/non-existent-id')
+    cy.dataCy('error-non-existent').should('exist')
+  })
+
+  it('handles join attempts with no username', () => {
+    cy.request({
+      url: '/api/room',
+      method: 'POST',
+    })
+      .then(response => {
+        cy.visit(`/rooms/${response.body.id}`)
+        cy.dataCy('error-no-username').should('exist')
+
+        cy.get('input').type('My Username')
+        cy.get('button').click()
+
+        cy.dataCy('room-page').should('exist')
+      })
+  })
+
+  it('shows an error screen on unexpected error', () => {
+    cy.intercept('/api/room/error-test', {
+      statusCode: 500
+    })
+
+    cy.visit('/rooms/error-test')
+    cy.dataCy('error-unexpected').should('exist')
   })
 })
