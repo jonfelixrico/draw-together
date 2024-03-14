@@ -1,14 +1,10 @@
-import { Point } from "../../typings/geometry.types";
+import { PadPath } from "../../typings/pad.types"
 
-export default function Freehand ({
+export default function Path ({
   points,
   color,
   thickness
-}: {
-  points: Point[],
-  thickness: number,
-  color: React.SVGAttributes<SVGPathElement>['fill']
-}) {
+}: PadPath) {
   const transformed: string[] = []
 
   const firstPoint = points[0]
