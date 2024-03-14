@@ -19,6 +19,12 @@ export default function Draggable ({
   }
 }) {
   const elRef = useRef<HTMLDivElement>(null)
+
+  /*
+   * We're using useRef here and not useState because the "prev" data does not need the reactiveness.
+   * It's not something that we show in the UI. Plus, it'll just needlessly re-render the div that we're
+   * using for input detection.
+   */
   const prevRef = useRef<Point | null>(null)
 
   useEffect(() => {
