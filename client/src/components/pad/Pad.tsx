@@ -4,13 +4,11 @@ import { If, Then } from 'react-if'
 import PadPath from './PadPath'
 import Draggable, { DraggableEvent } from '../interact/Draggable'
 import { useImmer } from 'use-immer'
+import { Dimensions } from '../../typings/geometry.types'
 
-const DIMENSIONS = {
-  width: 500,
-  height: 500
-}
-
-export default function Pad () {
+export default function Pad ({ dimensions }: {
+  dimensions: Dimensions
+}) {
   const [path, setPath] = useImmer<PathData | null>(null)
 
   const handleDrag = useCallback((event: DraggableEvent) => {
@@ -47,13 +45,13 @@ export default function Pad () {
 
   return <div className='position-relative'>
     <div className='position-absolute'>
-      <Draggable dimensions={DIMENSIONS} onDrag={handleDrag} cursor='crosshair' />
+      <Draggable dimensions={dimensions} onDrag={handleDrag} cursor='crosshair' />
     </div>
 
     <If condition={!!path}>
       <Then>
-        <div style={DIMENSIONS}>
-          <svg {...DIMENSIONS}>
+        <div style={dimensions}>
+          <svg {...dimensions}>
             <PadPath value={path as PathData} />
           </svg>
         </div>
