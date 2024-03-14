@@ -1,4 +1,4 @@
-import { useRef, useEffect, CSSProperties } from 'react'
+import { useRef, useEffect, CSSProperties, useMemo } from 'react'
 import interact from 'interactjs'
 import { Point } from '../../typings/geometry.types'
 
@@ -108,11 +108,13 @@ export default function Draggable ({
     }
   }, [onDrag, skipRate])
 
-  return <div
-    ref={elRef}
-    style={{
-      ...dimensions,
-      cursor
-    }}
-  />
+  return useMemo(() => {
+    return <div
+      ref={elRef}
+      style={{
+        ...dimensions,
+        cursor
+      }}
+    />
+  }, [dimensions, cursor])
 }
