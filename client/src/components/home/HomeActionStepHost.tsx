@@ -18,7 +18,7 @@ export default function HomeActionStepHost () {
     navigate(`rooms/${data.id}`)
   }
 
-  return <Card className="h-100">
+  return <Card className="h-100" data-cy="host-action">
     <Card.Body className='d-flex flex-column justify-content-between'>
       <Card.Title className='text-center' as="h4">Host a Room</Card.Title>
       <Button className='w-100' onClick={createRoomAndNavigate}>Host Room</Button>

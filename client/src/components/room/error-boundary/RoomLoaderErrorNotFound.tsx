@@ -3,13 +3,13 @@ import Button from 'react-bootstrap/Button'
 import Stack from "react-bootstrap/Stack"
 
 export default function RoomLoaderErrorNotFound () {
-  return <Card>
+  return <Card data-cy="error-not-found">
     <Card.Body>
       <Stack gap={1}>
         <Card.Title className="text-center">
           Room not Found
         </Card.Title>
-        <Button href="/">Return to the home page</Button>
+        <Button href="/" data-cy="return-btn">Return to the home page</Button>
       </Stack>
     </Card.Body>
   </Card>

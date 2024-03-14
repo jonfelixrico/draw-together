@@ -11,11 +11,11 @@ export default function HomeActionStep ({
   username: string
   clearUsername: () => void
 }) {
-  return <Container>
+  return <Container data-cy="action-step">
     <div className='text-center mb-4'>
-      <h2 className='mb-0'>Hello, {username}</h2>
+      <h2 className='mb-0'>Hello, <span data-cy="username">{username}</span></h2>
       {/* TODO stylize like a link */}
-      <div onClick={() => clearUsername()}>Not you? Change</div>
+      <div onClick={clearUsername} data-cy="clear-username">Not you? Change</div>
     </div>
 
     <Row>

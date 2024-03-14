@@ -20,7 +20,7 @@ export default function RoomLoaderErrorNoName (props: {
     navigate(`/rooms/${props.roomId}`)
   }
 
-  return <Card>
+  return <Card data-cy="error-no-username">
     <Card.Body>
       <Stack gap={1}>
         <Card.Title className="text-center">Enter a name</Card.Title>

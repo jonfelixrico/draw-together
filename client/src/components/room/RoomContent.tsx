@@ -11,7 +11,7 @@ export default function RoomContent () {
     return sortBy(Object.values(users), ({ name }) => name)
   }, [users])
 
-  return <Container>
+  return <Container data-cy="room-page">
     <Row>
       <Col xs="2">
         <div>Connected Users</div>
