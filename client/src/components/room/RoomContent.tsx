@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col'
 import { useConnectedUsers } from './hooks/connected-users.hook'
 import { useMemo } from 'react'
 import sortBy from 'lodash/sortBy'
+import Pad from '../pad/Pad'
 
 export default function RoomContent () {
   const users = useConnectedUsers()
@@ -20,7 +21,7 @@ export default function RoomContent () {
         </ol>
       </Col>
       <Col>
-        Content goes here
+        <Pad />
       </Col>
     </Row>
   </Container>
