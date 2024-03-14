@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react'
 import interact from 'interactjs'
 
-interface DragEvent {
+export interface DragEvent {
   x: number
   y: number
   dx: number
