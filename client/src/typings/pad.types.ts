@@ -1,7 +1,4 @@
-interface Point {
-  x: number
-  y: number
-}
+import { Point } from "./geometry.types"
 
 export interface PathData {
   points: Point[]
