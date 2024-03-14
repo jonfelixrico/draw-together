@@ -9,7 +9,7 @@ export default function HomeUsernameStep (props: {
 }) {
   const [value, setValue] = useState('')
 
-  return <Card>
+  return <Card data-cy="username-step">
     <Card.Body>
       <Stack gap={1}>
         <Form.Control

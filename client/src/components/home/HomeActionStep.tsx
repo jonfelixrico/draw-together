@@ -11,7 +11,7 @@ export default function HomeActionStep ({
   username: string
   clearUsername: () => void
 }) {
-  return <Container>
+  return <Container data-cy="action-step">
     <div className='text-center mb-4'>
       <h2 className='mb-0'>Hello, {username}</h2>
       {/* TODO stylize like a link */}
