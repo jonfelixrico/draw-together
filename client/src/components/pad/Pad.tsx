@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { PathData } from '../../typings/pad.types'
 import { If, Then } from 'react-if'
 import PadPath from './PadPath'
-import Draggable, { DragEvent } from '../interact/Draggable'
+import Draggable, { DraggableEvent } from '../interact/Draggable'
 import { useImmer } from 'use-immer'
 
 const DIMENSIONS = {
@@ -13,7 +13,7 @@ const DIMENSIONS = {
 export default function Pad () {
   const [path, setPath] = useImmer<PathData | null>(null)
 
-  const handleDrag = useCallback((event: DragEvent) => {
+  const handleDrag = useCallback((event: DraggableEvent) => {
     const {
       x,
       y,

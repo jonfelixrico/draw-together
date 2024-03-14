@@ -2,7 +2,7 @@ import { useRef, useEffect, CSSProperties } from 'react'
 import interact from 'interactjs'
 import { Point } from '../../typings/geometry.types'
 
-export interface DragEvent extends Point {
+export interface DraggableEvent extends Point {
   isStart?: boolean
   isEnd?: boolean
 }
@@ -17,7 +17,7 @@ export default function Draggable ({
   cursor,
   skipRate = 2
 }: {
-  onDrag: (event: DragEvent) => void
+  onDrag: (event: DraggableEvent) => void
   
   dimensions: {
     width: number
