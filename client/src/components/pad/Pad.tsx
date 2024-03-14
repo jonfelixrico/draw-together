@@ -21,12 +21,14 @@ export default function Pad ({ dimensions }: {
 
     if (isStart) {
       setPath({
+        // TODO make this user-settable
         color: 'red',
+        thickness: 5,
+
         points: [{
           x,
           y
-        }],
-        thickness: 5
+        }]
       })
     } else if (isEnd) {
       // setPath(null)
