@@ -3,7 +3,7 @@ interface Point {
   y: number
 }
 
-export interface PadPath {
+export interface PathData {
   points: Point[]
   color: React.SVGAttributes<SVGPathElement>['fill']
   thickness: number
