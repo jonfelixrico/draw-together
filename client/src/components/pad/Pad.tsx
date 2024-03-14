@@ -15,7 +15,6 @@ export default function Pad ({ dimensions }: {
     const {
       x,
       y,
-      isEnd,
       isStart
     } = event
 
@@ -30,8 +29,6 @@ export default function Pad ({ dimensions }: {
           y
         }]
       })
-    } else if (isEnd) {
-      // setPath(null)
     } else {
       setPath((path) => {
         if (!path) {
