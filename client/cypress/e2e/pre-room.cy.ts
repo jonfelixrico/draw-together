@@ -1,4 +1,4 @@
-describe('home', () => {
+describe('pre-room', () => {
   it('shows username step if no username is found in localstorage', () => {
     cy.clearLocalStorage()
 
