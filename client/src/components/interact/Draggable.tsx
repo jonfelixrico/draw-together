@@ -7,10 +7,15 @@ export interface DragEvent extends Point {
   isEnd?: boolean
 }
 
+interface PrevPoint extends Point {
+  counter: number
+}
+
 export default function Draggable ({
   dimensions,
   onDrag,
-  cursor
+  cursor,
+  skipRate = 2
 }: {
   onDrag: (event: DragEvent) => void
   
@@ -20,6 +25,13 @@ export default function Draggable ({
   }
 
   cursor?: CSSProperties['cursor']
+
+  /**
+   * Affects the move events. Higher value means less frequent move events are emitted to `onDrag`.
+   * Higher value will make the line smoother, but at the risk of introducing more polygons.
+   * Lower value will make the line smudgy, but there will be less polygons.
+   */
+  skipRate?: number
 }) {
   const elRef = useRef<HTMLDivElement>(null)
 
@@ -28,7 +40,7 @@ export default function Draggable ({
    * It's not something that we show in the UI. Plus, it'll just needlessly re-render the div that we're
    * using for input detection.
    */
-  const prevRef = useRef<Point | null>(null)
+  const prevRef = useRef<PrevPoint | null>(null)
 
   useEffect(() => {
     if (!elRef.current) {
@@ -53,7 +65,10 @@ export default function Draggable ({
             ...point,
             isStart: true
           })
-          prevRef.current = point
+          prevRef.current = {
+            ...point,
+            counter: 0
+          }
         },
 
         onend: ({ dx, dy }: Interact.InteractEvent<'drag', 'end'>) => {
@@ -70,14 +85,20 @@ export default function Draggable ({
         },
 
         onmove: ({ dx, dy }: Interact.InteractEvent<'drag', 'move'>) => {
-          const prev = prevRef.current as Point // assume that this will never be null
+          const prev = prevRef.current as PrevPoint // assume that this will never be null
           const point = {
             x: prev.x + dx,
             y: prev.y + dy
           }
 
-          onDrag(point)
-          prevRef.current = point
+          prevRef.current = {
+            ...point,
+            counter: prev.counter + 1
+          }
+
+          if (prev.counter % skipRate === 0) {
+            onDrag(point)
+          }
         },
       })
       .styleCursor(false)
@@ -85,7 +106,7 @@ export default function Draggable ({
     return () => {
       interactable.unset()
     }
-  }, [onDrag])
+  }, [onDrag, skipRate])
 
   return <div
     ref={elRef}
