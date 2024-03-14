@@ -21,6 +21,25 @@ describe('home', () => {
     cy.dataCy('username').contains('Stored Username')
   })
 
+  it('allows changing of name', () => {
+    cy.setLocalStorage('username', 'Stored Username')
+
+    cy.visit('/')
+    cy.dataCy('action-step').should('exist')
+    cy.dataCy('username').contains('Stored Username')
+
+    cy.dataCy('clear-username').click()
+    
+    cy.dataCy('username-step').should('exist')
+
+    cy.get('input').type('My Username')
+    cy.get('button').click()
+
+    cy.dataCy('action-step').should('exist')
+
+    cy.dataCy('username').contains('My Username')
+  })
+
   it('supports hosting', () => {
 
   })
