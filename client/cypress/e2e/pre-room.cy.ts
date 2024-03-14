@@ -66,6 +66,9 @@ describe('pre-room', () => {
   it('handles join attempts to nonexistent room ids', () => {
     cy.visit('/rooms/non-existent-id')
     cy.dataCy('error-not-found').should('exist')
+
+    cy.dataCy('return-btn').click()
+    cy.location('pathname').should('equal', '/')
   })
 
   it('handles join attempts with no username', () => {
@@ -93,5 +96,8 @@ describe('pre-room', () => {
 
     cy.visit('/rooms/error-test')
     cy.dataCy('error-unexpected').should('exist')
+
+    cy.dataCy('return-btn').click()
+    cy.location('pathname').should('equal', '/')
   })
 })

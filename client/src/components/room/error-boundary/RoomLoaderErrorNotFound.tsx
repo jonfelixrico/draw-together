@@ -9,7 +9,7 @@ export default function RoomLoaderErrorNotFound () {
         <Card.Title className="text-center">
           Room not Found
         </Card.Title>
-        <Button href="/">Return to the home page</Button>
+        <Button href="/" data-cy="return-btn">Return to the home page</Button>
       </Stack>
     </Card.Body>
   </Card>

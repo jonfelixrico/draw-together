@@ -13,7 +13,7 @@ export default function RoomLoaderErrorUnexpected () {
           Please try again later
         </Card.Text>
 
-        <Button href="/">Return to the home page</Button>
+        <Button href="/" data-cy="return-btn">Return to the home page</Button>
       </Stack>
     </Card.Body>
   </Card>
