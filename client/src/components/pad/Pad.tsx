@@ -13,12 +13,14 @@ const DIMENSIONS = {
 export default function Pad () {
   const [path, setPath] = useImmer<PathData | null>(null)
 
-  const handleDrag = useCallback(({
-    x,
-    y,
-    isEnd,
-    isStart
-  }: DragEvent) => {
+  const handleDrag = useCallback((event: DragEvent) => {
+    const {
+      x,
+      y,
+      isEnd,
+      isStart
+    } = event
+
     if (isStart) {
       setPath({
         color: 'red',
@@ -29,31 +31,33 @@ export default function Pad () {
         thickness: 5
       })
     } else if (isEnd) {
-      setPath(() => {
-        return null
-      })
+      // setPath(null)
     } else {
-      if (!path) {
-        return
-      }
+      setPath((path) => {
+        if (!path) {
+          return
+        }
 
-      path.points.push({
-        x, y
+        path.points.push({
+          x, y
+        })
       })
     }
   }, [setPath])
 
-  return <div className='position-relative' style={DIMENSIONS}>
-    <div>
-      <If condition={!!path}>
-        <Then>
-          <PadPath value={path as PathData} />
-        </Then>
-      </If>
+  return <div className='position-relative'>
+    <div className='position-absolute'>
+      <Draggable dimensions={DIMENSIONS} onDrag={handleDrag} cursor='crosshair' />
     </div>
 
-    <div className='absolute'>
-      <Draggable dimensions={DIMENSIONS} onDrag={handleDrag} />
-    </div>
+    <If condition={!!path}>
+      <Then>
+        <div style={DIMENSIONS}>
+          <svg {...DIMENSIONS}>
+            <PadPath value={path as PathData} />
+          </svg>
+        </div>
+      </Then>
+    </If>
   </div>
 }
