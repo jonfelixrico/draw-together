@@ -1,11 +1,8 @@
 import { useRef, useEffect } from 'react'
 import interact from 'interactjs'
+import { Point } from '../../typings/geometry.types'
 
-export interface DragEvent {
-  x: number
-  y: number
-  dx: number
-  dy: number
+export interface DragEvent extends Point {
   isStart?: boolean
   isEnd?: boolean
 }
@@ -21,42 +18,57 @@ export default function Draggable ({
     height: number
   }
 }) {
-  const ref = useRef<HTMLDivElement>(null)
+  const elRef = useRef<HTMLDivElement>(null)
+  const prevRef = useRef<Point | null>(null)
 
   useEffect(() => {
-    if (!ref.current) {
+    if (!elRef.current) {
       return
     }
 
-    const interactable = interact(ref.current)
+    const interactable = interact(elRef.current)
       .draggable({
-        onstart: (event: Interact.InteractEvent<'drag', 'start'>) => {
+        onstart: ({ x0, y0 }: Interact.InteractEvent<'drag', 'start'>) => {
+          if (!elRef.current) {
+            console.warn('Draggable: elRef is null!')
+            return
+          }
+
+          const rect = elRef.current.getBoundingClientRect()
+          const point = {
+            x: x0 - rect.x,
+            y: y0 - rect.y,
+          }
+
           onDrag({
-            x: event.x0,
-            y: event.y0,
-            dx: event.dx,
-            dy: event.dy,
+            ...point,
             isStart: true
           })
+          prevRef.current = point
         },
 
-        onend: (event: Interact.InteractEvent<'drag', 'end'>) => {
+        onend: ({ dx, dy }: Interact.InteractEvent<'drag', 'end'>) => {
+          const prev = prevRef.current as Point // assume that this will never be null
+          const point = {
+            x: prev.x + dx,
+            y: prev.y + dy
+          }
+
           onDrag({
-            x: event.x0,
-            y: event.y0,
-            dx: event.dx,
-            dy: event.dy,
+            ...point,
             isEnd: true
           })
         },
 
-        onmove: (event: Interact.InteractEvent<'drag', 'move'>) => {
-          onDrag({
-            x: event.x0,
-            y: event.y0,
-            dx: event.dx,
-            dy: event.dy
-          })
+        onmove: ({ dx, dy }: Interact.InteractEvent<'drag', 'move'>) => {
+          const prev = prevRef.current as Point // assume that this will never be null
+          const point = {
+            x: prev.x + dx,
+            y: prev.y + dy
+          }
+
+          onDrag(point)
+          prevRef.current = point
         },
       })
 
@@ -66,7 +78,7 @@ export default function Draggable ({
   }, [onDrag])
 
   return <div
-    ref={ref}
+    ref={elRef}
     style={dimensions}
   />
 }
