@@ -12,11 +12,11 @@ export default function PadPath ({ value }: { value: PathData}) {
     transformed.push(`L ${x},${y}`)
   }
 
-  transformed.push('Z')
-
   return <path
     d={transformed.join('\n')}
-    fill={color}
+    stroke={color}
     strokeWidth={thickness}
+    fill="none"
+    strokeLinecap="round"
   />
 }
