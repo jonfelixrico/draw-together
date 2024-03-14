@@ -1,16 +1,28 @@
 describe('home', () => {
   it('shows username step if no username is found in localstorage', () => {
-    // TODO add test
+    cy.clearLocalStorage()
+
     cy.visit('/')
     cy.dataCy('username-step').should('exist')
+
+    cy.get('input').type('My Username')
+    cy.get('button').click()
+
+    cy.dataCy('action-step').should('exist')
+    cy.dataCy('username').contains('My Username')
   })
 
   it('shows action step if username is already in localstorage', () => {
-    // TODO add test
+    cy.setLocalStorage('username', 'Stored Username')
+
+    cy.visit('/')
+    cy.dataCy('action-step').should('exist')
+
+    cy.dataCy('username').contains('Stored Username')
   })
 
   it('supports hosting', () => {
-    // TODO add test
+
   })
 
   it('supports joining', () => {
