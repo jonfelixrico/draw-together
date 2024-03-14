@@ -65,7 +65,7 @@ describe('pre-room', () => {
 
   it('handles join attempts to nonexistent room ids', () => {
     cy.visit('/rooms/non-existent-id')
-    cy.dataCy('error-non-existent').should('exist')
+    cy.dataCy('error-not-found').should('exist')
   })
 
   it('handles join attempts with no username', () => {
@@ -74,6 +74,8 @@ describe('pre-room', () => {
       method: 'POST',
     })
       .then(response => {
+        cy.clearLocalStorage()
+
         cy.visit(`/rooms/${response.body.id}`)
         cy.dataCy('error-no-username').should('exist')
 

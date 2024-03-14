@@ -3,7 +3,7 @@ import Stack from 'react-bootstrap/Stack'
 import Button from 'react-bootstrap/Button'
 
 export default function RoomLoaderErrorUnexpected () {
-  return <Card>
+  return <Card data-cy="error-unexpected">
     <Card.Body>
       <Stack gap={1}>
         <Card.Title className="text-center">

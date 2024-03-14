@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button'
 import Stack from "react-bootstrap/Stack"
 
 export default function RoomLoaderErrorNotFound () {
-  return <Card>
+  return <Card data-cy="error-not-found">
     <Card.Body>
       <Stack gap={1}>
         <Card.Title className="text-center">
