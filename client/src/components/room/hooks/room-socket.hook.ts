@@ -37,6 +37,9 @@ export function useMessageEffect <T>(code: RoomSocketCode, handler: (payload: T)
   }, [socket, handler, code, ...dependencies])
 }
 
+/**
+ * @deprecated
+ */
 export function useRoomSocketManager () {
   const socket = useRoomSocket()
   
