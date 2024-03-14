@@ -32,7 +32,8 @@ export interface UserDataPayload {
 
 export interface PathCreatingStartPayload extends PathData {
   id: string
-  counter: 0
+  counter: number // TODO set to 9
+  timestamp: number
 }
 
 export interface PathCreatingPayload {
@@ -41,4 +42,7 @@ export interface PathCreatingPayload {
   point: Point
 }
 
-export type PathCreated = PathData
+export type PathCreatedPayload = PathData & {
+  id: string
+  timestamp: number
+}
