@@ -27,8 +27,8 @@ const INITIAL_STATE: PadState = {
   }
 }
 
-export const padSlice = createSlice({
-  name: 'pad',
+export const padPathSlice = createSlice({
+  name: 'padPath',
   initialState: INITIAL_STATE,
   reducers: {
     setPath: (state, { payload }: PayloadAction<PathData>) => {
@@ -68,6 +68,6 @@ export const padSlice = createSlice({
   }
 })
 
-export const PadActions = padSlice.actions
+export const PadPathActions = padPathSlice.actions
 
-export default padSlice.reducer
+export default padPathSlice.reducer

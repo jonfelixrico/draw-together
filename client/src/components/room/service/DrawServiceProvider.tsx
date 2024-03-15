@@ -3,7 +3,7 @@ import { useAppDispatch } from "../../../store/hooks";
 import { DrawEvent, PathInputService, PathInputServiceProvider } from "../../pad/hooks/path-input.hook";
 import { useSendMessage } from "../hooks/room-socket.hook";
 import { PathData } from "../../../typings/pad.types";
-import { PadActions } from "../../../store/pad.slice";
+import { PadPathActions } from "../../../store/pad-path.slice";
 import { nanoid } from "nanoid";
 import { PathDraftMovePayload, PathDraftStartPayload, RoomSocketCode } from "../../../typings/room-socket-code.types";
 
@@ -24,7 +24,7 @@ export default function DrawServiceProvider (props: {
         id: nanoid()
       }
 
-      dispatch(PadActions.setDraftPath(newDraft))
+      dispatch(PadPathActions.setDraftPath(newDraft))
       sendMessage<PathDraftStartPayload>(RoomSocketCode.PATH_DRAFT_START, {
         ...newDraft,
         counter: 0
@@ -54,11 +54,11 @@ export default function DrawServiceProvider (props: {
     
     if (event.isEnd) {
       sendMessage(RoomSocketCode.PATH_CREATE, updated)
-      dispatch(PadActions.setPath(updated))
-      dispatch(PadActions.removeDraftPath(draft.id))
+      dispatch(PadPathActions.setPath(updated))
+      dispatch(PadPathActions.removeDraftPath(draft.id))
     } else {
       // reaching this line means that we're processing regular move events
-      dispatch(PadActions.setDraftPath(updated))
+      dispatch(PadPathActions.setDraftPath(updated))
     }
 
     draftRef.current = updated
