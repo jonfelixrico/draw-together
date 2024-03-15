@@ -41,4 +41,4 @@ export interface PathDraftMovePayload {
   point: Point
 }
 
-export type PathCreatedPayload = PathData
+export type PathCreatePayload = PathData
