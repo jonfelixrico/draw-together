@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { PathData } from "../typings/pad.types";
+import { PathColor, PathData } from "../typings/pad.types";
 import { Point } from "../typings/geometry.types";
 
 export interface PadState {
@@ -10,11 +10,21 @@ export interface PadState {
   draftPaths: {
     [id: string]: PathData
   }
+
+  settings: {
+    thickness: number
+    color: PathColor
+  }
 }
 
 const INITIAL_STATE: PadState = {
   paths: {},
-  draftPaths: {}
+  draftPaths: {},
+
+  settings: {
+    thickness: 5,
+    color: 'black'
+  }
 }
 
 export const padSlice = createSlice({
@@ -46,6 +56,14 @@ export const padSlice = createSlice({
 
     removeDraftPath: (state, { payload }: PayloadAction<string>) => {
       delete state.draftPaths[payload]
+    },
+
+    setColor: (state, { payload }: PayloadAction<PathColor>) => {
+      state.settings.color = payload
+    },
+
+    setThickness: (state, { payload }: PayloadAction<number>) => {
+      state.settings.thickness = payload
     }
   }
 })
