@@ -20,7 +20,10 @@ export class PadEventsService {
   }
 
   private async performCatchUp () {
-    const { LENGTH }: PadHistoryResponse = await this.socket.emitWithAck('PAD_HISTORY', { LENGTH: true} as PadHistoryRequest)
+    const { LENGTH }: PadHistoryResponse = await this.socket.emitWithAck(
+      'PAD_HISTORY',
+      { LENGTH: true } as PadHistoryRequest
+    )
     const length = LENGTH as number
 
     let currentIdx = 0
