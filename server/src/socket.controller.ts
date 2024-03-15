@@ -46,7 +46,7 @@ export function socketIOHandler (io: Server) {
     // TODO add checking for nonexistent rooms
 
     socket.join(roomId)
-    socket.broadcast.to(roomId).emit('PAD', {
+    socket.broadcast.to(roomId).emit('SERVER', {
       code: 'CONN_ACTIVITY',
       payload: {
         id: clientId,
