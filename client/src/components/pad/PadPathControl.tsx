@@ -3,12 +3,12 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { PathColor } from '../../typings/pad.types';
-import { PadPathActions } from '../../store/pad-path.slice';
+import { PadPathActions, selectColor } from '../../store/pad-path.slice';
 
 export default function PadPathControl () {
   const dispatch = useAppDispatch()
   
-  const color = useAppSelector(state => state.padPath.options.color)
+  const color = useAppSelector(selectColor)
 
   function setColor (color: PathColor) {
     dispatch(PadPathActions.setColor(color))

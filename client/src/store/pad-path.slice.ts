@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { PathColor, PathData } from "../typings/pad.types";
 import { Point } from "../typings/geometry.types";
+import type { RootState } from '../store'
 
 export interface PadState {
   paths: {
@@ -71,3 +72,6 @@ export const padPathSlice = createSlice({
 export const PadPathActions = padPathSlice.actions
 
 export default padPathSlice.reducer
+
+export const selectThickness = ({ padPath }: RootState) => padPath.options.thickness
+export const selectColor = ({ padPath }: RootState) => padPath.options.color

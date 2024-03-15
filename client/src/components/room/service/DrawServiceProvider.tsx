@@ -3,15 +3,15 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { DrawEvent, PathInputService, PathInputServiceProvider } from "../../pad/hooks/path-input.hook";
 import { useSendMessage } from "../hooks/room-socket.hook";
 import { PathData } from "../../../typings/pad.types";
-import { PadPathActions } from "../../../store/pad-path.slice";
+import { PadPathActions, selectColor, selectThickness } from "../../../store/pad-path.slice";
 import { nanoid } from "nanoid";
 import { PathDraftMovePayload, PathDraftStartPayload, RoomSocketCode } from "../../../typings/room-socket-code.types";
 
 export default function DrawServiceProvider (props: {
   children: ReactNode
 }) {
-  const color = useAppSelector(state => state.padPath.options.color)
-  const thickness = useAppSelector(state => state.padPath.options.thickness)
+  const color = useAppSelector(selectColor)
+  const thickness = useAppSelector(selectThickness)
 
   const sendMessage = useSendMessage()
   const dispatch = useAppDispatch()
