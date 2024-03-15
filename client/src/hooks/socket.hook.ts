@@ -1,10 +1,10 @@
-import { SocketEventPayload, SocketEventType } from "@/typings/socket.types";
+import { SocketEventPayload } from "@/typings/socket.types";
 import { useEffect } from "react";
 import { Socket } from "socket.io-client";
 
 export function useSocketOn<T>(
   socket: Socket,
-  eventType: SocketEventType,
+  eventType: string,
   eventCode: string,
   handler: (payload: T) => void
 ) {
