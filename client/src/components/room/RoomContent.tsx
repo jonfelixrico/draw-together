@@ -8,6 +8,7 @@ import { useMeasure } from 'react-use'
 import PadContentRenderer from '../pad/PadContentRenderer'
 import { PadInput } from '../pad/PadInput'
 import DrawServiceProvider from './service/DrawServiceProvider'
+import { usePathSocketWatcher } from './service/socket-path-watcher.hook'
 
 export default function RoomContent () {
   const users = useConnectedUsers()
@@ -15,6 +16,7 @@ export default function RoomContent () {
     return sortBy(Object.values(users), ({ name }) => name)
   }, [users])
   const [ref, dimensions] = useMeasure<HTMLDivElement>()
+  usePathSocketWatcher()
 
   return <Container data-cy="room-page" className='vh-100'>
     <Row className="h-100">
