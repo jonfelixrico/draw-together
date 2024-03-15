@@ -32,9 +32,9 @@ export default function PadPathControl () {
     <Col>
       <Slider
         value={thickness}
-        onChangeComplete={value => setThickness(value as number)}
+        onChange={value => setThickness(value as number)}
         min={1}
-        max={20}
+        max={100}
       />
     </Col>
   </Row>
