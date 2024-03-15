@@ -1,9 +1,10 @@
-import { useEffect } from "react";
-import { useMessageEffect, useRoomSocket } from "./room-socket.hook";
+import { useCallback, useEffect } from "react";
+import { useRoomSocket } from "./room-socket.hook";
 import { RoomSocketCode } from "@/typings/room-socket-code.types";
 import { useImmer } from 'use-immer'
 import keyBy from 'lodash/keyBy'
 import { SocketEventType } from "@/typings/socket.types";
+import { useSocketOn } from "@/hooks/socket.hook";
 
 interface ConnectedUser {
   id: string
@@ -26,7 +27,7 @@ export function useConnectedUsers () {
     getList()
   }, [socket, setUserMap])
 
-  useMessageEffect(RoomSocketCode.CONN_ACTIVITY, (payload: { id: string, name: string, action: 'leave' | 'join' }) => {
+  const handler = useCallback((payload: { id: string, name: string, action: 'leave' | 'join' }) => {
     setUserMap((map) => {
       if (payload.action === 'leave') {
         delete map[payload.id]
@@ -40,6 +41,8 @@ export function useConnectedUsers () {
       }
     })
   }, [setUserMap])
+
+  useSocketOn(socket, SocketEventType.SERVER, RoomSocketCode.CONN_ACTIVITY, handler)
 
   return userMap
 }

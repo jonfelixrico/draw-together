@@ -1,8 +1,9 @@
 import { Socket } from "socket.io-client"
 import { PadEventPayload, RoomSocketCode } from "@/typings/room-socket-code.types"
-import { useCallback, useEffect } from "react"
+import { useCallback } from "react"
 import { useLoaderData } from "react-router-dom"
 import { SocketEventType } from "@/typings/socket.types"
+import { useSocketOn } from "@/hooks/socket.hook"
 
 export function useSendMessage() {
   const socket = useRoomSocket()
@@ -16,26 +17,10 @@ export function useSendMessage() {
   }, [socket])
 }
 
-export function useMessageEffect <T>(code: RoomSocketCode, handler: (payload: T) => void, dependencies: unknown[]) {
+export function useMessageEffect <T>(code: RoomSocketCode, handler: (payload: T) => void) {
   const socket = useRoomSocket()
 
-  useEffect(() => {
-    function internalHandler (sckPayload: PadEventPayload<T>) {
-      if (sckPayload?.code !== code) {
-        return
-      }
-
-      handler(sckPayload.payload)
-    }
-
-    socket.on(SocketEventType.PAD, internalHandler)
-    console.debug('Created socket.io listener for %s', SocketEventType.PAD)
-
-    return () => {
-      console.debug('Removed socket.io listener for %s', SocketEventType.PAD)
-      socket.off(SocketEventType.PAD, internalHandler)
-    }
-  }, [socket, handler, code, ...dependencies])
+  useSocketOn(socket, SocketEventType.PAD, code, handler)
 }
 
 export function useRoomSocket () {
