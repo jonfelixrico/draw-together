@@ -4,15 +4,16 @@ import Col from 'react-bootstrap/Col'
 import { useConnectedUsers } from './hooks/connected-users.hook'
 import { useMemo } from 'react'
 import sortBy from 'lodash/sortBy'
-import Pad from '../pad/Pad'
 import { useMeasure } from 'react-use'
+import PadContentRenderer from '../pad/PadContentRenderer'
+import { PadInput } from '../pad/PadInput'
 
 export default function RoomContent () {
   const users = useConnectedUsers()
   const userList = useMemo(() => {
     return sortBy(Object.values(users), ({ name }) => name)
   }, [users])
-  const [ref, { width, height }] = useMeasure<HTMLDivElement>()
+  const [ref, dimensions] = useMeasure<HTMLDivElement>()
 
   return <Container data-cy="room-page" className='vh-100'>
     <Row className="h-100">
@@ -24,8 +25,12 @@ export default function RoomContent () {
       </Col>
       <Col className='border p-0'>
         {/* Intermediate div is present because we can't easily attach ref to Col */}
-        <div className='h-100' ref={ref}>
-          <Pad dimensions={{ width, height }} />
+        <div className='h-100 position-relative' ref={ref}>
+          <div className='position-absolute'>
+            <PadInput dimensions={dimensions} />
+          </div>
+
+          <PadContentRenderer dimensions={dimensions} />
         </div>
       </Col>
     </Row>
