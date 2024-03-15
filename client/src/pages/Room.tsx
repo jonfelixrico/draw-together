@@ -11,6 +11,8 @@ import { SocketIoError, createSocket } from "@/utils/socket-io.util";
 import { getClientUUID } from "@/utils/local-storage-vars.util";
 import { useUnmount } from "react-use";
 import { Socket } from "socket.io-client";
+import { PadEventsService } from "@/services/pad-events";
+import { useMount } from "@/hooks/lifecycle.hook";
 
 enum RoomErrorType {
   NO_USERNAME,
@@ -51,9 +53,12 @@ export const loader: LoaderFunction = async ({ params }) => {
     })
     console.debug('Connected to room %s', params.roomId)
 
+    const padEventsService = new PadEventsService(socket)
+
     return {
       room: data,
-      socket
+      socket,
+      padEventsService
     }
   } catch (e) {
     if (e instanceof RoomError) {
@@ -75,13 +80,18 @@ export const loader: LoaderFunction = async ({ params }) => {
 }
 
 export function Component () {
-  const { socket } = useLoaderData() as { socket: Socket }
+  const { socket, padEventsService } = useLoaderData() as { socket: Socket, padEventsService: PadEventsService }
 
   useUnmount(() => {
     return () => {
       console.log('Unmount detected, disconnecting socket.io id %s', socket.id)
       socket.disconnect()
     }
+  })
+
+  useMount(() => {
+    console.info('Started the pad events service')
+    padEventsService.start()
   })
 
   return <RoomContent />

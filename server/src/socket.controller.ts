@@ -1,3 +1,4 @@
+import { padHistoryHandler } from "./pad-history.controller"
 import { Server, Socket } from "socket.io"
 
 function getQSData ({ request }: Socket) {
@@ -46,7 +47,7 @@ export function socketIOHandler (io: Server) {
     // TODO add checking for nonexistent rooms
 
     socket.join(roomId)
-    socket.broadcast.to(roomId).emit('BROADCAST', {
+    socket.broadcast.to(roomId).emit('SERVER', {
       code: 'CONN_ACTIVITY',
       payload: {
         id: clientId,
@@ -68,7 +69,7 @@ export function socketIOHandler (io: Server) {
     }
 
     socket.on('disconnect', () => {
-      io.to(roomId).emit('BROADCAST', {
+      io.to(roomId).emit('SERVER', {
         code: 'CONN_ACTIVITY',
         payload: {
           id: clientId,
@@ -82,7 +83,7 @@ export function socketIOHandler (io: Server) {
     })
 
 
-    socket.on('SERVER_REQ', ({ code }: { code: string }, respond: (response: unknown) => void) => {
+    socket.on('SERVER', ({ code }: { code: string }, respond: (response: unknown) => void) => {
       switch (code) {
         case 'CONN_LIST': {
           respond(Object.values(rooms[roomId]))
@@ -98,9 +99,11 @@ export function socketIOHandler (io: Server) {
     })
   
     // The purpose of this is to just relay the message to all participants
-    socket.on('BROADCAST', (payload: Record<string, unknown>) => {
+    socket.on('PAD', (payload: Record<string, unknown>) => {
       console.debug('Relayed %o to room %s, from client %s', payload, roomId, clientId)
-      socket.broadcast.to(roomId).emit('BROADCAST', payload)
+      socket.broadcast.to(roomId).emit('PAD', payload)
     })
+
+    padHistoryHandler(socket, roomId)
   })
 }

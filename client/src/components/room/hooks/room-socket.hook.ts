@@ -1,40 +1,36 @@
 import { Socket } from "socket.io-client"
-import { BroadcastPayload, RoomSocketCode, RoomSocketEvent } from "@/typings/room-socket-code.types"
+import { PadEventPayload, PadSocketCode } from "@/typings/pad-socket.types"
 import { useCallback, useEffect } from "react"
 import { useLoaderData } from "react-router-dom"
+import { SocketEventType } from "@/typings/socket.types"
+import { PadEventsService } from "@/services/pad-events"
 
 export function useSendMessage() {
   const socket = useRoomSocket()
 
-  return useCallback(<T>(code: RoomSocketCode, payload: T) => {
-    socket.emit(RoomSocketEvent.BROADCAST, {
+  return useCallback(<T>(code: PadSocketCode, payload: T) => {
+    socket.emit(SocketEventType.PAD, {
       code,
       payload
-    } as BroadcastPayload)
+    } as PadEventPayload<T>)
     console.debug('Sent message with code %s and payload %o', code, payload)
   }, [socket])
 }
 
-export function useMessageEffect <T>(code: RoomSocketCode, handler: (payload: T) => void, dependencies: unknown[]) {
-  const socket = useRoomSocket()
+export function useMessageEffect <T>(code: PadSocketCode, handler: (payload: T) => void) {
+  const { padEventsService } = useLoaderData() as { padEventsService: PadEventsService }
 
   useEffect(() => {
-    function internalHandler (sckPayload: BroadcastPayload<T>) {
-      if (sckPayload?.code !== code) {
+    const unsubscribe = padEventsService.on<T>(evt => {
+      if (evt.code !== code) {
         return
       }
 
-      handler(sckPayload.payload)
-    }
+      handler(evt.payload)
+    })
 
-    socket.on(RoomSocketEvent.BROADCAST, internalHandler)
-    console.debug('Created socket.io listener for %s', RoomSocketEvent.BROADCAST)
-
-    return () => {
-      console.debug('Removed socket.io listener for %s', RoomSocketEvent.BROADCAST)
-      socket.off(RoomSocketEvent.BROADCAST, internalHandler)
-    }
-  }, [socket, handler, code, ...dependencies])
+    return unsubscribe
+  }, [padEventsService, code, handler])
 }
 
 export function useRoomSocket () {

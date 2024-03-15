@@ -1,26 +1,14 @@
 import { Point } from "./geometry.types"
 import { PathData } from "./pad.types"
+import { SocketEventPayload } from "./socket.types"
 
-export enum RoomSocketCode {
-  JOINED = 'JOINED',
-  USER_DATA = 'USER_DATA',
-  CONN_LIST = 'CONN_LIST',
-  CONN_ACTIVITY = 'CONN_ACTIVITY',
-
+export enum PadSocketCode {
   PATH_DRAFT_START = 'PATH_DRAFT_START',
   PATH_DRAFT_MOVE = 'PATH_DRAFT_MOVE',
   PATH_CREATE = 'PATH_CREATE'
 }
 
-export enum RoomSocketEvent {
-  BROADCAST = 'BROADCAST',
-  SERVER_REQ = 'SERVER_REQ'
-}
-
-export interface BroadcastPayload<T = unknown> {
-  code: RoomSocketCode
-  payload: T
-}
+export type PadEventPayload<T> = SocketEventPayload<T>
 
 export interface JoinedPayload {
   uuid: string
