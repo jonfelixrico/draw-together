@@ -68,7 +68,7 @@ export function socketIOHandler (io: Server) {
     }
 
     socket.on('disconnect', () => {
-      io.to(roomId).emit('PAD', {
+      io.to(roomId).emit('SERVER', {
         code: 'CONN_ACTIVITY',
         payload: {
           id: clientId,
