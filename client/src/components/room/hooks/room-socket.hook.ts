@@ -3,10 +3,10 @@ import { BroadcastPayload, RoomSocketCode, RoomSocketEvent } from "../../../typi
 import { useCallback, useEffect } from "react"
 import { useLoaderData } from "react-router-dom"
 
-export function useSendMessage () {
+export function useSendMessage() {
   const socket = useRoomSocket()
 
-  return useCallback((code: RoomSocketCode, payload: unknown) => {
+  return useCallback(<T>(code: RoomSocketCode, payload: T) => {
     socket.emit(RoomSocketEvent.BROADCAST, {
       code,
       payload
