@@ -1,39 +1,40 @@
 import { Socket } from "socket.io-client"
 import { BroadcastPayload, RoomSocketCode, RoomSocketEvent } from "../../../typings/room-socket-code.types"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect } from "react"
 import { useLoaderData } from "react-router-dom"
 
-export function useRoomSocketManager () {
+export function useSendMessage() {
   const socket = useRoomSocket()
-  
-  const [lastMessage, setLastMessage] = useState<BroadcastPayload<unknown>>()
 
-  const sendMessage = useCallback((code: RoomSocketCode, payload: unknown) => {
+  return useCallback(<T>(code: RoomSocketCode, payload: T) => {
     socket.emit(RoomSocketEvent.BROADCAST, {
       code,
       payload
     } as BroadcastPayload)
     console.debug('Sent message with code %s and payload %o', code, payload)
   }, [socket])
+}
+
+export function useMessageEffect <T>(code: RoomSocketCode, handler: (payload: T) => void, dependencies: unknown[]) {
+  const socket = useRoomSocket()
 
   useEffect(() => {
-    function handler (payload: BroadcastPayload<unknown>) {
-      setLastMessage(payload)
+    function internalHandler (sckPayload: BroadcastPayload<T>) {
+      if (sckPayload?.code !== code) {
+        return
+      }
+
+      handler(sckPayload.payload)
     }
 
-    socket.on(RoomSocketEvent.BROADCAST, handler)
+    socket.on(RoomSocketEvent.BROADCAST, internalHandler)
     console.debug('Created socket.io listener for %s', RoomSocketEvent.BROADCAST)
 
     return () => {
       console.debug('Removed socket.io listener for %s', RoomSocketEvent.BROADCAST)
-      socket.off(RoomSocketEvent.BROADCAST, handler)
+      socket.off(RoomSocketEvent.BROADCAST, internalHandler)
     }
-  }, [socket, setLastMessage])
-
-  return {
-    lastMessage,
-    sendMessage
-  }
+  }, [socket, handler, code, ...dependencies])
 }
 
 export function useRoomSocket () {
