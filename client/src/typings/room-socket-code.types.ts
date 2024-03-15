@@ -1,5 +1,5 @@
 import { Point } from "./geometry.types"
-import { PathData } from "./pad.types"
+import { PathRenderData } from "./pad.types"
 
 export enum RoomSocketCode {
   JOINED = 'JOINED',
@@ -30,7 +30,7 @@ export interface UserDataPayload {
   name: string
 }
 
-export interface PathCreatingStartPayload extends PathData {
+export interface PathCreatingStartPayload extends PathRenderData {
   id: string
   counter: number // TODO set to 9
   timestamp: number
@@ -42,7 +42,7 @@ export interface PathCreatingPayload {
   point: Point
 }
 
-export type PathCreatedPayload = PathData & {
+export type PathCreatedPayload = PathRenderData & {
   id: string
   timestamp: number
 }
