@@ -9,6 +9,7 @@ import PadContentRenderer from '../pad/PadContentRenderer'
 import { PadInput } from '../pad/PadInput'
 import DrawServiceProvider from './service/DrawServiceProvider'
 import { usePathSocketWatcher } from './service/socket-path-watcher.hook'
+import PadPathControl from '../pad/PadPathControl'
 
 export default function RoomContent () {
   const users = useConnectedUsers()
@@ -23,11 +24,17 @@ export default function RoomContent () {
     touchAction: 'none'
   }}>
     <Row className="h-100">
-      <Col xs="2">
-        <div>Connected Users</div>
-        <ol>
-          {userList.map(({ id, name }) => <li key={id}>{name}</li>)}
-        </ol>
+      <Col xs="2" className='py-2'>
+        <div className='h-100 d-flex flex-column justify-content-between'>
+          <div>
+            <div>Connected Users</div>
+            <ol>
+              {userList.map(({ id, name }) => <li key={id}>{name}</li>)}
+            </ol>
+          </div>
+
+          <PadPathControl />
+        </div>
       </Col>
       <Col className='border p-0'>
         {/* Intermediate div is present because we can't easily attach ref to Col */}
