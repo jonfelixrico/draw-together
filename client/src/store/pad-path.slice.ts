@@ -24,7 +24,7 @@ const INITIAL_STATE: PadState = {
 
   options: {
     thickness: 5,
-    color: 'black'
+    color: '#000000'
   }
 }
 
