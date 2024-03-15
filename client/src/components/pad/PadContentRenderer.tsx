@@ -3,28 +3,25 @@ import { useAppSelector } from "../../store/hooks";
 import { sortBy } from "lodash";
 import { Dimensions } from "../../typings/geometry.types";
 import PadPath from "./PadPath";
+import pick from 'lodash/pick'
 
 export default function PadContentRenderer ({
   dimensions
 }: {
   dimensions: Dimensions
 }) {
-  const { localDraftPath, paths } = useAppSelector(state => {
-    const { localDraftPath, paths } = state.pad
-    return {
-      localDraftPath,
-      paths
-    }
+  const { draftPaths, paths } = useAppSelector(state => {
+    return pick(state.pad, ['draftPaths', 'paths'])
   })
 
   const pathsToRender = useMemo(() => {
-    const arr = Object.values(paths)
-    if (localDraftPath) {
-      arr.push(localDraftPath)
-    }
+    const arr = [
+      ...Object.values(paths),
+      ...Object.values(draftPaths)
+    ]
 
     return sortBy(arr, ({ timestamp }) => timestamp)
-  }, [localDraftPath, paths])
+  }, [draftPaths, paths])
 
   return <div style={dimensions} className="position-relative">
     {pathsToRender.map(data => {

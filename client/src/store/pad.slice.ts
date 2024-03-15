@@ -6,12 +6,14 @@ export interface PadState {
     [id: string]: PathData
   }
 
-  localDraftPath: PathData | null
+  draftPaths: {
+    [id: string]: PathData
+  }
 }
 
 const INITIAL_STATE: PadState = {
   paths: {},
-  localDraftPath: null
+  draftPaths: {}
 }
 
 export const padSlice = createSlice({
@@ -22,13 +24,12 @@ export const padSlice = createSlice({
       state.paths[payload.id] = payload
     },
 
-    setLocalDraftPath: (state, { payload }: PayloadAction<PathData>) => {
-      state.localDraftPath = payload
+    setDraftPath: (state, { payload }: PayloadAction<PathData>) => {
+      state.draftPaths[payload.id] = payload
     },
-    
 
-    removeLocalDraftPath: (state) => {
-      state.localDraftPath = null
+    removeDraftPath: (state, { payload }: PayloadAction<string>) => {
+      delete state.draftPaths[payload]
     }
   }
 })
