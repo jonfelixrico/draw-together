@@ -5,7 +5,7 @@ import { Socket } from "socket.io-client";
 
 type Payload = SocketEventPayload<unknown>
 
-export class PadEvents {
+export class PadEventsService {
   private catchUp$ = new ReplaySubject<Payload | 'DONE'>()
   private live$ = new ReplaySubject<Payload>()
 
