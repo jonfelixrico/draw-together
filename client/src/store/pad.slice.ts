@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { PathData } from "../typings/pad.types";
+import { SetStateAction } from "react";
 
 export interface PadState {
   paths: {
@@ -26,6 +27,25 @@ export const padSlice = createSlice({
 
     setDraftPath: (state, { payload }: PayloadAction<PathData>) => {
       state.draftPaths[payload.id] = payload
+    },
+
+    mutateDraftPath: (state, payloadAction: PayloadAction<{
+      id: string,
+      action: SetStateAction<PathData>
+    }>) => {
+      const { action, id } = payloadAction.payload
+      
+      const draft = state.draftPaths[id]
+      if (!draft) {
+        console.warn('Draft path %s not found', id)
+        return
+      }
+
+      if (typeof action === 'object') {
+        state.draftPaths[id] = action
+      } else {
+        state.draftPaths[id] = action(draft)
+      }
     },
 
     removeDraftPath: (state, { payload }: PayloadAction<string>) => {
