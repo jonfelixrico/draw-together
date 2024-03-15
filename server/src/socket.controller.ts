@@ -1,4 +1,4 @@
-import { padEventHandler } from "pad-history.controller"
+import { padHistoryHandler } from "pad-history.controller"
 import { Server, Socket } from "socket.io"
 
 function getQSData ({ request }: Socket) {
@@ -104,6 +104,6 @@ export function socketIOHandler (io: Server) {
       socket.broadcast.to(roomId).emit('PAD', payload)
     })
 
-    padEventHandler(socket, roomId)
+    padHistoryHandler(socket, roomId)
   })
 }

@@ -14,10 +14,10 @@ function saveEvent(roomId: string, event: unknown) {
   roomPadEvents[roomId].push(event)
 }
 
-export function padEventHandler (socket: Socket, roomId: string) {
+export function padHistoryHandler (socket: Socket, roomId: string) {
   socket.on('PAD', (payload: unknown) => {
     saveEvent(roomId, payload)
   })
 
-  
+
 }
