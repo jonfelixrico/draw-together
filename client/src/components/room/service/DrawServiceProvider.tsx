@@ -5,7 +5,7 @@ import { useSendMessage } from "../hooks/room-socket.hook";
 import { PathData } from "../../../typings/pad.types";
 import { PadActions } from "../../../store/pad.slice";
 import { nanoid } from "nanoid";
-import { RoomSocketCode } from "../../../typings/room-socket-code.types";
+import { PathDraftMovePayload, PathDraftStartPayload, RoomSocketCode } from "../../../typings/room-socket-code.types";
 
 export default function DrawServiceProvider (props: {
   children: ReactNode
@@ -25,6 +25,10 @@ export default function DrawServiceProvider (props: {
       }
 
       dispatch(PadActions.setDraftPath(newDraft))
+      sendMessage<PathDraftStartPayload>(RoomSocketCode.PATH_DRAFT_START, {
+        ...newDraft,
+        counter: 0
+      })
       draftRef.current = newDraft
       return
     }
@@ -42,6 +46,11 @@ export default function DrawServiceProvider (props: {
         event.point
       ]
     }
+    sendMessage<PathDraftMovePayload>(RoomSocketCode.PATH_DRAFT_MOVE, {
+      id: updated.id,
+      point: event.point,
+      counter: updated.points.length - 2
+    })
     
     if (event.isEnd) {
       sendMessage(RoomSocketCode.PATH_CREATE, updated)
