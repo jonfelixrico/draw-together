@@ -1,3 +1,4 @@
+import { padEventHandler } from "pad-history.controller"
 import { Server, Socket } from "socket.io"
 
 function getQSData ({ request }: Socket) {
@@ -25,22 +26,8 @@ type RoomDict = {
   }
 }
 
-type RoomPadEvents = {
-  [roomId: string]: unknown[]
-}
-
 export function socketIOHandler (io: Server) {
   const rooms: RoomDict = {}
-
-  // TODO move this to its own service
-  const roomPadEvents: RoomPadEvents = {}
-  function saveEvent(roomId: string, event: unknown) {
-    if (!roomPadEvents[roomId]) {
-      roomPadEvents[roomId] = []
-    }
-
-    roomPadEvents[roomId].push(event)
-  }
 
   io.on('connect', (socket: Socket) => {
     const { roomId, clientId, name } = getQSData(socket)
@@ -115,7 +102,8 @@ export function socketIOHandler (io: Server) {
     socket.on('PAD', (payload: Record<string, unknown>) => {
       console.debug('Relayed %o to room %s, from client %s', payload, roomId, clientId)
       socket.broadcast.to(roomId).emit('PAD', payload)
-      saveEvent(roomId, payload)
     })
+
+    padEventHandler(socket, roomId)
   })
 }
