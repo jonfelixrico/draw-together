@@ -1,5 +1,5 @@
 import { useMemo } from "react"
-import { PathRenderData } from "../../typings/pad.types"
+import { PathRenderData } from "@/typings/pad.types"
 
 export default function PadPath ({ value }: { value: PathRenderData}) {
   const { points, color, thickness } = value

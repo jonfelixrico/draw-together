@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { PathColor, PathData } from "../typings/pad.types";
-import { Point } from "../typings/geometry.types";
-import type { RootState } from '../store'
+import { PathColor, PathData } from "@/typings/pad.types";
+import { Point } from "@/typings/geometry.types";
+import type { RootState } from '@/store'
 
 export interface PadState {
   paths: {

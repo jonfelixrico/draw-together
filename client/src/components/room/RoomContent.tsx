@@ -5,11 +5,11 @@ import { useConnectedUsers } from './hooks/connected-users.hook'
 import { useMemo } from 'react'
 import sortBy from 'lodash/sortBy'
 import { useMeasure } from 'react-use'
-import PadContentRenderer from '../pad/PadContentRenderer'
-import { PadInput } from '../pad/PadInput'
+import PadContentRenderer from '@/components/pad/PadContentRenderer'
+import { PadInput } from '@/components/pad/PadInput'
 import DrawServiceProvider from './service/DrawServiceProvider'
 import { usePathSocketWatcher } from './service/socket-path-watcher.hook'
-import PadPathControl from '../pad/PadPathControl'
+import PadPathControl from '@/components/pad/PadPathControl'
 
 export default function RoomContent () {
   const users = useConnectedUsers()
