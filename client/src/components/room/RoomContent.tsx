@@ -7,6 +7,7 @@ import sortBy from 'lodash/sortBy'
 import { useMeasure } from 'react-use'
 import PadContentRenderer from '../pad/PadContentRenderer'
 import { PadInput } from '../pad/PadInput'
+import DrawServiceProvider from './DrawServiceProvider'
 
 export default function RoomContent () {
   const users = useConnectedUsers()
@@ -26,8 +27,10 @@ export default function RoomContent () {
       <Col className='border p-0'>
         {/* Intermediate div is present because we can't easily attach ref to Col */}
         <div className='h-100 position-relative' ref={ref}>
-          <div className='position-absolute'>
-            <PadInput dimensions={dimensions} />
+          <div className='position-absolute' style={{ zIndex: 2 }}>
+            <DrawServiceProvider>
+              <PadInput dimensions={dimensions} />
+            </DrawServiceProvider>
           </div>
 
           <PadContentRenderer dimensions={dimensions} />
