@@ -1,9 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { PathCreatedPayload, PathCreatingPayload, PathCreatingStartPayload } from "../typings/room-socket-code.types";
+import { PathCreatedPayload, PathDraftMovePayload, PathDraftStartPayload } from "../typings/room-socket-code.types";
 
 export type StatePathData = PathCreatedPayload
 
-export type StateCreatingPathData = Omit<PathCreatingStartPayload, 'counter'> & {
+export type StateCreatingPathData = Omit<PathDraftStartPayload, 'counter'> & {
   counter: number
 }
 
@@ -34,11 +34,11 @@ export const padSlice = createSlice({
       delete state.creatingPaths[payload.id]
     },
 
-    createCreatingPath: (state, { payload }: PayloadAction<PathCreatingStartPayload>) => {
+    createCreatingPath: (state, { payload }: PayloadAction<PathDraftStartPayload>) => {
       state.creatingPaths[payload.id] = payload
     },
 
-    appendPointToCreatingPath: (state, { payload }: PayloadAction<PathCreatingPayload>) => {
+    appendPointToCreatingPath: (state, { payload }: PayloadAction<PathDraftMovePayload>) => {
       const inStore = state.creatingPaths[payload.id]
       if (!inStore) {
         return
@@ -48,12 +48,12 @@ export const padSlice = createSlice({
       inStore.points.push(payload.point)
     },
 
-    createOwnCreatingPath: (state, { payload }: PayloadAction<PathCreatingStartPayload>) => {
+    createOwnCreatingPath: (state, { payload }: PayloadAction<PathDraftStartPayload>) => {
       state.creatingPaths[payload.id] = payload
       state.ownCreatingPathId = payload.id
     },
 
-    appendPointToOwnCreatingPath: (state, { payload }: PayloadAction<Omit<PathCreatingPayload, 'id' | 'counter'>>) => {
+    appendPointToOwnCreatingPath: (state, { payload }: PayloadAction<Omit<PathDraftMovePayload, 'id' | 'counter'>>) => {
       if (!state.ownCreatingPathId) {
         return
       }
