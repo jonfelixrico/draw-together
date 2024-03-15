@@ -14,7 +14,7 @@ export enum RoomSocketCode {
 
 export enum RoomSocketEvent {
   PAD = 'PAD',
-  SERVER_REQ = 'SERVER_REQ'
+  SERVER = 'SERVER'
 }
 
 export interface PadEventPayload<T = unknown> {

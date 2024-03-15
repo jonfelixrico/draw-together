@@ -15,7 +15,7 @@ export function useConnectedUsers () {
 
   useEffect(() => {
     async function getList () {
-      const list = await socket.emitWithAck(RoomSocketEvent.SERVER_REQ, {
+      const list = await socket.emitWithAck(RoomSocketEvent.SERVER, {
         code: RoomSocketCode.CONN_LIST
       }) as ConnectedUser[]
 

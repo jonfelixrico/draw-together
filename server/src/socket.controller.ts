@@ -82,7 +82,7 @@ export function socketIOHandler (io: Server) {
     })
 
 
-    socket.on('SERVER_REQ', ({ code }: { code: string }, respond: (response: unknown) => void) => {
+    socket.on('SERVER', ({ code }: { code: string }, respond: (response: unknown) => void) => {
       switch (code) {
         case 'CONN_LIST': {
           respond(Object.values(rooms[roomId]))
