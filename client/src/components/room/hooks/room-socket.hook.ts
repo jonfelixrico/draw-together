@@ -7,7 +7,7 @@ export function useSendMessage() {
   const socket = useRoomSocket()
 
   return useCallback(<T>(code: RoomSocketCode, payload: T) => {
-    socket.emit(RoomSocketEvent.BROADCAST, {
+    socket.emit(RoomSocketEvent.PAD, {
       code,
       payload
     } as BroadcastPayload)
@@ -27,12 +27,12 @@ export function useMessageEffect <T>(code: RoomSocketCode, handler: (payload: T)
       handler(sckPayload.payload)
     }
 
-    socket.on(RoomSocketEvent.BROADCAST, internalHandler)
-    console.debug('Created socket.io listener for %s', RoomSocketEvent.BROADCAST)
+    socket.on(RoomSocketEvent.PAD, internalHandler)
+    console.debug('Created socket.io listener for %s', RoomSocketEvent.PAD)
 
     return () => {
-      console.debug('Removed socket.io listener for %s', RoomSocketEvent.BROADCAST)
-      socket.off(RoomSocketEvent.BROADCAST, internalHandler)
+      console.debug('Removed socket.io listener for %s', RoomSocketEvent.PAD)
+      socket.off(RoomSocketEvent.PAD, internalHandler)
     }
   }, [socket, handler, code, ...dependencies])
 }

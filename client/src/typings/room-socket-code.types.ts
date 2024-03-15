@@ -13,7 +13,7 @@ export enum RoomSocketCode {
 }
 
 export enum RoomSocketEvent {
-  BROADCAST = 'PAD',
+  PAD = 'PAD',
   SERVER_REQ = 'SERVER_REQ'
 }
 
