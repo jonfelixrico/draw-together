@@ -18,7 +18,10 @@ export default function RoomContent () {
   const [ref, dimensions] = useMeasure<HTMLDivElement>()
   usePathSocketWatcher()
 
-  return <Container data-cy="room-page" className='vh-100'>
+  return <Container data-cy="room-page" className='vh-100' style={{
+    // touch-action: none is required to make drawing work for touchscreen devices
+    touchAction: 'none'
+  }}>
     <Row className="h-100">
       <Col xs="2">
         <div>Connected Users</div>
