@@ -29,7 +29,7 @@ export default function PadPathControl () {
       />
     </Col>
 
-    <Col>
+    <Col className='d-flex flex-column justify-content-center'>
       <Slider
         value={thickness}
         onChange={value => setThickness(value as number)}
