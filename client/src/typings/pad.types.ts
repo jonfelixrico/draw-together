@@ -5,3 +5,8 @@ export interface PathRenderData {
   color: React.SVGAttributes<SVGPathElement>['stroke']
   thickness: number
 }
+
+export interface PathData extends PathRenderData {
+  id: string
+  timestamp: number
+}
