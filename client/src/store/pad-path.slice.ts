@@ -11,7 +11,7 @@ export interface PadState {
     [id: string]: PathData
   }
 
-  settings: {
+  options: {
     thickness: number
     color: PathColor
   }
@@ -21,7 +21,7 @@ const INITIAL_STATE: PadState = {
   paths: {},
   draftPaths: {},
 
-  settings: {
+  options: {
     thickness: 5,
     color: 'black'
   }
@@ -59,11 +59,11 @@ export const padPathSlice = createSlice({
     },
 
     setColor: (state, { payload }: PayloadAction<PathColor>) => {
-      state.settings.color = payload
+      state.options.color = payload
     },
 
     setThickness: (state, { payload }: PayloadAction<number>) => {
-      state.settings.thickness = payload
+      state.options.thickness = payload
     }
   }
 })
