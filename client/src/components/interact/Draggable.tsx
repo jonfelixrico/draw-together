@@ -15,7 +15,7 @@ export default function Draggable ({
   dimensions,
   onDrag,
   cursor,
-  skipRate = 2
+  skipRate = 1
 }: {
   onDrag: (event: DraggableEvent) => void
   
