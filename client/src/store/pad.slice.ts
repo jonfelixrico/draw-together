@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { PathData } from "../typings/pad.types";
-import { SetStateAction } from "react";
+import { Point } from "../typings/geometry.types";
 
 export interface PadState {
   paths: {
@@ -29,11 +29,11 @@ export const padSlice = createSlice({
       state.draftPaths[payload.id] = payload
     },
 
-    mutateDraftPath: (state, payloadAction: PayloadAction<{
+    addPointToDraftPath: (state, action: PayloadAction<{
       id: string,
-      action: SetStateAction<PathData>
+      point: Point
     }>) => {
-      const { action, id } = payloadAction.payload
+      const { point, id } = action.payload
       
       const draft = state.draftPaths[id]
       if (!draft) {
@@ -41,11 +41,7 @@ export const padSlice = createSlice({
         return
       }
 
-      if (typeof action === 'object') {
-        state.draftPaths[id] = action
-      } else {
-        state.draftPaths[id] = action(draft)
-      }
+      draft.points.push(point)
     },
 
     removeDraftPath: (state, { payload }: PayloadAction<string>) => {

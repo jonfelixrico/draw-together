@@ -1,4 +1,3 @@
-import { produce } from "immer";
 import { useAppDispatch } from "../../../store/hooks";
 import { PadActions } from "../../../store/pad.slice";
 import { PathCreatePayload, PathDraftMovePayload, PathDraftStartPayload, RoomSocketCode } from "../../../typings/room-socket-code.types";
@@ -17,11 +16,9 @@ export function usePathSocketWatcher () {
   }, [dispatch])
 
   useMessageEffect(RoomSocketCode.PATH_DRAFT_MOVE, ({ id, point }: PathDraftMovePayload) => {
-    dispatch(PadActions.mutateDraftPath({
+    dispatch(PadActions.addPointToDraftPath({
       id,
-      action: produce(data => {
-        data.points.push(point)
-      })
+      point
     }))
   }, [dispatch])
 }
