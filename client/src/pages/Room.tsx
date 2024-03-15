@@ -1,14 +1,14 @@
-import { getApiClient } from "../services/api-client";
+import { getApiClient } from "@/services/api-client";
 import { LoaderFunction, useLoaderData, useParams, useRouteError } from "react-router-dom";
 import { HttpStatusCode, isAxiosError } from 'axios';
 import { Case, Default, Switch } from 'react-if';
-import RoomLoaderErrorNotFound from '../components/room/error-boundary/RoomLoaderErrorNotFound';
-import RoomLoaderErrorNoName from '../components/room/error-boundary/RoomLoaderErrorNoName';
-import RoomLoaderErrorUnexpected from '../components/room/error-boundary/RoomLoaderErrorUnexpected';
-import RoomContent from '../components/room/RoomContent';
-import { Room } from "../typings/room.types";
-import { SocketIoError, createSocket } from "../utils/socket-io.util";
-import { getClientUUID } from "../utils/local-storage-vars.util";
+import RoomLoaderErrorNotFound from '@/components/room/error-boundary/RoomLoaderErrorNotFound';
+import RoomLoaderErrorNoName from '@/components/room/error-boundary/RoomLoaderErrorNoName';
+import RoomLoaderErrorUnexpected from '@/components/room/error-boundary/RoomLoaderErrorUnexpected';
+import RoomContent from '@/components/room/RoomContent';
+import { Room } from "@/typings/room.types";
+import { SocketIoError, createSocket } from "@/utils/socket-io.util";
+import { getClientUUID } from "@/utils/local-storage-vars.util";
 import { useUnmount } from "react-use";
 import { Socket } from "socket.io-client";
 
