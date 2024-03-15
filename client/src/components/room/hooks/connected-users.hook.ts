@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useMessageEffect, useRoomSocket } from "./room-socket.hook";
-import { RoomSocketCode, RoomSocketEvent } from "../../../typings/room-socket-code.types";
+import { RoomSocketCode, RoomSocketEvent } from "@/typings/room-socket-code.types";
 import { useImmer } from 'use-immer'
 import keyBy from 'lodash/keyBy'
 

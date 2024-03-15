@@ -1,11 +1,11 @@
 import { ReactNode, useCallback, useMemo, useRef } from "react";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { DrawEvent, PathInputService, PathInputServiceProvider } from "../../pad/hooks/path-input.hook";
-import { useSendMessage } from "../hooks/room-socket.hook";
-import { PathData } from "../../../typings/pad.types";
-import { PadPathActions, selectColor, selectThickness } from "../../../store/pad-path.slice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { DrawEvent, PathInputService, PathInputServiceProvider } from "@/components/pad/hooks/path-input.hook";
+import { useSendMessage } from "@/components/room/hooks/room-socket.hook";
+import { PathData } from "@/typings/pad.types";
+import { PadPathActions, selectColor, selectThickness } from "@/store/pad-path.slice";
 import { nanoid } from "nanoid";
-import { PathDraftMovePayload, PathDraftStartPayload, RoomSocketCode } from "../../../typings/room-socket-code.types";
+import { PathDraftMovePayload, PathDraftStartPayload, RoomSocketCode } from "@/typings/room-socket-code.types";
 
 export default function DrawServiceProvider (props: {
   children: ReactNode
