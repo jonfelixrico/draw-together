@@ -1,5 +1,5 @@
 import { ReactNode, useCallback, useMemo, useRef } from "react";
-import { useAppDispatch } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { DrawEvent, PathInputService, PathInputServiceProvider } from "../../pad/hooks/path-input.hook";
 import { useSendMessage } from "../hooks/room-socket.hook";
 import { PathData } from "../../../typings/pad.types";
@@ -10,6 +10,9 @@ import { PathDraftMovePayload, PathDraftStartPayload, RoomSocketCode } from "../
 export default function DrawServiceProvider (props: {
   children: ReactNode
 }) {
+  const color = useAppSelector(state => state.padPath.options.color)
+  const thickness = useAppSelector(state => state.padPath.options.thickness)
+
   const sendMessage = useSendMessage()
   const dispatch = useAppDispatch()
   const draftRef = useRef<PathData | null>(null)
@@ -18,8 +21,8 @@ export default function DrawServiceProvider (props: {
     if (event.isStart) {
       const newDraft: PathData = {
         points: [event.point],
-        color: 'red',
-        thickness: 5,
+        color,
+        thickness,
         timestamp: Date.now(),
         id: nanoid()
       }
@@ -62,7 +65,7 @@ export default function DrawServiceProvider (props: {
     }
 
     draftRef.current = updated
-  }, [sendMessage, dispatch])
+  }, [sendMessage, dispatch, color, thickness])
 
   const service: PathInputService = useMemo(() => {
     return {
