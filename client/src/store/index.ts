@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit"
-import padReducer from './pad.slice'
+import padReducer from './pad-path.slice'
 
 const store = configureStore({
   reducer: {
-    pad: padReducer
+    padPath: padReducer
   }
 })
 

@@ -11,7 +11,7 @@ export default function PadContentRenderer ({
   dimensions: Dimensions
 }) {
   const { draftPaths, paths } = useAppSelector(state => {
-    return pick(state.pad, ['draftPaths', 'paths'])
+    return pick(state.padPath, ['draftPaths', 'paths'])
   })
 
   const pathsToRender = useMemo(() => {
