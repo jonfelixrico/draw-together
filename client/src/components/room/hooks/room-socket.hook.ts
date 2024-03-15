@@ -1,9 +1,9 @@
 import { Socket } from "socket.io-client"
 import { PadEventPayload, PadSocketCode } from "@/typings/pad-socket.types"
-import { useCallback } from "react"
+import { useCallback, useEffect } from "react"
 import { useLoaderData } from "react-router-dom"
 import { SocketEventType } from "@/typings/socket.types"
-import { useSocketOn } from "@/hooks/socket.hook"
+import { PadEventsService } from "@/services/pad-events"
 
 export function useSendMessage() {
   const socket = useRoomSocket()
@@ -18,9 +18,19 @@ export function useSendMessage() {
 }
 
 export function useMessageEffect <T>(code: PadSocketCode, handler: (payload: T) => void) {
-  const socket = useRoomSocket()
+  const { padEventsService } = useLoaderData() as { padEventsService: PadEventsService }
 
-  useSocketOn(socket, SocketEventType.PAD, code, handler)
+  useEffect(() => {
+    const unsubscribe = padEventsService.on<T>(evt => {
+      if (evt.code !== code) {
+        return
+      }
+
+      handler(evt.payload)
+    })
+
+    return unsubscribe
+  }, [padEventsService, code, handler])
 }
 
 export function useRoomSocket () {
