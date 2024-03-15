@@ -7,7 +7,7 @@ import sortBy from 'lodash/sortBy'
 import { useMeasure } from 'react-use'
 import PadContentRenderer from '../pad/PadContentRenderer'
 import { PadInput } from '../pad/PadInput'
-import DrawServiceProvider from './DrawServiceProvider'
+import DrawServiceProvider from './service/DrawServiceProvider'
 
 export default function RoomContent () {
   const users = useConnectedUsers()
