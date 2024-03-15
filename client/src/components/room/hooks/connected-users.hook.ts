@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useMessageEffect, useRoomSocket } from "./room-socket.hook";
-import { RoomSocketCode, RoomSocketEvent } from "@/typings/room-socket-code.types";
+import { RoomSocketCode } from "@/typings/room-socket-code.types";
 import { useImmer } from 'use-immer'
 import keyBy from 'lodash/keyBy'
+import { SocketEventType } from "@/typings/socket.types";
 
 interface ConnectedUser {
   id: string
@@ -15,7 +16,7 @@ export function useConnectedUsers () {
 
   useEffect(() => {
     async function getList () {
-      const list = await socket.emitWithAck(RoomSocketEvent.SERVER, {
+      const list = await socket.emitWithAck(SocketEventType.SERVER, {
         code: RoomSocketCode.CONN_LIST
       }) as ConnectedUser[]
 
