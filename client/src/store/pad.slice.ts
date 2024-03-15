@@ -1,82 +1,35 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { PathCreatedPayload, PathDraftMovePayload, PathDraftStartPayload } from "../typings/room-socket-code.types";
-
-export type StatePathData = PathCreatedPayload
-
-export type StateCreatingPathData = Omit<PathDraftStartPayload, 'counter'> & {
-  counter: number
-}
+import { PathData } from "../typings/pad.types";
 
 export interface PadState {
   paths: {
-    [id: string]: StatePathData
+    [id: string]: PathData
   }
-  
-  creatingPaths: {
-    [id: string]: StateCreatingPathData
-  },
 
-  ownCreatingPathId: string | null
+  localDraftPath: PathData | null
 }
 
 const INITIAL_STATE: PadState = {
   paths: {},
-  creatingPaths: {},
-  ownCreatingPathId: null
+  localDraftPath: null
 }
 
 export const padSlice = createSlice({
   name: 'pad',
   initialState: INITIAL_STATE,
   reducers: {
-    savePath: (state, { payload }: PayloadAction<StatePathData>) => {
+    setPath: (state, { payload }: PayloadAction<PathData>) => {
       state.paths[payload.id] = payload
-      delete state.creatingPaths[payload.id]
     },
 
-    createCreatingPath: (state, { payload }: PayloadAction<PathDraftStartPayload>) => {
-      state.creatingPaths[payload.id] = payload
+    setLocalDraftPath: (state, { payload }: PayloadAction<PathData>) => {
+      state.localDraftPath = payload
     },
+    
 
-    appendPointToCreatingPath: (state, { payload }: PayloadAction<PathDraftMovePayload>) => {
-      const inStore = state.creatingPaths[payload.id]
-      if (!inStore) {
-        return
-      }
-
-      inStore.counter = payload.counter
-      inStore.points.push(payload.point)
-    },
-
-    createOwnCreatingPath: (state, { payload }: PayloadAction<PathDraftStartPayload>) => {
-      state.creatingPaths[payload.id] = payload
-      state.ownCreatingPathId = payload.id
-    },
-
-    appendPointToOwnCreatingPath: (state, { payload }: PayloadAction<Omit<PathDraftMovePayload, 'id' | 'counter'>>) => {
-      if (!state.ownCreatingPathId) {
-        return
-      }
-      
-      const inStore = state.creatingPaths[state.ownCreatingPathId]
-      if (!inStore) {
-        return
-      }
-
-      inStore.counter = inStore.counter + 1
-      inStore.points.push(payload.point)
-    },
-
-    saveOwnPath: (state) => {
-      const inStore = state.creatingPaths[state.ownCreatingPathId ?? 'UNKNOWN']
-      if (!inStore) {
-        return
-      }
-
-      state.paths[inStore.id] = inStore
-      delete state.creatingPaths[inStore.id]
-      state.ownCreatingPathId = null
-    },
+    removeLocalDraftPath: (state) => {
+      state.localDraftPath = null
+    }
   }
 })
 
