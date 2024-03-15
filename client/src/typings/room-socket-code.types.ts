@@ -17,7 +17,7 @@ export enum RoomSocketEvent {
   SERVER_REQ = 'SERVER_REQ'
 }
 
-export interface BroadcastPayload<T = unknown> {
+export interface PadEventPayload<T = unknown> {
   code: RoomSocketCode
   payload: T
 }

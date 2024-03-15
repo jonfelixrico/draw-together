@@ -1,5 +1,5 @@
 import { Socket } from "socket.io-client"
-import { BroadcastPayload, RoomSocketCode, RoomSocketEvent } from "@/typings/room-socket-code.types"
+import { PadEventPayload, RoomSocketCode, RoomSocketEvent } from "@/typings/room-socket-code.types"
 import { useCallback, useEffect } from "react"
 import { useLoaderData } from "react-router-dom"
 
@@ -10,7 +10,7 @@ export function useSendMessage() {
     socket.emit(RoomSocketEvent.PAD, {
       code,
       payload
-    } as BroadcastPayload)
+    } as PadEventPayload)
     console.debug('Sent message with code %s and payload %o', code, payload)
   }, [socket])
 }
@@ -19,7 +19,7 @@ export function useMessageEffect <T>(code: RoomSocketCode, handler: (payload: T)
   const socket = useRoomSocket()
 
   useEffect(() => {
-    function internalHandler (sckPayload: BroadcastPayload<T>) {
+    function internalHandler (sckPayload: PadEventPayload<T>) {
       if (sckPayload?.code !== code) {
         return
       }
