@@ -1,7 +1,7 @@
 import { useAppDispatch } from "@/store/hooks";
 import { PadPathActions } from "@/store/pad-path.slice";
 import { PathCreatePayload, PathDraftMovePayload, PathDraftStartPayload, RoomSocketCode } from "@/typings/room-socket-code.types";
-import { useMessageEffect } from "@/hooks/room-socket.hook";
+import { useMessageEffect } from "@/components/room/hooks/room-socket.hook";
 
 export function usePathSocketWatcher () {
   const dispatch = useAppDispatch()
