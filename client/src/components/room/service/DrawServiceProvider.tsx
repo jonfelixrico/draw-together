@@ -5,6 +5,7 @@ import { useSendMessage } from "../hooks/room-socket.hook";
 import { PathData } from "../../../typings/pad.types";
 import { PadActions } from "../../../store/pad.slice";
 import { nanoid } from "nanoid";
+import { RoomSocketCode } from "../../../typings/room-socket-code.types";
 
 export default function DrawServiceProvider (props: {
   children: ReactNode
@@ -43,6 +44,7 @@ export default function DrawServiceProvider (props: {
     }
     
     if (event.isEnd) {
+      sendMessage(RoomSocketCode.PATH_CREATE, updated)
       dispatch(PadActions.setPath(updated))
       dispatch(PadActions.removeDraftPath(draft.id))
     } else {
