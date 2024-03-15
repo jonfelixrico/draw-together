@@ -1,10 +1,10 @@
 import { useCallback, useEffect } from "react";
 import { useRoomSocket } from "./room-socket.hook";
-import { RoomSocketCode } from "@/typings/room-socket-code.types";
 import { useImmer } from 'use-immer'
 import keyBy from 'lodash/keyBy'
 import { SocketEventType } from "@/typings/socket.types";
 import { useSocketOn } from "@/hooks/socket.hook";
+import { ServerSocketCode } from "@/typings/server-socket.types";
 
 interface ConnectedUser {
   id: string
@@ -18,7 +18,7 @@ export function useConnectedUsers () {
   useEffect(() => {
     async function getList () {
       const list = await socket.emitWithAck(SocketEventType.SERVER, {
-        code: RoomSocketCode.CONN_LIST
+        code: ServerSocketCode.CONN_LIST
       }) as ConnectedUser[]
 
       setUserMap(keyBy(list, ({ id }) => id))
@@ -42,7 +42,7 @@ export function useConnectedUsers () {
     })
   }, [setUserMap])
 
-  useSocketOn(socket, SocketEventType.SERVER, RoomSocketCode.CONN_ACTIVITY, handler)
+  useSocketOn(socket, SocketEventType.SERVER, ServerSocketCode.CONN_ACTIVITY, handler)
 
   return userMap
 }
