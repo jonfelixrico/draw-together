@@ -46,7 +46,7 @@ export function socketIOHandler (io: Server) {
     // TODO add checking for nonexistent rooms
 
     socket.join(roomId)
-    socket.broadcast.to(roomId).emit('PAD_EVENT', {
+    socket.broadcast.to(roomId).emit('BROADCAST', {
       code: 'CONN_ACTIVITY',
       payload: {
         id: clientId,
@@ -68,7 +68,7 @@ export function socketIOHandler (io: Server) {
     }
 
     socket.on('disconnect', () => {
-      io.to(roomId).emit('PAD_EVENT', {
+      io.to(roomId).emit('BROADCAST', {
         code: 'CONN_ACTIVITY',
         payload: {
           id: clientId,
@@ -98,9 +98,9 @@ export function socketIOHandler (io: Server) {
     })
   
     // The purpose of this is to just relay the message to all participants
-    socket.on('PAD_EVENT', (payload: Record<string, unknown>) => {
+    socket.on('BROADCAST', (payload: Record<string, unknown>) => {
       console.debug('Relayed %o to room %s, from client %s', payload, roomId, clientId)
-      socket.broadcast.to(roomId).emit('PAD_EVENT', payload)
+      socket.broadcast.to(roomId).emit('BROADCAST', payload)
     })
   })
 }
