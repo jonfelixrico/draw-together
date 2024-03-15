@@ -1,4 +1,4 @@
-import { padHistoryHandler } from "pad-history.controller"
+import { padHistoryHandler } from "./pad-history.controller"
 import { Server, Socket } from "socket.io"
 
 function getQSData ({ request }: Socket) {
