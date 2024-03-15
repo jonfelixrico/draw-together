@@ -20,6 +20,5 @@ const PathInputServiceContext = createContext<PathInputService>({
 export const PathInputServiceProvider = PathInputServiceContext.Provider
 
 export function usePathInputService () {
-  const { emitDraw } = useContext(PathInputServiceContext)
-  return emitDraw
+  return useContext(PathInputServiceContext)
 }
