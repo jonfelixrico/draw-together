@@ -19,6 +19,26 @@ describe('participant-list', () => {
       })
   })
 
+  let socket: Socket | null = null
+  function startSocket () {
+    return cy.wrap(createRoomSocket({
+      clientId: otherUserId,
+      name: 'Other user',
+      roomId: getRoomId()
+    })).then((s: Socket) => {
+      socket = s
+      return s
+    })
+  }
+
+  afterEach(() => {
+    if (socket?.connected) {
+      socket.disconnect()
+    }
+
+    socket = null
+  })
+
   it('includes the user who joined to the user list', () => {
     cy.visit(`/rooms/${getRoomId()}`)
     cy.dataCy('participants').find(`[data-cy=${LS_UUID}]`).should('exist')
@@ -30,32 +50,23 @@ describe('participant-list', () => {
     // other user shouldn't be connected yet
     cy.dataCy('participants').find(`[data-cy=${otherUserId}]`).should('not.exist')
 
-    cy.wrap(createRoomSocket({
-      clientId: otherUserId,
-      name: 'Other user',
-      roomId
-    })).then((roomSocket: Socket) => {
+    startSocket().then((socket: Socket) => {
       // at this point, other user has joined
       cy.dataCy('participants').find(`[data-cy=${otherUserId}]`).should('exist')
 
-      roomSocket.disconnect()
+      socket.disconnect()
       // since we disconnected the socket for the other user, their name should be gone again
       cy.dataCy('participants').find(`[data-cy=${otherUserId}]`).should('not.exist')
     })
   })
 
   it('should show already-connected other users in the list', () => {
-    cy.wrap(createRoomSocket({
-      clientId: otherUserId,
-      name: 'Other user',
-      roomId: getRoomId()
-    })).then((roomSocket: Socket) => {
+    startSocket().then(() => {
       cy.visit(`/rooms/${getRoomId()}`)
 
       // at this point, other user has joined
-      cy.dataCy('participants').find(`[data-cy=${otherUserId}]`).should('exist')
-
-      roomSocket.disconnect()
+      cy.dataCy('participants')
+        .find(`[data-cy=${otherUserId}]`).should('exist')
     })
   })
 })
