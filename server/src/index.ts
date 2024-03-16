@@ -1,6 +1,6 @@
 import { config } from 'dotenv'
 config({
-  path: ['.env.local', '.env']
+  path: ['.env.local', '.env'],
 })
 
 import express from 'express'
@@ -18,14 +18,14 @@ app.get('/', (_, res) => {
   res.send('Hello World')
 })
 
-const roomObjects: Record<string, Object> = {}
+const roomObjects: Record<string, unknown> = {}
 
 app.post('/room', (_, res) => {
   const id = nanoid()
   roomObjects[id] = {}
-  
+
   res.json({
-    id
+    id,
   })
 })
 

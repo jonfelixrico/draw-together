@@ -1,6 +1,6 @@
-import { SocketEventPayload } from "@/typings/socket.types";
-import { useEffect } from "react";
-import { Socket } from "socket.io-client";
+import { SocketEventPayload } from '@/typings/socket.types'
+import { useEffect } from 'react'
+import { Socket } from 'socket.io-client'
 
 export function useSocketOn<T>(
   socket: Socket,

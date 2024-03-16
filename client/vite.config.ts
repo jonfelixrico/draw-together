@@ -11,15 +11,15 @@ export default defineConfig({
       '/api': {
         // TODO use env variable for target
         target: 'http://localhost:3000',
-        rewrite: path => path.replace(/^\/api/, ''),
+        rewrite: (path) => path.replace(/^\/api/, ''),
         ws: true,
-      }
-    }
+      },
+    },
   },
 
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src')
-    }
-  }
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
 })

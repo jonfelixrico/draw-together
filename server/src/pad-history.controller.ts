@@ -1,4 +1,4 @@
-import { Socket } from "socket.io"
+import { Socket } from 'socket.io'
 
 type RoomPadEvents = {
   [roomId: string]: unknown[]
@@ -17,7 +17,7 @@ function saveEvent(roomId: string, event: unknown) {
 function getEvents(roomId: string, start: number, end: number): unknown[] {
   const events = roomPadEvents[roomId]
   if (!events) {
-    return  []
+    return []
   }
 
   return events.slice(start, end)
@@ -37,27 +37,32 @@ type HistoryResp = Partial<{
   FETCH: unknown[]
 }>
 
-export function padHistoryHandler (socket: Socket, roomId: string) {
+export function padHistoryHandler(socket: Socket, roomId: string) {
   socket.on('PAD', (payload: unknown) => {
     saveEvent(roomId, payload)
   })
 
-  socket.on('PAD_HISTORY', (
-    request: HistoryReq,
-    respond: (response: HistoryResp) => void
-  ) => {
-    if (request.FETCH) {
-      const [start, end] = request.FETCH
-      console.debug('Pad history for room %s was requested: %d to %d', roomId, start, end)
-      return respond({
-        FETCH: getEvents(roomId, start, end)
-      })
-    }
+  socket.on(
+    'PAD_HISTORY',
+    (request: HistoryReq, respond: (response: HistoryResp) => void) => {
+      if (request.FETCH) {
+        const [start, end] = request.FETCH
+        console.debug(
+          'Pad history for room %s was requested: %d to %d',
+          roomId,
+          start,
+          end
+        )
+        return respond({
+          FETCH: getEvents(roomId, start, end),
+        })
+      }
 
-    if (request.LENGTH) {
-      return respond({
-        LENGTH: getEventCount(roomId)
-      })
+      if (request.LENGTH) {
+        return respond({
+          LENGTH: getEventCount(roomId),
+        })
+      }
     }
-  })
+  )
 }

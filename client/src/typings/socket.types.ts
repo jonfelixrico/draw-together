@@ -1,6 +1,6 @@
 export enum SocketEventType {
   PAD = 'PAD',
-  SERVER = 'SERVER'
+  SERVER = 'SERVER',
 }
 
 export interface SocketEventPayload<Payload> {

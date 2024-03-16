@@ -29,7 +29,7 @@ describe('pre-room', () => {
     cy.dataCy('username').contains('Stored Username')
 
     cy.dataCy('clear-username').click()
-    
+
     cy.dataCy('username-step').should('exist')
 
     cy.get('input').type('My Username')
@@ -51,16 +51,15 @@ describe('pre-room', () => {
     cy.request({
       url: '/api/room',
       method: 'POST',
+    }).then((response) => {
+      const id = response.body.id as string
+
+      cy.visit('/')
+      cy.dataCy('join-action').find('input').type(id)
+      cy.dataCy('join-action').find('button').click()
+
+      cy.dataCy('room-page').should('exist')
     })
-      .then(response => {
-        const id = response.body.id as string
-
-        cy.visit('/')
-        cy.dataCy('join-action').find('input').type(id)
-        cy.dataCy('join-action').find('button').click()
-
-        cy.dataCy('room-page').should('exist')
-      })
   })
 
   it('handles join attempts to nonexistent room ids', () => {
@@ -75,23 +74,22 @@ describe('pre-room', () => {
     cy.request({
       url: '/api/room',
       method: 'POST',
+    }).then((response) => {
+      cy.clearLocalStorage()
+
+      cy.visit(`/rooms/${response.body.id}`)
+      cy.dataCy('error-no-username').should('exist')
+
+      cy.get('input').type('My Username')
+      cy.get('button').click()
+
+      cy.dataCy('room-page').should('exist')
     })
-      .then(response => {
-        cy.clearLocalStorage()
-
-        cy.visit(`/rooms/${response.body.id}`)
-        cy.dataCy('error-no-username').should('exist')
-
-        cy.get('input').type('My Username')
-        cy.get('button').click()
-
-        cy.dataCy('room-page').should('exist')
-      })
   })
 
   it('shows an error screen on unexpected error', () => {
     cy.intercept('/api/room/error-test', {
-      statusCode: 500
+      statusCode: 500,
     })
 
     cy.visit('/rooms/error-test')

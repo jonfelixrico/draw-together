@@ -1,5 +1,5 @@
-import { createContext, useContext } from "react";
-import { Point } from "@/typings/geometry.types";
+import { createContext, useContext } from 'react'
+import { Point } from '@/typings/geometry.types'
 
 export interface DrawEvent {
   point: Point
@@ -8,17 +8,17 @@ export interface DrawEvent {
 }
 
 export interface PathInputService {
-  emitDraw (event: DrawEvent): void
+  emitDraw(event: DrawEvent): void
 }
 
 const PathInputServiceContext = createContext<PathInputService>({
   emitDraw: () => {
     console.warn('emitDraw was called, but context was not provided')
-  }
+  },
 })
 
 export const PathInputServiceProvider = PathInputServiceContext.Provider
 
-export function usePathInputService () {
+export function usePathInputService() {
   return useContext(PathInputServiceContext)
 }

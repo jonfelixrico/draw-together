@@ -1,10 +1,10 @@
-import { configureStore } from "@reduxjs/toolkit"
+import { configureStore } from '@reduxjs/toolkit'
 import padReducer from './pad-path.slice'
 
 const store = configureStore({
   reducer: {
-    padPath: padReducer
-  }
+    padPath: padReducer,
+  },
 })
 
 export default store
