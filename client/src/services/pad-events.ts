@@ -25,11 +25,12 @@ export class PadEventsService {
       { LENGTH: true } as PadHistoryRequest
     )
     const length = LENGTH as number
+    const chunkSize = Math.min(Math.round(length * 0.20), 1000)
 
     let currentIdx = 0
     while (currentIdx < length) {
       const start = currentIdx
-      const end = Math.min(currentIdx + 100, LENGTH as number)
+      const end = Math.min(currentIdx + chunkSize, LENGTH as number)
       currentIdx = end
 
       console.debug('Fetching %d to %d', start, end)
