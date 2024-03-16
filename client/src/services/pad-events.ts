@@ -13,23 +13,40 @@ export class PadEventsService {
 
   constructor(private socket: Socket) {
     concat(
+      // ... replay all events from the start of the room until the time BEFORE connecting ...
       this.catchUp$
         .pipe(takeWhile(event => event !== 'DONE')) as Observable<Payload>,
+      // ... replay all events AFTER connecting ...
       this.live$
-    ).subscribe(obs => this.events$.next(obs))
+    )
+      /*
+       * If event$ was this observable (output of concat), it won't work since each call to the `on` message
+       * will replay all events from the beginning of the room to the current time.
+       * 
+       * We circumvent this observable behavior by making a subject listen to this observable's emission. Calls to
+       * `on` will subscribe to this subject. This way, the events wont replay on subscribe; only the latest will.
+       * 
+       * "Our intention is to catch up first, but in the last mile we're choosing an subject that emits ONLY the latest emissions?"
+       * Our decision is like this because we don't want to make "catch up listeners" vs "live listeners". Not necessary for the scope
+       * of this mini-project yet.
+       * 
+       * This latest-emission-only approach can still work -- we'll just have to ASSUME that the appropriate listeners have been established already.
+       */
+      .subscribe(this.events$)
   }
 
-  private async performCatchUp () {
+  private async fetchPreConnectionEvents () {
     const { LENGTH }: PadHistoryResponse = await this.socket.emitWithAck(
       'PAD_HISTORY',
       { LENGTH: true } as PadHistoryRequest
     )
     const length = LENGTH as number
+    const chunkSize = Math.min(Math.max(Math.round(length * 0.20), 50), 1000)
 
     let currentIdx = 0
     while (currentIdx < length) {
       const start = currentIdx
-      const end = Math.min(currentIdx + 100, LENGTH as number)
+      const end = Math.min(currentIdx + chunkSize, LENGTH as number)
       currentIdx = end
 
       console.debug('Fetching %d to %d', start, end)
@@ -52,15 +69,15 @@ export class PadEventsService {
     console.info('Finished with the catch-up')
   }
 
-  private startListening () {
+  private listenForLiveEvents () {
     this.socket.on('PAD', (event: Payload) => {
       this.live$.next(event)
     })
   }
 
   start() {
-    this.performCatchUp() // intended to not be awaited
-    this.startListening()
+    this.fetchPreConnectionEvents() // intended to not be awaited
+    this.listenForLiveEvents()
   }
 
   on<T>(handler: (payload: SocketEventPayload<T>) => void) {
