@@ -1,4 +1,4 @@
-import { LS_UUID } from "../support/e2e-consts"
+import { LS_UUID } from "@cypress/support/e2e-consts"
 
 describe('participant-list', () => {
   let roomId: string
