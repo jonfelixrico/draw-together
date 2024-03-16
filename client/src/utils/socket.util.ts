@@ -7,7 +7,6 @@ export class SocketIoError extends Error {
   }
 }
 
-
 export function createSocket (options: Partial<ManagerOptions & SocketOptions>): Promise<Socket> {
   const socket = io(options)
 
