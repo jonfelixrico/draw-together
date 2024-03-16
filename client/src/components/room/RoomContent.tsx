@@ -28,8 +28,10 @@ export default function RoomContent () {
         <div className='h-100 d-flex flex-column justify-content-between'>
           <div>
             <div>Connected Users</div>
-            <ol>
-              {userList.map(({ id, name }) => <li key={id}>{name}</li>)}
+            <ol data-cy="participants">
+              {userList.map(({ id, name }) => {
+                return <li data-cy={id} key={id}>{name}</li>
+              })}
             </ol>
           </div>
 
