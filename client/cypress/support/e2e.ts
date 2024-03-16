@@ -13,18 +13,15 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-import { nanoid } from 'nanoid'
-
 // Import commands.js using ES2015 syntax:
 import './commands'
 import "cypress-localstorage-commands"
+import { LS_USERNAME, LS_UUID } from './e2e-consts'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
-const clientId = nanoid()
-
 beforeEach(() => {
-  cy.setLocalStorage('username', 'Test User')
-  cy.setLocalStorage('uuid', clientId)
+  cy.setLocalStorage('username', LS_USERNAME)
+  cy.setLocalStorage('uuid', LS_UUID)
 })
