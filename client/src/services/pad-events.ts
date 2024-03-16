@@ -41,7 +41,7 @@ export class PadEventsService {
       { LENGTH: true } as PadHistoryRequest
     )
     const length = LENGTH as number
-    const chunkSize = Math.min(Math.round(length * 0.20), 1000)
+    const chunkSize = Math.min(Math.max(Math.round(length * 0.20), 50), 1000)
 
     let currentIdx = 0
     while (currentIdx < length) {
