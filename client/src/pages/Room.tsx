@@ -7,7 +7,7 @@ import RoomLoaderErrorNoName from '@/components/room/error-boundary/RoomLoaderEr
 import RoomLoaderErrorUnexpected from '@/components/room/error-boundary/RoomLoaderErrorUnexpected';
 import RoomContent from '@/components/room/RoomContent';
 import { Room } from "@/typings/room.types";
-import { SocketIoError, createSocket } from "@/utils/socket-io.util";
+import { SocketIoError, createSocket } from "@/utils/socket.util";
 import { getClientUUID } from "@/utils/local-storage-vars.util";
 import { useUnmount } from "react-use";
 import { Socket } from "socket.io-client";
