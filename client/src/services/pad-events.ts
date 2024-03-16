@@ -13,13 +13,15 @@ export class PadEventsService {
 
   constructor(private socket: Socket) {
     concat(
+      // ... replay all events from the start of the room until the time BEFORE connecting ...
       this.catchUp$
         .pipe(takeWhile(event => event !== 'DONE')) as Observable<Payload>,
+      // ... replay all events AFTER connecting ...
       this.live$
     ).subscribe(obs => this.events$.next(obs))
   }
 
-  private async performCatchUp () {
+  private async fetchPreConnectionEvents () {
     const { LENGTH }: PadHistoryResponse = await this.socket.emitWithAck(
       'PAD_HISTORY',
       { LENGTH: true } as PadHistoryRequest
@@ -53,15 +55,15 @@ export class PadEventsService {
     console.info('Finished with the catch-up')
   }
 
-  private startListening () {
+  private listenForLiveEvents () {
     this.socket.on('PAD', (event: Payload) => {
       this.live$.next(event)
     })
   }
 
   start() {
-    this.performCatchUp() // intended to not be awaited
-    this.startListening()
+    this.fetchPreConnectionEvents() // intended to not be awaited
+    this.listenForLiveEvents()
   }
 
   on<T>(handler: (payload: SocketEventPayload<T>) => void) {
