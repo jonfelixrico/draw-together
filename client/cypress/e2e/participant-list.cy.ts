@@ -1,4 +1,4 @@
-import { LS_UUID } from "@/cypress/support/e2e-consts"
+import { LS_UUID } from '@/cypress/support/e2e-consts'
 import { Socket } from 'socket.io-client'
 import { createRoomSocket } from '@/utils/room-socket.util'
 import { nanoid } from 'nanoid'
@@ -13,22 +13,25 @@ describe('participant-list', () => {
     cy.request({
       url: '/api/room',
       method: 'POST',
+    }).then((response) => {
+      roomId = response.body.id
     })
-      .then(response => {
-        roomId = response.body.id
-      })
   })
 
   let socket: Socket | null = null
-  function startSocket () {
-    return cy.wrap(createRoomSocket({
-      clientId: otherUserId,
-      name: 'Other user',
-      roomId: getRoomId()
-    })).then((s: Socket) => {
-      socket = s
-      return s
-    })
+  function startSocket() {
+    return cy
+      .wrap(
+        createRoomSocket({
+          clientId: otherUserId,
+          name: 'Other user',
+          roomId: getRoomId(),
+        })
+      )
+      .then((s: Socket) => {
+        socket = s
+        return s
+      })
   }
 
   afterEach(() => {
@@ -48,7 +51,9 @@ describe('participant-list', () => {
     cy.visit(`/rooms/${getRoomId()}`)
 
     // other user shouldn't be connected yet
-    cy.dataCy('participants').find(`[data-cy=${otherUserId}]`).should('not.exist')
+    cy.dataCy('participants')
+      .find(`[data-cy=${otherUserId}]`)
+      .should('not.exist')
 
     startSocket().then((socket: Socket) => {
       // at this point, other user has joined
@@ -56,7 +61,9 @@ describe('participant-list', () => {
 
       socket.disconnect()
       // since we disconnected the socket for the other user, their name should be gone again
-      cy.dataCy('participants').find(`[data-cy=${otherUserId}]`).should('not.exist')
+      cy.dataCy('participants')
+        .find(`[data-cy=${otherUserId}]`)
+        .should('not.exist')
     })
   })
 
@@ -65,8 +72,7 @@ describe('participant-list', () => {
       cy.visit(`/rooms/${getRoomId()}`)
 
       // at this point, other user has joined
-      cy.dataCy('participants')
-        .find(`[data-cy=${otherUserId}]`).should('exist')
+      cy.dataCy('participants').find(`[data-cy=${otherUserId}]`).should('exist')
     })
   })
 })

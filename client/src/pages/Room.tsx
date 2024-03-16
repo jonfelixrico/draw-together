@@ -1,19 +1,24 @@
-import { getApiClient } from "@/services/api-client";
-import { LoaderFunction, useLoaderData, useParams, useRouteError } from "react-router-dom";
-import { HttpStatusCode, isAxiosError } from 'axios';
-import { Case, Default, Switch } from 'react-if';
-import RoomLoaderErrorNotFound from '@/components/room/error-boundary/RoomLoaderErrorNotFound';
-import RoomLoaderErrorNoName from '@/components/room/error-boundary/RoomLoaderErrorNoName';
-import RoomLoaderErrorUnexpected from '@/components/room/error-boundary/RoomLoaderErrorUnexpected';
-import RoomContent from '@/components/room/RoomContent';
-import { Room } from "@/typings/room.types";
-import { SocketIoError } from "@/utils/socket.util";
-import { getClientUUID } from "@/utils/local-storage-vars.util";
-import { useUnmount } from "react-use";
-import { Socket } from "socket.io-client";
-import { PadEventsService } from "@/services/pad-events";
-import { useMount } from "@/hooks/lifecycle.hook";
-import { createRoomSocket } from "@/utils/room-socket.util";
+import { getApiClient } from '@/services/api-client'
+import {
+  LoaderFunction,
+  useLoaderData,
+  useParams,
+  useRouteError,
+} from 'react-router-dom'
+import { HttpStatusCode, isAxiosError } from 'axios'
+import { Case, Default, Switch } from 'react-if'
+import RoomLoaderErrorNotFound from '@/components/room/error-boundary/RoomLoaderErrorNotFound'
+import RoomLoaderErrorNoName from '@/components/room/error-boundary/RoomLoaderErrorNoName'
+import RoomLoaderErrorUnexpected from '@/components/room/error-boundary/RoomLoaderErrorUnexpected'
+import RoomContent from '@/components/room/RoomContent'
+import { Room } from '@/typings/room.types'
+import { SocketIoError } from '@/utils/socket.util'
+import { getClientUUID } from '@/utils/local-storage-vars.util'
+import { useUnmount } from 'react-use'
+import { Socket } from 'socket.io-client'
+import { PadEventsService } from '@/services/pad-events'
+import { useMount } from '@/hooks/lifecycle.hook'
+import { createRoomSocket } from '@/utils/room-socket.util'
 
 enum RoomErrorType {
   NO_USERNAME,
@@ -21,7 +26,7 @@ enum RoomErrorType {
   UNEXPECTED,
   NOT_FOUND,
 
-  SOCKET_CONNECT_ERROR
+  SOCKET_CONNECT_ERROR,
 }
 
 class RoomError extends Error {
@@ -48,7 +53,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     const socket = await createRoomSocket({
       roomId: params.roomId,
       clientId: getClientUUID(),
-      name: username
+      name: username,
     })
     console.debug('Connected to room %s', params.roomId)
 
@@ -57,7 +62,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     return {
       room: data,
       socket,
-      padEventsService
+      padEventsService,
     }
   } catch (e) {
     if (e instanceof RoomError) {
@@ -78,8 +83,11 @@ export const loader: LoaderFunction = async ({ params }) => {
   }
 }
 
-export function Component () {
-  const { socket, padEventsService } = useLoaderData() as { socket: Socket, padEventsService: PadEventsService }
+export function Component() {
+  const { socket, padEventsService } = useLoaderData() as {
+    socket: Socket
+    padEventsService: PadEventsService
+  }
 
   useUnmount(() => {
     return () => {
@@ -96,23 +104,25 @@ export function Component () {
   return <RoomContent />
 }
 
-export function ErrorBoundary () {
+export function ErrorBoundary() {
   const error = useRouteError() as RoomError
   const params = useParams<{ roomId: string }>()
 
-  return <div className='vh-100 d-flex justify-content-center align-items-center'>
-    <Switch>
-      <Case condition={error.type === RoomErrorType.NOT_FOUND}>
-        <RoomLoaderErrorNotFound />
-      </Case>
+  return (
+    <div className="vh-100 d-flex justify-content-center align-items-center">
+      <Switch>
+        <Case condition={error.type === RoomErrorType.NOT_FOUND}>
+          <RoomLoaderErrorNotFound />
+        </Case>
 
-      <Case condition={error.type === RoomErrorType.NO_USERNAME}>
-        <RoomLoaderErrorNoName roomId={params.roomId as string} />
-      </Case>
+        <Case condition={error.type === RoomErrorType.NO_USERNAME}>
+          <RoomLoaderErrorNoName roomId={params.roomId as string} />
+        </Case>
 
-      <Default>
-        <RoomLoaderErrorUnexpected />
-      </Default>
-    </Switch>
-  </div>
+        <Default>
+          <RoomLoaderErrorUnexpected />
+        </Default>
+      </Switch>
+    </div>
+  )
 }

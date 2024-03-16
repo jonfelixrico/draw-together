@@ -11,14 +11,14 @@ interface PrevPoint extends Point {
   counter: number
 }
 
-export default function Draggable ({
+export default function Draggable({
   dimensions,
   onDrag,
   cursor,
-  skipRate = 1
+  skipRate = 1,
 }: {
   onDrag: (event: DraggableEvent) => void
-  
+
   dimensions: Dimensions
 
   cursor?: CSSProperties['cursor']
@@ -60,11 +60,11 @@ export default function Draggable ({
 
           onDrag({
             ...point,
-            isStart: true
+            isStart: true,
           })
           prevRef.current = {
             ...point,
-            counter: 0
+            counter: 0,
           }
         },
 
@@ -72,12 +72,12 @@ export default function Draggable ({
           const prev = prevRef.current as Point // assume that this will never be null
           const point = {
             x: prev.x + dx,
-            y: prev.y + dy
+            y: prev.y + dy,
           }
 
           onDrag({
             ...point,
-            isEnd: true
+            isEnd: true,
           })
         },
 
@@ -85,12 +85,12 @@ export default function Draggable ({
           const prev = prevRef.current as PrevPoint // assume that this will never be null
           const point = {
             x: prev.x + dx,
-            y: prev.y + dy
+            y: prev.y + dy,
           }
 
           prevRef.current = {
             ...point,
-            counter: prev.counter + 1
+            counter: prev.counter + 1,
           }
 
           if (prev.counter % skipRate === 0) {
@@ -105,11 +105,13 @@ export default function Draggable ({
     }
   }, [onDrag, skipRate])
 
-  return <div
-    ref={elRef}
-    style={{
-      ...dimensions,
-      cursor
-    }}
-  />
+  return (
+    <div
+      ref={elRef}
+      style={{
+        ...dimensions,
+        cursor,
+      }}
+    />
+  )
 }
