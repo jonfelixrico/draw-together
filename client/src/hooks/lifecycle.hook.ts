@@ -15,12 +15,17 @@ export function useMount(fn: () => void) {
    */
   const hasExecuted = useRef(false)
 
-  useEffect(() => {
-    if (hasExecuted.current) {
-      return
-    }
+  useEffect(
+    () => {
+      if (hasExecuted.current) {
+        return
+      }
 
-    fn()
-    hasExecuted.current = true
-  }, [])
+      fn()
+      hasExecuted.current = true
+    },
+    // Disabling this rule since after executing once, we don't care about the provided fn anymore
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
 }

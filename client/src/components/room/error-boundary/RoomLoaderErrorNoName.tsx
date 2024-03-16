@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 
 export default function RoomLoaderErrorNoName(props: { roomId: string }) {
   const [username, setUsername] = useState('')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setLsUsername] = useLocalStorage('username', '', {
     raw: true,
   })
