@@ -18,7 +18,21 @@ export class PadEventsService {
         .pipe(takeWhile(event => event !== 'DONE')) as Observable<Payload>,
       // ... replay all events AFTER connecting ...
       this.live$
-    ).subscribe(obs => this.events$.next(obs))
+    )
+      /*
+       * If event$ was this observable (output of concat), it won't work since each call to the `on` message
+       * will replay all events from the beginning of the room to the current time.
+       * 
+       * We circumvent this observable behavior by making a subject listen to this observable's emission. Calls to
+       * `on` will subscribe to this subject. This way, the events wont replay on subscribe; only the latest will.
+       * 
+       * "Our intention is to catch up first, but in the last mile we're choosing an subject that emits ONLY the latest emissions?"
+       * Our decision is like this because we don't want to make "catch up listeners" vs "live listeners". Not necessary for the scope
+       * of this mini-project yet.
+       * 
+       * This latest-emission-only approach can still work -- we'll just have to ASSUME that the appropriate listeners have been established already.
+       */
+      .subscribe(this.events$)
   }
 
   private async fetchPreConnectionEvents () {
