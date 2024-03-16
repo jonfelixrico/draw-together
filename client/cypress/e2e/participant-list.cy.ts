@@ -7,6 +7,8 @@ describe('participant-list', () => {
   let roomId: string
   const getRoomId = () => roomId as string
 
+  const otherUserId = nanoid()
+
   before(() => {
     cy.request({
       url: '/api/room',
@@ -24,8 +26,7 @@ describe('participant-list', () => {
 
   it('shows join/leave activity of other users', () => {
     cy.visit(`/rooms/${getRoomId()}`)
-    
-    const otherUserId = nanoid()
+
     // other user shouldn't be connected yet
     cy.dataCy('participants').find(`[data-cy=${otherUserId}]`).should('not.exist')
 
@@ -40,6 +41,21 @@ describe('participant-list', () => {
       roomSocket.disconnect()
       // since we disconnected the socket for the other user, their name should be gone again
       cy.dataCy('participants').find(`[data-cy=${otherUserId}]`).should('not.exist')
+    })
+  })
+
+  it('should show already-connected other users in the list', () => {
+    cy.wrap(createRoomSocket({
+      clientId: otherUserId,
+      name: 'Other user',
+      roomId: getRoomId()
+    })).then((roomSocket: Socket) => {
+      cy.visit(`/rooms/${getRoomId()}`)
+
+      // at this point, other user has joined
+      cy.dataCy('participants').find(`[data-cy=${otherUserId}]`).should('exist')
+
+      roomSocket.disconnect()
     })
   })
 })
