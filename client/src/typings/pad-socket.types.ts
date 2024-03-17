@@ -30,5 +30,5 @@ interface PathCreate {
   [PadSocketCode.PATH_CREATE]: PathCreatePayload
 }
 
-export type PadResponse = PathDraftStart & PathDraftMove & PathCreate
+export type PadResponse = Partial<PathDraftStart & PathDraftMove & PathCreate>
 export type PadRequest = PadResponse
