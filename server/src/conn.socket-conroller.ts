@@ -40,7 +40,7 @@ export function initConnHandler(server: Server, socket: Socket, userDetails: {
 }) {
   const { roomId, clientId, name } = userDetails
 
-  socket.join(roomId)
+  addToRoom(roomId, userDetails)
   console.debug('Connected socket %s to room %s', clientId, roomId)
 
   socket.broadcast.to(roomId).emit('SERVER', {
