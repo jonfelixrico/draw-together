@@ -42,7 +42,7 @@ describe('pad-socket', () => {
 
   it('displays whats being drawn', async () => {
     cy.visit(`/rooms/${getRoomId()}`)
-    cy.dataCy('pad')
+    cy.dataCy('pad').should('exist')
 
     await new Promise(resolve => cy.wait(1000).then(resolve))
 
