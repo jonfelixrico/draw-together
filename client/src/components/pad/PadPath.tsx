@@ -1,7 +1,8 @@
 import { useMemo } from 'react'
 import { PathRenderData } from '@/typings/pad.types'
+import { Dimensions } from '@/typings/geometry.types'
 
-export default function PadPath({ value }: { value: PathRenderData }) {
+export default function PadPath({ value, dimensions }: { value: PathRenderData, dimensions: Dimensions }) {
   const { points, color, thickness } = value
 
   const pathCommands = useMemo(() => {
@@ -18,13 +19,20 @@ export default function PadPath({ value }: { value: PathRenderData }) {
   }, [points])
 
   return (
-    <path
-      d={pathCommands}
-      stroke={color}
-      strokeWidth={thickness}
-      fill="none"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
+    <svg
+      width={dimensions.width}
+      height={dimensions.height}
+      data-points-length={points.length}
+      data-cy="rendered-path"
+    >
+      <path
+        d={pathCommands}
+        stroke={color}
+        strokeWidth={thickness}
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   )
 }

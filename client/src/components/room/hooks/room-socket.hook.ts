@@ -20,7 +20,7 @@ export function useSendMessage() {
 
 export function useMessageEffect<T extends keyof PadResponse>(
   code: T,
-  handler: (payload: PadResponse[T]) => void
+  handler: (payload: NonNullable<PadResponse[T]>) => void
 ) {
   const { padEventsService } = useLoaderData() as {
     padEventsService: PadEventsService
@@ -28,11 +28,12 @@ export function useMessageEffect<T extends keyof PadResponse>(
 
   useEffect(() => {
     const unsubscribe = padEventsService.on((msg) => {
-      if (!msg[code]) {
+      const payload = msg[code]
+      if (!payload) {
         return
       }
 
-      handler(msg[code])
+      handler(payload)
     })
 
     return unsubscribe
