@@ -8,19 +8,16 @@ export enum PadSocketCode {
   PATH_CREATE = 'PATH_CREATE',
 }
 
+/**
+ * @deprecated
+ */
 export type PadEventPayload<T> = SocketEventPayload<T>
-
-export interface JoinedPayload {
-  uuid: string
-}
-
-export interface UserDataPayload {
-  uuid: string
-  name: string
-}
 
 export interface PathDraftStartPayload extends PathData {
   counter: number
+}
+interface PathDraftStart {
+  [PadSocketCode.PATH_DRAFT_START]: PathDraftStartPayload
 }
 
 export interface PathDraftMovePayload {
@@ -28,5 +25,14 @@ export interface PathDraftMovePayload {
   counter: number
   point: Point
 }
+interface PathDraftMove {
+  [PadSocketCode.PATH_DRAFT_MOVE]: PathDraftMovePayload
+}
 
 export type PathCreatePayload = PathData
+interface PathCreate {
+  [PadSocketCode.PATH_CREATE]: PathCreatePayload
+}
+
+export type PadResponse = PathDraftStart & PathDraftMove & PathCreate
+export type PadRequest = PadResponse
