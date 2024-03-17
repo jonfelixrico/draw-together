@@ -46,7 +46,7 @@ export default function Draggable({
 
     const interactable = interact(elRef.current)
       .draggable({
-        onstart: ({ x0, y0 }: Interact.InteractEvent<'drag', 'start'>) => {
+        onstart: ({ clientX0, clientY0 }: Interact.InteractEvent<'drag', 'start'>) => {
           if (!elRef.current) {
             console.warn('Draggable: elRef is null!')
             return
@@ -54,8 +54,8 @@ export default function Draggable({
 
           const rect = elRef.current.getBoundingClientRect()
           const point = {
-            x: x0 - rect.x,
-            y: y0 - rect.y,
+            x: clientX0 - rect.x,
+            y: clientY0 - rect.y,
           }
 
           onDrag({
