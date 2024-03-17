@@ -1,0 +1,101 @@
+describe('pre-room', () => {
+  it('shows username step if no username is found in localstorage', () => {
+    cy.clearLocalStorage()
+
+    cy.visit('/')
+    cy.getCy('username-step').should('exist')
+
+    cy.get('input').type('My Username')
+    cy.get('button').click()
+
+    cy.getCy('action-step').should('exist')
+    cy.getCy('username').contains('My Username')
+  })
+
+  it('shows action step if username is already in localstorage', () => {
+    cy.setLocalStorage('username', 'Stored Username')
+
+    cy.visit('/')
+    cy.getCy('action-step').should('exist')
+
+    cy.getCy('username').contains('Stored Username')
+  })
+
+  it('allows changing of name', () => {
+    cy.setLocalStorage('username', 'Stored Username')
+
+    cy.visit('/')
+    cy.getCy('action-step').should('exist')
+    cy.getCy('username').contains('Stored Username')
+
+    cy.getCy('clear-username').click()
+
+    cy.getCy('username-step').should('exist')
+
+    cy.get('input').type('My Username')
+    cy.get('button').click()
+
+    cy.getCy('action-step').should('exist')
+
+    cy.getCy('username').contains('My Username')
+  })
+
+  it('supports hosting', () => {
+    cy.visit('/')
+
+    cy.getCy('host-action').find('button').click()
+    cy.location('pathname').should('include', '/rooms/')
+  })
+
+  it('supports joining', () => {
+    cy.request({
+      url: '/api/room',
+      method: 'POST',
+    }).then((response) => {
+      const id = response.body.id as string
+
+      cy.visit('/')
+      cy.getCy('join-action').find('input').type(id)
+      cy.getCy('join-action').find('button').click()
+
+      cy.getCy('room-page').should('exist')
+    })
+  })
+
+  it('handles join attempts to nonexistent room ids', () => {
+    cy.visit('/rooms/non-existent-id')
+    cy.getCy('error-not-found').should('exist')
+
+    cy.getCy('return-btn').click()
+    cy.location('pathname').should('equal', '/')
+  })
+
+  it('handles join attempts with no username', () => {
+    cy.request({
+      url: '/api/room',
+      method: 'POST',
+    }).then((response) => {
+      cy.clearLocalStorage()
+
+      cy.visit(`/rooms/${response.body.id}`)
+      cy.getCy('error-no-username').should('exist')
+
+      cy.get('input').type('My Username')
+      cy.get('button').click()
+
+      cy.getCy('room-page').should('exist')
+    })
+  })
+
+  it('shows an error screen on unexpected error', () => {
+    cy.intercept('/api/room/error-test', {
+      statusCode: 500,
+    })
+
+    cy.visit('/rooms/error-test')
+    cy.getCy('error-unexpected').should('exist')
+
+    cy.getCy('return-btn').click()
+    cy.location('pathname').should('equal', '/')
+  })
+})
