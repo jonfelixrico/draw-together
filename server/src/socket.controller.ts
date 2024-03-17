@@ -1,3 +1,4 @@
+import { initConnHandler } from 'conn.socket-conroller'
 import { padHistoryHandler } from './pad-history.socket-controller'
 import { Server, Socket } from 'socket.io'
 
@@ -15,21 +16,8 @@ function getQSData({ request }: Socket) {
   }
 }
 
-interface ConnectedClient {
-  id: string
-  name: string
-}
-
-type RoomDict = {
-  [roomId: string]: {
-    [clientId: string]: ConnectedClient
-  }
-}
-
-export function socketIOHandler(io: Server) {
-  const rooms: RoomDict = {}
-
-  io.on('connect', (socket: Socket) => {
+export function socketIOHandler(server: Server) {
+  server.on('connect', (socket: Socket) => {
     const { roomId, clientId, name } = getQSData(socket)
 
     console.debug('Socket %s has connected', clientId)
@@ -50,61 +38,7 @@ export function socketIOHandler(io: Server) {
     // TODO add checking for nonexistent rooms
 
     socket.join(roomId)
-    socket.broadcast.to(roomId).emit('SERVER', {
-      code: 'CONN_ACTIVITY',
-      payload: {
-        id: clientId,
-        name,
-        action: 'join',
-      },
-    })
-    console.debug('Connected socket %s to room %s', clientId, roomId)
-
-    if (!rooms[roomId]) {
-      rooms[roomId] = {}
-    }
-
-    if (!rooms[roomId][clientId]) {
-      rooms[roomId][clientId] = {
-        id: clientId,
-        name,
-      }
-    }
-
-    socket.on('disconnect', () => {
-      io.to(roomId).emit('SERVER', {
-        code: 'CONN_ACTIVITY',
-        payload: {
-          id: clientId,
-          name,
-          action: 'leave',
-        },
-      })
-      delete rooms[roomId][clientId]
-
-      console.debug('Client %s has left', clientId)
-    })
-
-    socket.on(
-      'SERVER',
-      ({ code }: { code: string }, respond: (response: unknown) => void) => {
-        switch (code) {
-          case 'CONN_LIST': {
-            respond(Object.values(rooms[roomId]))
-            console.debug(
-              'Sent %s the list of connected participants',
-              clientId
-            )
-            break
-          }
-
-          default: {
-            console.debug('Unknown SERVER_REQ code: %s', code)
-            respond(null)
-          }
-        }
-      }
-    )
+    initConnHandler(server, socket, { roomId, clientId, name })
 
     // The purpose of this is to just relay the message to all participants
     socket.on('PAD', (payload: Record<string, unknown>) => {
