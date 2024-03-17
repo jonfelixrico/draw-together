@@ -2,6 +2,9 @@ import { SocketEventPayload } from '@/typings/socket.types'
 import { useCallback, useEffect } from 'react'
 import { Socket } from 'socket.io-client'
 
+/**
+ * @deprecated
+ */
 export function useSocketOn<T>(
   socket: Socket,
   eventType: string,
