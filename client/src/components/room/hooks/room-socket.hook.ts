@@ -1,40 +1,38 @@
 import { Socket } from 'socket.io-client'
-import { PadEventPayload, PadSocketCode } from '@/typings/pad-socket.types'
+import { PAD_SOCKET_EVENT, PadResponse } from '@/typings/pad-socket.types'
 import { useCallback, useEffect } from 'react'
 import { useLoaderData } from 'react-router-dom'
-import { SocketEventType } from '@/typings/socket.types'
 import { PadEventsService } from '@/services/pad-events'
 
 export function useSendMessage() {
   const socket = useRoomSocket()
 
   return useCallback(
-    <T>(code: PadSocketCode, payload: T) => {
-      socket.emit(SocketEventType.PAD, {
-        code,
-        payload,
-      } as PadEventPayload<T>)
+    <T extends keyof PadResponse>(code: T, payload: PadResponse[T]) => {
+      socket.emit(PAD_SOCKET_EVENT, {
+        [code]: payload,
+      })
       console.debug('Sent message with code %s and payload %o', code, payload)
     },
     [socket]
   )
 }
 
-export function useMessageEffect<T>(
-  code: PadSocketCode,
-  handler: (payload: T) => void
+export function useMessageEffect<T extends keyof PadResponse>(
+  code: T,
+  handler: (payload: PadResponse[T]) => void
 ) {
   const { padEventsService } = useLoaderData() as {
     padEventsService: PadEventsService
   }
 
   useEffect(() => {
-    const unsubscribe = padEventsService.on<T>((evt) => {
-      if (evt.code !== code) {
+    const unsubscribe = padEventsService.on((msg) => {
+      if (!msg[code]) {
         return
       }
 
-      handler(evt.payload)
+      handler(msg[code])
     })
 
     return unsubscribe

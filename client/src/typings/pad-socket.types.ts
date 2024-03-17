@@ -1,6 +1,7 @@
 import { Point } from './geometry.types'
 import { PathData } from './pad.types'
-import { SocketEventPayload } from './socket.types'
+
+export const PAD_SOCKET_EVENT = 'PAD'
 
 export enum PadSocketCode {
   PATH_DRAFT_START = 'PATH_DRAFT_START',
@@ -8,19 +9,11 @@ export enum PadSocketCode {
   PATH_CREATE = 'PATH_CREATE',
 }
 
-export type PadEventPayload<T> = SocketEventPayload<T>
-
-export interface JoinedPayload {
-  uuid: string
-}
-
-export interface UserDataPayload {
-  uuid: string
-  name: string
-}
-
 export interface PathDraftStartPayload extends PathData {
   counter: number
+}
+interface PathDraftStart {
+  [PadSocketCode.PATH_DRAFT_START]: PathDraftStartPayload
 }
 
 export interface PathDraftMovePayload {
@@ -28,5 +21,14 @@ export interface PathDraftMovePayload {
   counter: number
   point: Point
 }
+interface PathDraftMove {
+  [PadSocketCode.PATH_DRAFT_MOVE]: PathDraftMovePayload
+}
 
 export type PathCreatePayload = PathData
+interface PathCreate {
+  [PadSocketCode.PATH_CREATE]: PathCreatePayload
+}
+
+export type PadResponse = PathDraftStart & PathDraftMove & PathCreate
+export type PadRequest = PadResponse
