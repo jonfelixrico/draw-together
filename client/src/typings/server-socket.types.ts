@@ -20,9 +20,15 @@ interface ConnectedUser {
   name: string
 }
 
+interface ConnectedUsersListReq {
+  [ServerSocketCode.CONN_LIST]: true
+}
+
 type ConnectedUsersListRespPayload = ConnectedUser[]
 interface ConnectedUsersListResp {
   [ServerSocketCode.CONN_LIST]: ConnectedUsersListRespPayload
 }
 
 export type ServerResp = ConnectedUsersListResp | ConnectionActivityResp
+
+export type ServerReq = ConnectedUsersListReq
