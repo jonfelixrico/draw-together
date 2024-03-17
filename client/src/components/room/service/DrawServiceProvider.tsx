@@ -13,9 +13,7 @@ import {
   selectThickness,
 } from '@/store/pad-path.slice'
 import { nanoid } from 'nanoid'
-import {
-  PadSocketCode,
-} from '@/typings/pad-socket.types'
+import { PadSocketCode } from '@/typings/pad-socket.types'
 
 export default function DrawServiceProvider(props: { children: ReactNode }) {
   const color = useAppSelector(selectColor)

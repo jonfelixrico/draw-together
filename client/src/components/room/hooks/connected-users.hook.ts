@@ -4,7 +4,11 @@ import { useImmer } from 'use-immer'
 import keyBy from 'lodash/keyBy'
 import { SocketEventType } from '@/typings/socket.types'
 import { useSocketOn } from '@/hooks/socket.hook'
-import { ServerReq, ServerResp, ServerSocketCode } from '@/typings/server-socket.types'
+import {
+  ServerReq,
+  ServerResp,
+  ServerSocketCode,
+} from '@/typings/server-socket.types'
 
 interface ConnectedUser {
   id: string
@@ -18,9 +22,9 @@ export function useConnectedUsers() {
   useEffect(() => {
     async function getList() {
       const { CONN_LIST } = (await socket.emitWithAck(SocketEventType.SERVER, {
-        CONN_LIST: true
+        CONN_LIST: true,
       } as ServerReq)) as ServerResp
-      
+
       if (!CONN_LIST) {
         return
       }

@@ -13,10 +13,13 @@ type RoomDict = {
 
 const rooms: RoomDict = {}
 
-function addToRoom (roomId: string, userDetails: {
-  clientId: string
-  name: string
-}) {
+function addToRoom(
+  roomId: string,
+  userDetails: {
+    clientId: string
+    name: string
+  }
+) {
   const { clientId, name } = userDetails
 
   if (!rooms[roomId]) {
@@ -33,11 +36,15 @@ function removeFromRoom(roomId: string, clientId: string) {
   delete rooms[roomId][clientId]
 }
 
-export function initConnHandler(server: Server, socket: Socket, userDetails: {
-  roomId: string
-  name: string
-  clientId: string
-}) {
+export function initConnHandler(
+  server: Server,
+  socket: Socket,
+  userDetails: {
+    roomId: string
+    name: string
+    clientId: string
+  }
+) {
   const { roomId, clientId, name } = userDetails
 
   addToRoom(roomId, userDetails)
@@ -48,7 +55,7 @@ export function initConnHandler(server: Server, socket: Socket, userDetails: {
       id: clientId,
       name,
       action: 'join',
-    }
+    },
   })
 
   socket.on('disconnect', () => {
@@ -57,7 +64,7 @@ export function initConnHandler(server: Server, socket: Socket, userDetails: {
         id: clientId,
         name,
         action: 'leave',
-      }
+      },
     })
     removeFromRoom(roomId, clientId)
 
@@ -69,12 +76,9 @@ export function initConnHandler(server: Server, socket: Socket, userDetails: {
     (msg: Record<string, unknown>, respond: (response: unknown) => void) => {
       if (msg.CONN_LIST) {
         respond({
-          CONN_LIST: Object.values(rooms[roomId])
+          CONN_LIST: Object.values(rooms[roomId]),
         })
-        console.debug(
-          'Sent %s the list of connected participants',
-          clientId
-        )
+        console.debug('Sent %s the list of connected participants', clientId)
         return
       }
 

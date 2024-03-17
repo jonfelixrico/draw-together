@@ -14,19 +14,22 @@ function useSocketOnBase<T>(
   }, [socket, eventType, handler])
 }
 
-export function useSocketOn<T extends Object>(
+export function useSocketOn<T>(
   socket: Socket,
   eventType: string,
   code: keyof T,
   handler: (payload: T[keyof T]) => void
 ) {
-  const evtHandler = useCallback((payload: T) => {
-    if (!payload[code]) {
-      return
-    }
+  const evtHandler = useCallback(
+    (payload: T) => {
+      if (!payload[code]) {
+        return
+      }
 
-    handler(payload[code])
-  }, [eventType, handler])
+      handler(payload[code])
+    },
+    [eventType, handler, code]
+  )
 
   useSocketOnBase(socket, eventType, evtHandler)
 }

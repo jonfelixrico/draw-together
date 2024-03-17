@@ -20,10 +20,7 @@ export function usePathSocketWatcher() {
     [dispatch]
   )
 
-  useMessageEffect(
-    PadSocketCode.PATH_CREATE,
-    pathCreateHandler
-  )
+  useMessageEffect(PadSocketCode.PATH_CREATE, pathCreateHandler)
 
   const pathDraftStartHandler = useCallback(
     (payload: PathDraftStartPayload) => {
@@ -32,10 +29,7 @@ export function usePathSocketWatcher() {
     [dispatch]
   )
 
-  useMessageEffect(
-    PadSocketCode.PATH_DRAFT_START,
-    pathDraftStartHandler
-  )
+  useMessageEffect(PadSocketCode.PATH_DRAFT_START, pathDraftStartHandler)
 
   const pathDraftMoveHandler = useCallback(
     ({ id, point }: PathDraftMovePayload) => {
@@ -49,8 +43,5 @@ export function usePathSocketWatcher() {
     [dispatch]
   )
 
-  useMessageEffect(
-    PadSocketCode.PATH_DRAFT_MOVE,
-    pathDraftMoveHandler
-  )
+  useMessageEffect(PadSocketCode.PATH_DRAFT_MOVE, pathDraftMoveHandler)
 }

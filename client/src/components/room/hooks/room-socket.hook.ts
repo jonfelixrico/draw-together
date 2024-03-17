@@ -11,7 +11,7 @@ export function useSendMessage() {
   return useCallback(
     <T extends keyof PadResponse>(code: T, payload: PadResponse[T]) => {
       socket.emit(SocketEventType.PAD, {
-        [code]: payload
+        [code]: payload,
       })
       console.debug('Sent message with code %s and payload %o', code, payload)
     },
