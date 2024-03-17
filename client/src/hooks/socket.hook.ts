@@ -28,7 +28,7 @@ export function useSocketOn<T>(
 
       handler(payload[code])
     },
-    [eventType, handler, code]
+    [handler, code]
   )
 
   useSocketOnBase(socket, eventType, evtHandler)
