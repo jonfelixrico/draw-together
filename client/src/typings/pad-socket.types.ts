@@ -1,17 +1,11 @@
 import { Point } from './geometry.types'
 import { PathData } from './pad.types'
-import { SocketEventPayload } from './socket.types'
 
 export enum PadSocketCode {
   PATH_DRAFT_START = 'PATH_DRAFT_START',
   PATH_DRAFT_MOVE = 'PATH_DRAFT_MOVE',
   PATH_CREATE = 'PATH_CREATE',
 }
-
-/**
- * @deprecated
- */
-export type PadEventPayload<T> = SocketEventPayload<T>
 
 export interface PathDraftStartPayload extends PathData {
   counter: number
