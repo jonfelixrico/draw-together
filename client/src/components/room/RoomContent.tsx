@@ -50,7 +50,7 @@ export default function RoomContent() {
         <Col className="border p-0">
           {/* Intermediate div is present because we can't easily attach ref to Col */}
           <div className="h-100 position-relative" ref={ref}>
-            <div className="position-absolute" style={{ zIndex: 2 }}>
+            <div className="position-absolute" style={{ zIndex: 2 }} data-cy="pad">
               <DrawServiceProvider>
                 <PadInput dimensions={dimensions} />
               </DrawServiceProvider>
