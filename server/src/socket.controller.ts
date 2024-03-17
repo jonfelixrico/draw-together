@@ -1,4 +1,4 @@
-import { initConnHandler } from 'conn.socket-controller'
+import { initConnHandler } from './conn.socket-controller'
 import { padHistoryHandler } from './pad-history.socket-controller'
 import { Server, Socket } from 'socket.io'
 

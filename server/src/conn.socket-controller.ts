@@ -68,7 +68,9 @@ export function initConnHandler(server: Server, socket: Socket, userDetails: {
     'SERVER',
     (msg: Record<string, unknown>, respond: (response: unknown) => void) => {
       if (msg.CONN_LIST) {
-        respond(Object.values(rooms[roomId]))
+        respond({
+          CONN_LIST: Object.values(rooms[roomId])
+        })
         console.debug(
           'Sent %s the list of connected participants',
           clientId
