@@ -24,9 +24,14 @@ export default function PadContentRenderer({
     <div style={dimensions} className="position-relative">
       {pathsToRender.map((data) => {
         return (
-          <svg {...dimensions} key={data.id} className="position-absolute">
-            <PadPath value={data} />
-          </svg>
+          <div
+            className="position-absolute"
+            key={data.id}
+            data-cy="path"
+            data-path-id={data.id}
+          >
+            <PadPath value={data} dimensions={dimensions} />
+          </div>
         )
       })}
     </div>
