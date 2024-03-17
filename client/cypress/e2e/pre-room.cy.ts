@@ -3,47 +3,47 @@ describe('pre-room', () => {
     cy.clearLocalStorage()
 
     cy.visit('/')
-    cy.dataCy('username-step').should('exist')
+    cy.getCy('username-step').should('exist')
 
     cy.get('input').type('My Username')
     cy.get('button').click()
 
-    cy.dataCy('action-step').should('exist')
-    cy.dataCy('username').contains('My Username')
+    cy.getCy('action-step').should('exist')
+    cy.getCy('username').contains('My Username')
   })
 
   it('shows action step if username is already in localstorage', () => {
     cy.setLocalStorage('username', 'Stored Username')
 
     cy.visit('/')
-    cy.dataCy('action-step').should('exist')
+    cy.getCy('action-step').should('exist')
 
-    cy.dataCy('username').contains('Stored Username')
+    cy.getCy('username').contains('Stored Username')
   })
 
   it('allows changing of name', () => {
     cy.setLocalStorage('username', 'Stored Username')
 
     cy.visit('/')
-    cy.dataCy('action-step').should('exist')
-    cy.dataCy('username').contains('Stored Username')
+    cy.getCy('action-step').should('exist')
+    cy.getCy('username').contains('Stored Username')
 
-    cy.dataCy('clear-username').click()
+    cy.getCy('clear-username').click()
 
-    cy.dataCy('username-step').should('exist')
+    cy.getCy('username-step').should('exist')
 
     cy.get('input').type('My Username')
     cy.get('button').click()
 
-    cy.dataCy('action-step').should('exist')
+    cy.getCy('action-step').should('exist')
 
-    cy.dataCy('username').contains('My Username')
+    cy.getCy('username').contains('My Username')
   })
 
   it('supports hosting', () => {
     cy.visit('/')
 
-    cy.dataCy('host-action').find('button').click()
+    cy.getCy('host-action').find('button').click()
     cy.location('pathname').should('include', '/rooms/')
   })
 
@@ -55,18 +55,18 @@ describe('pre-room', () => {
       const id = response.body.id as string
 
       cy.visit('/')
-      cy.dataCy('join-action').find('input').type(id)
-      cy.dataCy('join-action').find('button').click()
+      cy.getCy('join-action').find('input').type(id)
+      cy.getCy('join-action').find('button').click()
 
-      cy.dataCy('room-page').should('exist')
+      cy.getCy('room-page').should('exist')
     })
   })
 
   it('handles join attempts to nonexistent room ids', () => {
     cy.visit('/rooms/non-existent-id')
-    cy.dataCy('error-not-found').should('exist')
+    cy.getCy('error-not-found').should('exist')
 
-    cy.dataCy('return-btn').click()
+    cy.getCy('return-btn').click()
     cy.location('pathname').should('equal', '/')
   })
 
@@ -78,12 +78,12 @@ describe('pre-room', () => {
       cy.clearLocalStorage()
 
       cy.visit(`/rooms/${response.body.id}`)
-      cy.dataCy('error-no-username').should('exist')
+      cy.getCy('error-no-username').should('exist')
 
       cy.get('input').type('My Username')
       cy.get('button').click()
 
-      cy.dataCy('room-page').should('exist')
+      cy.getCy('room-page').should('exist')
     })
   })
 
@@ -93,9 +93,9 @@ describe('pre-room', () => {
     })
 
     cy.visit('/rooms/error-test')
-    cy.dataCy('error-unexpected').should('exist')
+    cy.getCy('error-unexpected').should('exist')
 
-    cy.dataCy('return-btn').click()
+    cy.getCy('return-btn').click()
     cy.location('pathname').should('equal', '/')
   })
 })

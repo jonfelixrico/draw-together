@@ -42,20 +42,22 @@ declare global {
     interface Chainable {
       /**
        * Custom command to select DOM element by data-cy attribute.
-       * @example cy.dataCy('greeting')
-       * @deprecated Use getCy and findCy instead
+       * This is a parent command.
+       * 
+       * @example cy.getCy('greeting')
        */
-      dataCy(value: string): Chainable<JQuery<HTMLElement>>
-
       getCy(value: string): Chainable<JQuery<HTMLElement>>
+
+      /**
+       * Custom command to select DOM element by data-cy attribute.
+       * This is a child command.
+       *
+       * @example cy.getCy('greeting-parent').getCy('greeting')
+       */
       findCy(value: string): Chainable<JQuery<HTMLElement>>
     }
   }
 }
-
-Cypress.Commands.add('dataCy', (value) => {
-  return cy.get(`[data-cy=${value}]`)
-})
 
 Cypress.Commands.add('getCy', (value) => {
   return cy.get(`[data-cy=${value}]`)

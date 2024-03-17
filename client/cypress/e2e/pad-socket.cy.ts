@@ -42,7 +42,7 @@ describe('pad-socket', () => {
 
   it('displays whats being drawn', async () => {
     cy.visit(`/rooms/${getRoomId()}`)
-    cy.dataCy('pad').should('exist')
+    cy.getCy('pad').should('exist')
 
     await new Promise(resolve => cy.wait(1000).then(resolve))
 
@@ -66,7 +66,7 @@ describe('pad-socket', () => {
 
     cy.get(`[data-path-id=${pathId}]`)
       .should('exist')
-      .find('[data-cy=rendered-path]')
+      .findCy('rendered-path')
       .should('have.attr', 'data-points-length', 1)
 
     while(points.length <= 50) {
@@ -99,7 +99,7 @@ describe('pad-socket', () => {
     })
 
     cy.get(`[data-path-id=${pathId}]`)
-      .find('[data-cy=rendered-path]')
+      .findCy('rendered-path')
       .should('have.attr', 'data-points-length', 50)
   })
 })
