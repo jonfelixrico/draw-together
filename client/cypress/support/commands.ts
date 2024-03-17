@@ -45,12 +45,17 @@ declare global {
        * @example cy.dataCy('greeting')
        */
       dataCy(value: string): Chainable<JQuery<HTMLElement>>
+      findCy(value: string): Chainable<JQuery<HTMLElement>>
     }
   }
 }
 
 Cypress.Commands.add('dataCy', (value) => {
   return cy.get(`[data-cy=${value}]`)
+})
+
+Cypress.Commands.add('findCy', { prevSubject: true }, (subject: JQuery<HTMLElement>, value: string) => {
+  return cy.wrap(subject).get(`[data-cy=${value}]`)
 })
 
 // Without this, TS will complain
