@@ -2,11 +2,11 @@ import {
   PadHistoryRequest,
   PadHistoryResponse,
 } from '@/typings/pad-history-socket.types'
-import { SocketEventPayload } from '@/typings/socket.types'
+import { PadResponse } from '@/typings/pad-socket.types'
 import { Observable, ReplaySubject, Subject, concat, takeWhile } from 'rxjs'
 import { Socket } from 'socket.io-client'
 
-type Payload = SocketEventPayload<unknown>
+type Payload = PadResponse
 
 export class PadEventsService {
   private catchUp$ = new ReplaySubject<Payload | 'DONE'>()
@@ -84,11 +84,8 @@ export class PadEventsService {
     this.listenForLiveEvents()
   }
 
-  on<T>(handler: (payload: SocketEventPayload<T>) => void) {
-    const subscription = this.events$.subscribe((evt) => {
-      handler(evt as SocketEventPayload<T>)
-    })
-
+  on(handler: (payload: PadResponse) => void) {
+    const subscription = this.events$.subscribe(handler)
     return () => subscription.unsubscribe()
   }
 }

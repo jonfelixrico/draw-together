@@ -14,8 +14,6 @@ import {
 } from '@/store/pad-path.slice'
 import { nanoid } from 'nanoid'
 import {
-  PathDraftMovePayload,
-  PathDraftStartPayload,
   PadSocketCode,
 } from '@/typings/pad-socket.types'
 
@@ -39,7 +37,7 @@ export default function DrawServiceProvider(props: { children: ReactNode }) {
         }
 
         dispatch(PadPathActions.setDraftPath(newDraft))
-        sendMessage<PathDraftStartPayload>(PadSocketCode.PATH_DRAFT_START, {
+        sendMessage(PadSocketCode.PATH_DRAFT_START, {
           ...newDraft,
           counter: 0,
         })
@@ -57,7 +55,7 @@ export default function DrawServiceProvider(props: { children: ReactNode }) {
         ...draft,
         points: [...draft.points, event.point],
       }
-      sendMessage<PathDraftMovePayload>(PadSocketCode.PATH_DRAFT_MOVE, {
+      sendMessage(PadSocketCode.PATH_DRAFT_MOVE, {
         id: updated.id,
         point: event.point,
         counter: updated.points.length - 2,
