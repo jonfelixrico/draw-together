@@ -1,31 +1,5 @@
-import { SocketEventPayload } from '@/typings/socket.types'
 import { useCallback, useEffect } from 'react'
 import { Socket } from 'socket.io-client'
-
-/**
- * @deprecated
- */
-export function useSocketOn<T>(
-  socket: Socket,
-  eventType: string,
-  eventCode: string,
-  handler: (payload: T) => void
-) {
-  useEffect(() => {
-    const wrapper = (ePayload?: SocketEventPayload<T>) => {
-      if (ePayload?.code !== eventCode) {
-        return
-      }
-
-      handler(ePayload.payload)
-    }
-
-    socket.on(eventType, wrapper)
-    return () => {
-      socket.off(eventType, wrapper)
-    }
-  }, [socket, eventType, eventCode, handler])
-}
 
 function useSocketOnBase<T>(
   socket: Socket,
@@ -40,7 +14,7 @@ function useSocketOnBase<T>(
   }, [socket, eventType, handler])
 }
 
-export function useSocketOnV2<T extends Object>(
+export function useSocketOn<T extends Object>(
   socket: Socket,
   eventType: string,
   code: keyof T,

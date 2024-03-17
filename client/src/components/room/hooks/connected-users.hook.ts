@@ -3,7 +3,7 @@ import { useRoomSocket } from './room-socket.hook'
 import { useImmer } from 'use-immer'
 import keyBy from 'lodash/keyBy'
 import { SocketEventType } from '@/typings/socket.types'
-import { useSocketOnV2 } from '@/hooks/socket.hook'
+import { useSocketOn } from '@/hooks/socket.hook'
 import { ServerReq, ServerResp, ServerSocketCode } from '@/typings/server-socket.types'
 
 interface ConnectedUser {
@@ -49,7 +49,7 @@ export function useConnectedUsers() {
     [setUserMap]
   )
 
-  useSocketOnV2(
+  useSocketOn(
     socket,
     SocketEventType.SERVER,
     ServerSocketCode.CONN_ACTIVITY,
