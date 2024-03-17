@@ -33,7 +33,7 @@ function removeFromRoom(roomId: string, clientId: string) {
   delete rooms[roomId][clientId]
 }
 
-export function initConnHandler(socket: Socket, userDetails: {
+export function initConnHandler(server: Server, socket: Socket, userDetails: {
   roomId: string
   name: string
   clientId: string
@@ -53,7 +53,7 @@ export function initConnHandler(socket: Socket, userDetails: {
   })
 
   socket.on('disconnect', () => {
-    socket.broadcast.to(roomId).emit('SERVER', {
+    server.to(roomId).emit('SERVER', {
       code: 'CONN_ACTIVITY',
       payload: {
         id: clientId,
