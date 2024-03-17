@@ -44,22 +44,20 @@ export function initConnHandler(server: Server, socket: Socket, userDetails: {
   console.debug('Connected socket %s to room %s', clientId, roomId)
 
   socket.broadcast.to(roomId).emit('SERVER', {
-    code: 'CONN_ACTIVITY',
-    payload: {
+    CONN_ACTIVITY: {
       id: clientId,
       name,
       action: 'join',
-    },
+    }
   })
 
   socket.on('disconnect', () => {
     server.to(roomId).emit('SERVER', {
-      code: 'CONN_ACTIVITY',
-      payload: {
+      CONN_ACTIVITY: {
         id: clientId,
         name,
         action: 'leave',
-      },
+      }
     })
     removeFromRoom(roomId, clientId)
 
@@ -68,22 +66,18 @@ export function initConnHandler(server: Server, socket: Socket, userDetails: {
 
   socket.on(
     'SERVER',
-    ({ code }: { code: string }, respond: (response: unknown) => void) => {
-      switch (code) {
-        case 'CONN_LIST': {
-          respond(Object.values(rooms[roomId]))
-          console.debug(
-            'Sent %s the list of connected participants',
-            clientId
-          )
-          break
-        }
-
-        default: {
-          console.debug('Unknown SERVER_REQ code: %s', code)
-          respond(null)
-        }
+    (msg: Record<string, unknown>, respond: (response: unknown) => void) => {
+      if (msg.CONN_LIST) {
+        respond(Object.values(rooms[roomId]))
+        console.debug(
+          'Sent %s the list of connected participants',
+          clientId
+        )
+        return
       }
+
+      console.debug('Unknown message')
+      respond(null)
     }
   )
 }
