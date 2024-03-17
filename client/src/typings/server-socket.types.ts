@@ -29,6 +29,6 @@ interface ConnectedUsersListResp {
   [ServerSocketCode.CONN_LIST]: ConnectedUsersListRespPayload
 }
 
-export type ServerResp = ConnectedUsersListResp | ConnectionActivityResp
+export type ServerResp = ConnectedUsersListResp & ConnectionActivityResp
 
 export type ServerReq = ConnectedUsersListReq

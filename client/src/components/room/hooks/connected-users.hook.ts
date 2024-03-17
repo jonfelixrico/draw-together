@@ -3,8 +3,8 @@ import { useRoomSocket } from './room-socket.hook'
 import { useImmer } from 'use-immer'
 import keyBy from 'lodash/keyBy'
 import { SocketEventType } from '@/typings/socket.types'
-import { useSocketOn } from '@/hooks/socket.hook'
-import { ServerSocketCode } from '@/typings/server-socket.types'
+import { useSocketOnV2 } from '@/hooks/socket.hook'
+import { ServerReq, ServerResp, ServerSocketCode } from '@/typings/server-socket.types'
 
 interface ConnectedUser {
   id: string
@@ -17,18 +17,22 @@ export function useConnectedUsers() {
 
   useEffect(() => {
     async function getList() {
-      const list = (await socket.emitWithAck(SocketEventType.SERVER, {
-        code: ServerSocketCode.CONN_LIST,
-      })) as ConnectedUser[]
+      const { CONN_LIST } = (await socket.emitWithAck(SocketEventType.SERVER, {
+        CONN_LIST: true
+      } as ServerReq)) as ServerResp
+      
+      if (!CONN_LIST) {
+        return
+      }
 
-      setUserMap(keyBy(list, ({ id }) => id))
+      setUserMap(keyBy(CONN_LIST, ({ id }) => id))
     }
 
     getList()
   }, [socket, setUserMap])
 
   const handler = useCallback(
-    (payload: { id: string; name: string; action: 'leave' | 'join' }) => {
+    (payload: ServerResp[ServerSocketCode.CONN_ACTIVITY]) => {
       setUserMap((map) => {
         if (payload.action === 'leave') {
           delete map[payload.id]
@@ -45,7 +49,7 @@ export function useConnectedUsers() {
     [setUserMap]
   )
 
-  useSocketOn(
+  useSocketOnV2(
     socket,
     SocketEventType.SERVER,
     ServerSocketCode.CONN_ACTIVITY,
