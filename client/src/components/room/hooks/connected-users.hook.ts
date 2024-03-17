@@ -36,7 +36,7 @@ export function useConnectedUsers() {
   }, [socket, setUserMap])
 
   const handler = useCallback(
-    (payload: ServerResp[ServerSocketCode.CONN_ACTIVITY]) => {
+    (payload: NonNullable<ServerResp[ServerSocketCode.CONN_ACTIVITY]>) => {
       setUserMap((map) => {
         if (payload.action === 'leave') {
           delete map[payload.id]
