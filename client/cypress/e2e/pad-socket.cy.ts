@@ -40,13 +40,14 @@ describe('pad-socket', () => {
     getSocket().disconnect()
   })
 
+  const pathId = nanoid()
+
   it('displays whats being drawn', async () => {
     cy.visit(`/rooms/${getRoomId()}`)
     cy.getCy('pad').should('exist')
 
     await new Promise(resolve => cy.wait(1000).then(resolve))
 
-    const pathId = nanoid()
     let counter = 0
     const points = [{
       x: 10,
@@ -97,6 +98,15 @@ describe('pad-socket', () => {
         timestamp: Date.now(),
       }
     })
+
+    cy.get(`[data-path-id=${pathId}]`)
+      .findCy('rendered-path')
+      .should('have.attr', 'data-points-length', 50)
+  })
+
+  it('shows pre-existing drawings in the room on join/rejoin', async () => {
+    cy.visit(`/rooms/${getRoomId()}`)
+    cy.getCy('pad').should('exist')
 
     cy.get(`[data-path-id=${pathId}]`)
       .findCy('rendered-path')
