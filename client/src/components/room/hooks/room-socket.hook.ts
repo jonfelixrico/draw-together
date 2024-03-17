@@ -5,6 +5,9 @@ import { useLoaderData } from 'react-router-dom'
 import { SocketEventType } from '@/typings/socket.types'
 import { PadEventsService } from '@/services/pad-events'
 
+/**
+ * @deprecated
+ */
 export function useSendMessage() {
   const socket = useRoomSocket()
 
@@ -20,6 +23,9 @@ export function useSendMessage() {
   )
 }
 
+/**
+ * @deprecated 
+ */
 export function useMessageEffect<T>(
   code: PadSocketCode,
   handler: (payload: T) => void
