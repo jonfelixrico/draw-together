@@ -1,8 +1,7 @@
 import { Socket } from 'socket.io-client'
-import { PadResponse } from '@/typings/pad-socket.types'
+import { PAD_SOCKET_EVENT, PadResponse } from '@/typings/pad-socket.types'
 import { useCallback, useEffect } from 'react'
 import { useLoaderData } from 'react-router-dom'
-import { SocketEventType } from '@/typings/socket.types'
 import { PadEventsService } from '@/services/pad-events'
 
 export function useSendMessage() {
@@ -10,7 +9,7 @@ export function useSendMessage() {
 
   return useCallback(
     <T extends keyof PadResponse>(code: T, payload: PadResponse[T]) => {
-      socket.emit(SocketEventType.PAD, {
+      socket.emit(PAD_SOCKET_EVENT, {
         [code]: payload,
       })
       console.debug('Sent message with code %s and payload %o', code, payload)

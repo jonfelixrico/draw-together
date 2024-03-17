@@ -2,9 +2,9 @@ import { useCallback, useEffect } from 'react'
 import { useRoomSocket } from './room-socket.hook'
 import { useImmer } from 'use-immer'
 import keyBy from 'lodash/keyBy'
-import { SocketEventType } from '@/typings/socket.types'
 import { useSocketOn } from '@/hooks/socket.hook'
 import {
+  SERVER_SOCKET_EVENT,
   ServerReq,
   ServerResp,
   ServerSocketCode,
@@ -21,7 +21,7 @@ export function useConnectedUsers() {
 
   useEffect(() => {
     async function getList() {
-      const { CONN_LIST } = (await socket.emitWithAck(SocketEventType.SERVER, {
+      const { CONN_LIST } = (await socket.emitWithAck(SERVER_SOCKET_EVENT, {
         CONN_LIST: true,
       } as ServerReq)) as ServerResp
 
@@ -55,7 +55,7 @@ export function useConnectedUsers() {
 
   useSocketOn(
     socket,
-    SocketEventType.SERVER,
+    SERVER_SOCKET_EVENT,
     ServerSocketCode.CONN_ACTIVITY,
     handler
   )

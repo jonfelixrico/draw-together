@@ -1,6 +1,8 @@
 import { Point } from './geometry.types'
 import { PathData } from './pad.types'
 
+export const PAD_SOCKET_EVENT = 'PAD'
+
 export enum PadSocketCode {
   PATH_DRAFT_START = 'PATH_DRAFT_START',
   PATH_DRAFT_MOVE = 'PATH_DRAFT_MOVE',
