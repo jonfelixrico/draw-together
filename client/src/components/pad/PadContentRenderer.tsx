@@ -27,7 +27,6 @@ export default function PadContentRenderer({
           <div
             className="position-absolute"
             key={data.id}
-            data-cy="path"
             data-path-id={data.id}
           >
             <PadPath value={data} dimensions={dimensions} />

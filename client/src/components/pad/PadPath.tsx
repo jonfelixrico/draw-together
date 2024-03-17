@@ -19,7 +19,12 @@ export default function PadPath({ value, dimensions }: { value: PathRenderData, 
   }, [points])
 
   return (
-    <svg width={dimensions.width} height={dimensions.height}>
+    <svg
+      width={dimensions.width}
+      height={dimensions.height}
+      data-points-length={points.length}
+      data-cy="rendered-path"
+    >
       <path
         d={pathCommands}
         stroke={color}

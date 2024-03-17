@@ -64,12 +64,20 @@ describe('pad-socket', () => {
       }
     })
 
-    for (let i = 1; i <= 50; i++) {
-      await new Promise(resolve => cy.wait(10).then(resolve))
+    cy.get(`[data-path-id=${pathId}]`)
+      .should('exist')
+      .find('[data-cy=rendered-path]')
+      .should('have.attr', 'data-points-length', 1)
+
+    while(points.length <= 50) {
+      await new Promise(resolve => cy.wait(50).then(resolve))
+      const lastPt = points[points.length - 1]
       const point = {
-        x: 10 + i,
-        y: 10 + i
+        x: lastPt.x + 1,
+        y: lastPt.y + 1
       }
+
+      points.push(point)
 
       sendPadMessage({
         PATH_DRAFT_MOVE: {
@@ -78,8 +86,6 @@ describe('pad-socket', () => {
           point
         }
       })
-
-      points.push(point)
     }
 
     sendPadMessage({
@@ -91,5 +97,9 @@ describe('pad-socket', () => {
         timestamp: Date.now(),
       }
     })
+
+    cy.get(`[data-path-id=${pathId}]`)
+      .find('[data-cy=rendered-path]')
+      .should('have.attr', 'data-points-length', 50)
   })
 })
