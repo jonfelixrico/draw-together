@@ -57,9 +57,13 @@ describe('participant-list', () => {
 
     startSocket().then((socket: Socket) => {
       // at this point, other user has joined
-      cy.getCy('participants').find(`[data-cy=${otherUserId}]`).should('exist')
+      cy.getCy('participants')
+        .find(`[data-cy=${otherUserId}]`)
+        .should('exist')
+        .then(() => {
+          socket.disconnect()
+        })
 
-      socket.disconnect()
       // since we disconnected the socket for the other user, their name should be gone again
       cy.getCy('participants')
         .find(`[data-cy=${otherUserId}]`)
