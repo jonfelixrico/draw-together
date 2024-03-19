@@ -9,7 +9,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "format": "prettier --write ./**/*.{js,ts,tsx,css,md,json}",
     "preview": "vite preview",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "server:dev": "cd ../server && yarn dev"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.1",
