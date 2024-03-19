@@ -34,4 +34,3 @@ jobs:
           start: yarn preview, yarn server:dev
           wait-on: http://localhost:4173, http://localhost:3000
           config: baseUrl=http://localhost:4173
-          headed: true
