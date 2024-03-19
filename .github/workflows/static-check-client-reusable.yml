@@ -1,4 +1,4 @@
-name: Verify Client
+name: Client -- static checking
 
 on:
   workflow_call:

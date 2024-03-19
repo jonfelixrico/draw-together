@@ -1,4 +1,4 @@
-name: Verify Server
+name: Server -- static checking
 
 on:
   workflow_call:
