@@ -17,7 +17,7 @@ jobs:
         run: yarn install
         working-directory: ./client
         shell: bash
-      - name: Install dependencies
+      - name: Run lint script
         run: yarn lint
         working-directory: ./client
         shell: bash
@@ -37,7 +37,7 @@ jobs:
         run: yarn install
         working-directory: ./client
         shell: bash
-      - name: Install dependencies
+      - name: Run build script
         run: yarn build
         working-directory: ./client
         shell: bash
