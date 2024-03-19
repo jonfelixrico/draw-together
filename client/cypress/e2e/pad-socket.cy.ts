@@ -20,15 +20,20 @@ describe('pad-socket', () => {
     cy.request({
       url: '/api/room',
       method: 'POST',
-    }).then((response) => {
-      roomId = response.body.id
-    }).then(() => createRoomSocket({
-      clientId: otherUserId,
-      name: 'Other user',
-      roomId: getRoomId(),
-    })).then((s: Socket) => {
-      socket = s
     })
+      .then((response) => {
+        roomId = response.body.id
+      })
+      .then(() =>
+        createRoomSocket({
+          clientId: otherUserId,
+          name: 'Other user',
+          roomId: getRoomId(),
+        })
+      )
+      .then((s: Socket) => {
+        socket = s
+      })
   })
 
   after(() => {
@@ -47,18 +52,20 @@ describe('pad-socket', () => {
     ]
 
     cy.visit(`/rooms/${getRoomId()}`)
-    cy.getCy('pad').should('exist').then(() => {
-      sendPadMessage({
-        PATH_DRAFT_START: {
-          id: pathId,
-          color: '#000000',
-          counter: ++counter,
-          points,
-          thickness: 5,
-          timestamp: Date.now(),
-        },
+    cy.getCy('pad')
+      .should('exist')
+      .then(() => {
+        sendPadMessage({
+          PATH_DRAFT_START: {
+            id: pathId,
+            color: '#000000',
+            counter: ++counter,
+            points,
+            thickness: 5,
+            timestamp: Date.now(),
+          },
+        })
       })
-    })
 
     cy.get(`[data-path-id=${pathId}]`)
       .should('exist')
@@ -67,22 +74,22 @@ describe('pad-socket', () => {
       .then(() => {
         while (points.length < 50) {
           const lastPt = points[points.length - 1]
-            const point = {
-              x: lastPt.x + 1,
-              y: lastPt.y + 1,
-            }
-    
-            points.push(point)
-    
-            sendPadMessage({
-              PATH_DRAFT_MOVE: {
-                id: pathId,
-                counter: ++counter,
-                point,
-              },
-            })
+          const point = {
+            x: lastPt.x + 1,
+            y: lastPt.y + 1,
+          }
+
+          points.push(point)
+
+          sendPadMessage({
+            PATH_DRAFT_MOVE: {
+              id: pathId,
+              counter: ++counter,
+              point,
+            },
+          })
         }
-    
+
         sendPadMessage({
           PATH_CREATE: {
             id: pathId,
