@@ -10,6 +10,7 @@
     "format": "prettier --write ./**/*.{js,ts,tsx,css,md,json}",
     "preview": "vite preview",
     "cypress:open": "cypress open",
+    "test:e2e": "cypress run",
     "server:dev": "cd ../server && yarn dev"
   },
   "dependencies": {
