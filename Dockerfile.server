@@ -1,0 +1,22 @@
+FROM node:20-alpine
+
+RUN mkdir -p /home/node/app/server
+WORKDIR /home/node/app
+
+COPY package.json ./
+COPY yarn.lock ./
+
+COPY server/package.json ./server
+COPY server/src ./server/src
+COPY server/.env ./server
+COPY server/tsconfig.json ./server
+
+RUN chown -R node:node /home/node/app
+USER node
+
+WORKDIR /home/node/app/server
+RUN yarn install
+RUN yarn build
+
+EXPOSE 3000
+ENTRYPOINT ["node", "dist/index.js"]
