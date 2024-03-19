@@ -2,7 +2,13 @@ import { useMemo } from 'react'
 import { PathRenderData } from '@/typings/pad.types'
 import { Dimensions } from '@/typings/geometry.types'
 
-export default function PadPath({ value, dimensions }: { value: PathRenderData, dimensions: Dimensions }) {
+export default function PadPath({
+  value,
+  dimensions,
+}: {
+  value: PathRenderData
+  dimensions: Dimensions
+}) {
   const { points, color, thickness } = value
 
   const pathCommands = useMemo(() => {

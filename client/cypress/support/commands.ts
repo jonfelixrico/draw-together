@@ -43,7 +43,7 @@ declare global {
       /**
        * Custom command to select DOM element by data-cy attribute.
        * This is a parent command.
-       * 
+       *
        * @example cy.getCy('greeting')
        */
       getCy(value: string): Chainable<JQuery<HTMLElement>>
@@ -63,9 +63,13 @@ Cypress.Commands.add('getCy', (value) => {
   return cy.get(`[data-cy=${value}]`)
 })
 
-Cypress.Commands.add('findCy', { prevSubject: true }, (subject: JQuery<HTMLElement>, value: string) => {
-  return cy.wrap(subject).get(`[data-cy=${value}]`)
-})
+Cypress.Commands.add(
+  'findCy',
+  { prevSubject: true },
+  (subject: JQuery<HTMLElement>, value: string) => {
+    return cy.wrap(subject).get(`[data-cy=${value}]`)
+  }
+)
 
 // Without this, TS will complain
 export {}

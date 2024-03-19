@@ -1,6 +1,6 @@
-import { createRoomSocket } from "@/utils/room-socket.util"
-import { nanoid } from "nanoid"
-import { Socket } from "socket.io-client"
+import { createRoomSocket } from '@/utils/room-socket.util'
+import { nanoid } from 'nanoid'
+import { Socket } from 'socket.io-client'
 import { PAD_SOCKET_EVENT, PadRequest } from '@/typings/pad-socket.types'
 
 describe('pad-socket', () => {
@@ -22,15 +22,14 @@ describe('pad-socket', () => {
       method: 'POST',
     }).then((response) => {
       roomId = response.body.id
-    
+
       cy.wrap(
         createRoomSocket({
           clientId: otherUserId,
           name: 'Other user',
           roomId: getRoomId(),
         })
-      )
-      .then((s: Socket) => {
+      ).then((s: Socket) => {
         socket = s
       })
     })
@@ -46,14 +45,16 @@ describe('pad-socket', () => {
     cy.visit(`/rooms/${getRoomId()}`)
     cy.getCy('pad').should('exist')
 
-    await new Promise(resolve => cy.wait(1000).then(resolve))
+    await new Promise((resolve) => cy.wait(1000).then(resolve))
 
     let counter = 0
-    const points = [{
-      x: 10,
-      y: 10
-    }]
-    
+    const points = [
+      {
+        x: 10,
+        y: 10,
+      },
+    ]
+
     sendPadMessage({
       PATH_DRAFT_START: {
         id: pathId,
@@ -61,8 +62,8 @@ describe('pad-socket', () => {
         counter: ++counter,
         points,
         thickness: 5,
-        timestamp: Date.now()
-      }
+        timestamp: Date.now(),
+      },
     })
 
     cy.get(`[data-path-id=${pathId}]`)
@@ -70,12 +71,12 @@ describe('pad-socket', () => {
       .findCy('rendered-path')
       .should('have.attr', 'data-points-length', 1)
 
-    while(points.length <= 50) {
-      await new Promise(resolve => cy.wait(50).then(resolve))
+    while (points.length <= 50) {
+      await new Promise((resolve) => cy.wait(50).then(resolve))
       const lastPt = points[points.length - 1]
       const point = {
         x: lastPt.x + 1,
-        y: lastPt.y + 1
+        y: lastPt.y + 1,
       }
 
       points.push(point)
@@ -84,8 +85,8 @@ describe('pad-socket', () => {
         PATH_DRAFT_MOVE: {
           id: pathId,
           counter: ++counter,
-          point
-        }
+          point,
+        },
       })
     }
 
@@ -96,7 +97,7 @@ describe('pad-socket', () => {
         points,
         thickness: 5,
         timestamp: Date.now(),
-      }
+      },
     })
 
     cy.get(`[data-path-id=${pathId}]`)
