@@ -28,6 +28,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
+          install: false
           working-directory: ./client
           build: yarn build
           start: yarn preview, cd ../server && yarn dev
