@@ -1,0 +1,11 @@
+name: Verify
+
+on:
+  push:
+    branches:
+      - '*'
+jobs:
+  verify-client:
+    uses: ./.github/workflows/static-check-client-reusable.yml
+  verify-server:
+    uses: ./.github/workflows/static-check-server-reusable.yml
