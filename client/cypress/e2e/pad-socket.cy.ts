@@ -37,12 +37,7 @@ describe('pad-socket', () => {
 
   const pathId = nanoid()
 
-  it('displays whats being drawn', async () => {
-    cy.visit(`/rooms/${getRoomId()}`)
-    cy.getCy('pad').should('exist')
-
-    await new Promise((resolve) => cy.wait(1000).then(resolve))
-
+  it('displays whats being drawn', () => {
     let counter = 0
     const points = [
       {
@@ -51,50 +46,53 @@ describe('pad-socket', () => {
       },
     ]
 
-    sendPadMessage({
-      PATH_DRAFT_START: {
-        id: pathId,
-        color: '#000000',
-        counter: ++counter,
-        points,
-        thickness: 5,
-        timestamp: Date.now(),
-      },
+    cy.visit(`/rooms/${getRoomId()}`)
+    cy.getCy('pad').should('exist').then(() => {
+      sendPadMessage({
+        PATH_DRAFT_START: {
+          id: pathId,
+          color: '#000000',
+          counter: ++counter,
+          points,
+          thickness: 5,
+          timestamp: Date.now(),
+        },
+      })
     })
 
     cy.get(`[data-path-id=${pathId}]`)
       .should('exist')
       .findCy('rendered-path')
       .should('have.attr', 'data-points-length', 1)
-
-    while (points.length <= 50) {
-      await new Promise((resolve) => cy.wait(50).then(resolve))
-      const lastPt = points[points.length - 1]
-      const point = {
-        x: lastPt.x + 1,
-        y: lastPt.y + 1,
-      }
-
-      points.push(point)
-
-      sendPadMessage({
-        PATH_DRAFT_MOVE: {
-          id: pathId,
-          counter: ++counter,
-          point,
-        },
+      .then(() => {
+        while (points.length < 50) {
+          const lastPt = points[points.length - 1]
+            const point = {
+              x: lastPt.x + 1,
+              y: lastPt.y + 1,
+            }
+    
+            points.push(point)
+    
+            sendPadMessage({
+              PATH_DRAFT_MOVE: {
+                id: pathId,
+                counter: ++counter,
+                point,
+              },
+            })
+        }
+    
+        sendPadMessage({
+          PATH_CREATE: {
+            id: pathId,
+            color: '#000000',
+            points,
+            thickness: 5,
+            timestamp: Date.now(),
+          },
+        })
       })
-    }
-
-    sendPadMessage({
-      PATH_CREATE: {
-        id: pathId,
-        color: '#000000',
-        points,
-        thickness: 5,
-        timestamp: Date.now(),
-      },
-    })
 
     cy.get(`[data-path-id=${pathId}]`)
       .findCy('rendered-path')
