@@ -34,3 +34,10 @@ jobs:
           start: yarn preview, yarn server:dev
           wait-on: http://localhost:4173, http://localhost:3000
           config: baseUrl=http://localhost:4173
+
+      - name: Create screenshot artifacts due to failure
+        uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: ./client/cypress/screenshots
