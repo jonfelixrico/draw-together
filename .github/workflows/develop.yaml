@@ -3,7 +3,7 @@ name: Develop
 on:
   push:
     branches:
-      - '*'
+      - '**'
 jobs:
   static-check-client:
     uses: ./.github/workflows/static-check-client-reusable.yml
