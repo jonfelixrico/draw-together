@@ -22,16 +22,12 @@ describe('pad-socket', () => {
       method: 'POST',
     }).then((response) => {
       roomId = response.body.id
-
-      cy.wrap(
-        createRoomSocket({
-          clientId: otherUserId,
-          name: 'Other user',
-          roomId: getRoomId(),
-        })
-      ).then((s: Socket) => {
-        socket = s
-      })
+    }).then(() => createRoomSocket({
+      clientId: otherUserId,
+      name: 'Other user',
+      roomId: getRoomId(),
+    })).then((s: Socket) => {
+      socket = s
     })
   })
 
