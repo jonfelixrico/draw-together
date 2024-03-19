@@ -1,0 +1,16 @@
+name: Develop
+
+on:
+  push:
+    branches:
+      - '**'
+jobs:
+  static-check-client:
+    uses: ./.github/workflows/static-check-client-reusable.yml
+  static-check-server:
+    uses: ./.github/workflows/static-check-server-reusable.yml
+  test-common:
+    needs:
+      - static-check-client
+      - static-check-server
+    uses: ./.github/workflows/test-common-reusable.yml

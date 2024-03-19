@@ -1,0 +1,43 @@
+name: Server -- static checking
+
+on:
+  workflow_call:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: yarn
+      - name: Install dependencies
+        run: yarn install
+        working-directory: ./server
+        shell: bash
+      - name: Run lint script
+        run: yarn lint
+        working-directory: ./server
+        shell: bash
+
+  build:
+    needs:
+      - lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: yarn
+      - name: Install dependencies
+        run: yarn install
+        working-directory: ./server
+        shell: bash
+      - name: Run build script
+        run: yarn build
+        working-directory: ./server
+        shell: bash

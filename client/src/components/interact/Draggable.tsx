@@ -46,7 +46,10 @@ export default function Draggable({
 
     const interactable = interact(elRef.current)
       .draggable({
-        onstart: ({ clientX0, clientY0 }: Interact.InteractEvent<'drag', 'start'>) => {
+        onstart: ({
+          clientX0,
+          clientY0,
+        }: Interact.InteractEvent<'drag', 'start'>) => {
           if (!elRef.current) {
             console.warn('Draggable: elRef is null!')
             return

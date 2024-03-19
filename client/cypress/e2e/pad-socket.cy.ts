@@ -1,6 +1,6 @@
-import { createRoomSocket } from "@/utils/room-socket.util"
-import { nanoid } from "nanoid"
-import { Socket } from "socket.io-client"
+import { createRoomSocket } from '@/utils/room-socket.util'
+import { nanoid } from 'nanoid'
+import { Socket } from 'socket.io-client'
 import { PAD_SOCKET_EVENT, PadRequest } from '@/typings/pad-socket.types'
 
 describe('pad-socket', () => {
@@ -20,10 +20,11 @@ describe('pad-socket', () => {
     cy.request({
       url: '/api/room',
       method: 'POST',
-    }).then((response) => {
-      roomId = response.body.id
-    
-      cy.wrap(
+    })
+      .then((response) => {
+        roomId = response.body.id
+      })
+      .then(() =>
         createRoomSocket({
           clientId: otherUserId,
           name: 'Other user',
@@ -33,7 +34,6 @@ describe('pad-socket', () => {
       .then((s: Socket) => {
         socket = s
       })
-    })
   })
 
   after(() => {
@@ -42,62 +42,64 @@ describe('pad-socket', () => {
 
   const pathId = nanoid()
 
-  it('displays whats being drawn', async () => {
-    cy.visit(`/rooms/${getRoomId()}`)
-    cy.getCy('pad').should('exist')
-
-    await new Promise(resolve => cy.wait(1000).then(resolve))
-
+  it('displays whats being drawn', () => {
     let counter = 0
-    const points = [{
-      x: 10,
-      y: 10
-    }]
-    
-    sendPadMessage({
-      PATH_DRAFT_START: {
-        id: pathId,
-        color: '#000000',
-        counter: ++counter,
-        points,
-        thickness: 5,
-        timestamp: Date.now()
-      }
-    })
+    const points = [
+      {
+        x: 10,
+        y: 10,
+      },
+    ]
+
+    cy.visit(`/rooms/${getRoomId()}`)
+    cy.getCy('pad')
+      .should('exist')
+      .then(() => {
+        sendPadMessage({
+          PATH_DRAFT_START: {
+            id: pathId,
+            color: '#000000',
+            counter: ++counter,
+            points,
+            thickness: 5,
+            timestamp: Date.now(),
+          },
+        })
+      })
 
     cy.get(`[data-path-id=${pathId}]`)
       .should('exist')
       .findCy('rendered-path')
       .should('have.attr', 'data-points-length', 1)
+      .then(() => {
+        while (points.length < 50) {
+          const lastPt = points[points.length - 1]
+          const point = {
+            x: lastPt.x + 1,
+            y: lastPt.y + 1,
+          }
 
-    while(points.length <= 50) {
-      await new Promise(resolve => cy.wait(50).then(resolve))
-      const lastPt = points[points.length - 1]
-      const point = {
-        x: lastPt.x + 1,
-        y: lastPt.y + 1
-      }
+          points.push(point)
 
-      points.push(point)
-
-      sendPadMessage({
-        PATH_DRAFT_MOVE: {
-          id: pathId,
-          counter: ++counter,
-          point
+          sendPadMessage({
+            PATH_DRAFT_MOVE: {
+              id: pathId,
+              counter: ++counter,
+              point,
+            },
+          })
         }
-      })
-    }
 
-    sendPadMessage({
-      PATH_CREATE: {
-        id: pathId,
-        color: '#000000',
-        points,
-        thickness: 5,
-        timestamp: Date.now(),
-      }
-    })
+        sendPadMessage({
+          PATH_CREATE: {
+            id: pathId,
+            color: '#000000',
+            points,
+            thickness: 5,
+            timestamp: Date.now(),
+          },
+        })
+      })
 
     cy.get(`[data-path-id=${pathId}]`)
       .findCy('rendered-path')
