@@ -21,7 +21,7 @@ jobs:
   build-server:
     needs:
       - test-common
-    uses: ./.github/workflows/build-server-reusable.yml
+    uses: ./.github/workflows/build-reusable.yml
     with:
       docker-push: ${{ github.event_name == 'push' }}
       tag-prepend: develop
