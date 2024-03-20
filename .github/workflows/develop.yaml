@@ -20,7 +20,7 @@ jobs:
     uses: ./.github/workflows/test-reusable.yml
   build:
     needs:
-      - test-common
+      - test
     uses: ./.github/workflows/build-reusable.yml
     with:
       docker-push: ${{ github.event_name == 'push' }}
