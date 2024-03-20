@@ -1,0 +1,27 @@
+name: To Develop
+
+on:
+  push:
+    branches:
+      - develop-*
+  pull_request:
+    branches:
+      - develop-*
+
+jobs:
+  static-check-client:
+    uses: ./.github/workflows/static-check-client-reusable.yml
+  static-check-server:
+    uses: ./.github/workflows/static-check-server-reusable.yml
+  test-common:
+    needs:
+      - static-check-client
+      - static-check-server
+    uses: ./.github/workflows/test-common-reusable.yml
+  build-server:
+    needs:
+      - test-common
+    uses: ./.github/workflows/build-server-reusable.yml
+    with:
+      docker-push: ${{ github.event_name == 'push' }}
+      tag-prefix: develop
