@@ -19,8 +19,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository }}
-          # TODO add version-aware tag
+          images: ghcr.io/${{ github.repository }}-server
           tags: |
             type=raw,value=server
       - name: Login to Docker Hub
