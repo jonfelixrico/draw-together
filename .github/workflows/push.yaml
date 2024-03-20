@@ -1,9 +1,9 @@
-name: Develop
+name: On Push
 
 on:
   push:
-    branches:
-      - '**'
+    branches-ignore:
+      - develop-*
 jobs:
   static-check-client:
     uses: ./.github/workflows/static-check-client-reusable.yml
