@@ -2,6 +2,10 @@ name: Server -- build
 
 on:
   workflow_call:
+    inputs:
+      docker-push:
+        type: boolean
+        required: true
 
 jobs:
   docker:
@@ -28,8 +32,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          # TODO set push flag
           context: .
           file: ./Dockerfile.server
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          push: ${{ inputs.docker-push }}
