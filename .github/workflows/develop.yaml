@@ -3,10 +3,10 @@ name: To Develop
 on:
   push:
     branches:
-      - develop-*
+      - develop-**
   pull_request:
     branches:
-      - develop-*
+      - develop-**
 
 jobs:
   static-check-client:
