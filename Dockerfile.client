@@ -2,6 +2,9 @@
 
 FROM nginx:alpine
 
+# We're only copying here because we assume that the client has been built outside of docker
+# This decision is mostly for GitHub actions. By building outside of Docker, we're able to use
+# the yarn cache of GH actions
 COPY client/dist /usr/share/nginx/html
 
 EXPOSE 80
