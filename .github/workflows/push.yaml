@@ -4,6 +4,7 @@ on:
   push:
     branches-ignore:
       - develop-*
+
 jobs:
   static-check-client:
     uses: ./.github/workflows/static-check-client-reusable.yml
