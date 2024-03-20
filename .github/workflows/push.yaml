@@ -10,8 +10,8 @@ jobs:
     uses: ./.github/workflows/static-check-client-reusable.yml
   static-check-server:
     uses: ./.github/workflows/static-check-server-reusable.yml
-  test-common:
+  test:
     needs:
       - static-check-client
       - static-check-server
-    uses: ./.github/workflows/test-common-reusable.yml
+    uses: ./.github/workflows/test-reusable.yml

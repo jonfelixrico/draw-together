@@ -13,15 +13,15 @@ jobs:
     uses: ./.github/workflows/static-check-client-reusable.yml
   static-check-server:
     uses: ./.github/workflows/static-check-server-reusable.yml
-  test-common:
+  test:
     needs:
       - static-check-client
       - static-check-server
-    uses: ./.github/workflows/test-common-reusable.yml
-  build-server:
+    uses: ./.github/workflows/test-reusable.yml
+  build:
     needs:
-      - test-common
-    uses: ./.github/workflows/build-server-reusable.yml
+      - test
+    uses: ./.github/workflows/build-reusable.yml
     with:
       docker-push: ${{ github.event_name == 'push' }}
-      tag-prepend: develop
+      tag-prepend: develop-
