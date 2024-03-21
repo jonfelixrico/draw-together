@@ -8,11 +8,15 @@ import { Room } from './room.class'
 export const INACTIVITY_THRESHOLD = 1000 * 60 * 30
 
 export class RoomService {
-  /*
+  /**
    * TODO persist room data
    * For simplicity, we're just storing them in-memory for now
+   * 
+   * This is public to be mockable by jest. This should NOT be accessed
+   * outside of tests.
+   * @private
    */
-  private rooms: Record<string, Room> = {}
+  public rooms: Record<string, Room> = {}
   private cronJob: CronJob
 
   constructor() {
@@ -25,7 +29,11 @@ export class RoomService {
     this.cronJob = new CronJob('* */1 * * * *', () => this.purgeInactiveRooms())
   }
 
-  private purgeInactiveRooms() {
+  /**
+   * Exposed as public for jest. Do NOT call in app code.
+   * @private 
+   */
+  purgeInactiveRooms() {
     const roomIds = Object.keys(this.rooms)
     const referenceTs = Date.now()
 
