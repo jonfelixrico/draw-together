@@ -7,7 +7,6 @@ import express from 'express'
 
 import { createServer } from 'http'
 import { Server } from 'socket.io'
-import { nanoid } from 'nanoid'
 import { socketIOHandler } from './socket-controllers/socket.controller'
 import roomService from '@/services/room.service'
 
