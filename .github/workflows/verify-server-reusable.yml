@@ -40,7 +40,7 @@ jobs:
         working-directory: ./server
         shell: bash
 
-  build:
+  test:
     needs:
       - build
       - lint
