@@ -10,20 +10,20 @@ export class Room {
     this._lastActivityTs = Date.now()
   }
 
-  bumpLastActivityTs () {
+  bumpLastActivityTs() {
     this._lastActivityTs = Date.now()
   }
 
-  addToHistory (event: unknown) {
+  addToHistory(event: unknown) {
     this.bumpLastActivityTs()
     this._history.push(event)
   }
 
-  get history () {
+  get history() {
     return this._history
   }
 
-  get lastActivityTs () {
+  get lastActivityTs() {
     return this._lastActivityTs
   }
 }

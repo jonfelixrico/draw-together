@@ -8,7 +8,7 @@ import { Room } from './room'
  */
 const rooms: Record<string, Room> = {}
 
-function createRoom () {
+function createRoom() {
   const id = nanoid()
   const room = new Room(id)
 
@@ -22,7 +22,7 @@ function getRoom(id: string) {
 
 /*
  * This is for cleaning up inactive rooms
- * 
+ *
  * Its performance will probably be bad if there are hundreds of rooms around.
  * Since the scale of the project is small, we'll choose simplicity over robustness.
  */
@@ -43,5 +43,5 @@ job.start()
 
 export default {
   createRoom,
-  getRoom
+  getRoom,
 }
