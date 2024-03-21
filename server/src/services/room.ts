@@ -3,7 +3,7 @@ export class Room {
    * TODO add types for the "abstract" event
    * For now, we'll just use unknown since this class doesn't care about what type it is, anyway
    */
-  private history: unknown[] = []
+  public history: unknown[] = []
   public lastActivityTs: number
 
   constructor(public readonly roomId: string) {
