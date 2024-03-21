@@ -22,7 +22,7 @@ export class Room {
 
 const rooms: Record<string, Room> = {}
 
-export function createRoom () {
+function createRoom () {
   const id = nanoid()
   const room = new Room(id)
 
@@ -30,6 +30,11 @@ export function createRoom () {
   return room
 }
 
-export function getRoom(id: string) {
+function getRoom(id: string) {
   return rooms[id]
+}
+
+export default {
+  createRoom,
+  getRoom
 }
