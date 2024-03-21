@@ -8,7 +8,7 @@ import express from 'express'
 import { createServer } from 'http'
 import { Server } from 'socket.io'
 import { socketIOHandler } from './socket-controllers/socket.controller'
-import roomService from '@/services/room.service'
+import roomService from './services/room.service'
 
 const app = express()
 const server = createServer(app)
