@@ -2,6 +2,10 @@ import { nanoid } from 'nanoid'
 import { CronJob } from 'cron'
 import { Room } from './room'
 
+/*
+ * TODO persist room data
+ * For simplicity, we're just storing them in-memory for now
+ */
 const rooms: Record<string, Room> = {}
 
 function createRoom () {
@@ -16,8 +20,13 @@ function getRoom(id: string) {
   return rooms[id]
 }
 
-// This is for cleaning up inactive rooms
-const job = new CronJob('* */5 * * * *', () => {
+/*
+ * This is for cleaning up inactive rooms
+ * 
+ * Its performance will probably be bad if there are hundreds of rooms around.
+ * Since the scale of the project is small, we'll choose simplicity over robustness.
+ */
+const job = new CronJob('* */1 * * * *', () => {
   const roomIds = Object.keys(rooms)
   const referenceTs = Date.now()
 
