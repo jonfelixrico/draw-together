@@ -22,7 +22,7 @@ export class RoomService {
       const referenceTs = Date.now()
 
       for (const roomId of roomIds) {
-        if (referenceTs - this.rooms[roomId].lastActivityTs < 5000) {
+        if (referenceTs - this.rooms[roomId].lastActivityTs < 1000 * 60 * 30) {
           return
         }
 
