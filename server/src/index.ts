@@ -7,8 +7,8 @@ import express from 'express'
 
 import { createServer } from 'http'
 import { Server } from 'socket.io'
-import { nanoid } from 'nanoid'
-import { socketIOHandler } from './socket.controller'
+import { socketIOHandler } from './socket-controllers/socket.controller'
+import roomService from './services/room.service'
 
 const app = express()
 const server = createServer(app)
@@ -18,21 +18,18 @@ app.get('/', (_, res) => {
   res.send('Hello World')
 })
 
-const roomObjects: Record<string, unknown> = {}
-
 app.post('/room', (_, res) => {
-  const id = nanoid()
-  roomObjects[id] = {}
+  const room = roomService.createRoom()
 
   res.json({
-    id,
+    id: room.roomId,
   })
 })
 
 app.get('/room/:roomId', (req, res) => {
   const { roomId } = req.params
 
-  if (!roomObjects[roomId]) {
+  if (!roomService.getRoom(roomId)) {
     return res.sendStatus(404)
   }
 

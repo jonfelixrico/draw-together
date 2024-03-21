@@ -1,32 +1,23 @@
 import { Socket } from 'socket.io'
+// TODO make absolute paths work
+import roomService from '../services/room.service'
 
-type RoomPadEvents = {
-  [roomId: string]: unknown[]
-}
-
-// TODO move this to its own service
-const roomPadEvents: RoomPadEvents = {}
 function saveEvent(roomId: string, event: unknown) {
-  if (!roomPadEvents[roomId]) {
-    roomPadEvents[roomId] = []
-  }
-
-  roomPadEvents[roomId].push(event)
+  const room = roomService.getRoom(roomId)
+  room.addToHistory(event)
 }
 
 function getEvents(roomId: string, start: number, end: number): unknown[] {
-  const events = roomPadEvents[roomId]
-  if (!events) {
-    return []
-  }
-
-  return events.slice(start, end)
+  const room = roomService.getRoom(roomId)
+  return room.history.slice(start, end)
 }
 
 function getEventCount(roomId: string): number {
-  return roomPadEvents[roomId]?.length ?? 0
+  const room = roomService.getRoom(roomId)
+  return room.history.length
 }
 
+// TODO use a common package for this project's types
 type HistoryReq = Partial<{
   LENGTH: true
   FETCH: [number, number]
