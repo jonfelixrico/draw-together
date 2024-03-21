@@ -8,7 +8,7 @@ function saveEvent(roomId: string, event: unknown) {
 
 function getEvents(roomId: string, start: number, end: number): unknown[] {
   const room = roomService.getRoom(roomId)
-  return room.history
+  return room.history.slice(start, end)
 }
 
 function getEventCount(roomId: string): number {
