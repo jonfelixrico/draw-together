@@ -1,3 +1,5 @@
+import { nanoid } from 'nanoid'
+
 type AbstractPadEvent = Record<string, unknown>
 
 export class Room {
@@ -16,4 +18,18 @@ export class Room {
     this.bumpLastActivityTs()
     this.history.push(event)
   }
+}
+
+const rooms: Record<string, Room> = {}
+
+export function createRoom () {
+  const id = nanoid()
+  const room = new Room(id)
+
+  rooms[id] = room
+  return room
+}
+
+export function getRoom(id: string) {
+  return rooms[id]
 }
