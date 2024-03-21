@@ -2,6 +2,11 @@ import { nanoid } from 'nanoid'
 import { CronJob } from 'cron'
 import { Room } from './room.class'
 
+/**
+ * In millis.
+ */
+export const INACTIVITY_THRESHOLD = 1000 * 60 * 30
+
 export class RoomService {
   /*
    * TODO persist room data
@@ -25,7 +30,7 @@ export class RoomService {
     const referenceTs = Date.now()
 
     for (const roomId of roomIds) {
-      if (referenceTs - this.rooms[roomId].lastActivityTs < 1000 * 60 * 30) {
+      if (referenceTs - this.rooms[roomId].lastActivityTs < INACTIVITY_THRESHOLD) {
         return
       }
 
