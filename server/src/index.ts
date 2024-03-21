@@ -8,7 +8,7 @@ import express from 'express'
 import { createServer } from 'http'
 import { Server } from 'socket.io'
 import { nanoid } from 'nanoid'
-import { socketIOHandler } from './socket.controller'
+import { socketIOHandler } from './controllers/socket.controller'
 
 const app = express()
 const server = createServer(app)
