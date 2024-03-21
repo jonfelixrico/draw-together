@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid'
 import { CronJob } from 'cron'
-import { Room } from './room-service.class'
+import { Room } from './room.class'
 
 /*
  * TODO persist room data
