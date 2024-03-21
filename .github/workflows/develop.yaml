@@ -9,18 +9,18 @@ on:
       - develop-**
 
 jobs:
-  static-check-client:
-    uses: ./.github/workflows/static-check-client-reusable.yml
-  static-check-server:
-    uses: ./.github/workflows/static-check-server-reusable.yml
-  test:
+  verify-client:
+    uses: ./.github/workflows/verify-client-reusable.yml
+  verify-server:
+    uses: ./.github/workflows/verify-server-reusable.yml
+  verify:
     needs:
-      - static-check-client
-      - static-check-server
-    uses: ./.github/workflows/test-reusable.yml
+      - verify-client
+      - verify-server
+    uses: ./.github/workflows/verify-reusable.yml
   build:
     needs:
-      - test
+      - verify
     uses: ./.github/workflows/build-reusable.yml
     with:
       docker-push: ${{ github.event_name == 'push' }}
