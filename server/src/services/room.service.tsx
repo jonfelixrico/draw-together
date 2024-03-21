@@ -16,6 +16,7 @@ function getRoom(id: string) {
   return rooms[id]
 }
 
+// This is for cleaning up inactive rooms
 const job = new CronJob('* */5 * * * *', () => {
   const roomIds = Object.keys(rooms)
   const referenceTs = Date.now()
