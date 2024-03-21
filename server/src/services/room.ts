@@ -1,7 +1,7 @@
 type UnknownPadEvent = Record<string, unknown>
 
 export class Room {
-  private history: UnknownPadEvent[]
+  private history: UnknownPadEvent[] = []
   public lastActivityTs: number
 
   constructor(public readonly roomId: string) {
