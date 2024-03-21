@@ -1,7 +1,9 @@
-type UnknownPadEvent = Record<string, unknown>
-
 export class Room {
-  private history: UnknownPadEvent[] = []
+  /*
+   * TODO add types for the "abstract" event
+   * For now, we'll just use unknown since this class doesn't care about what type it is, anyway
+   */
+  private history: unknown[] = []
   public lastActivityTs: number
 
   constructor(public readonly roomId: string) {
@@ -12,7 +14,7 @@ export class Room {
     this.lastActivityTs = Date.now()
   }
 
-  addToHistory (event: UnknownPadEvent) {
+  addToHistory (event: unknown) {
     this.bumpLastActivityTs()
     this.history.push(event)
   }
