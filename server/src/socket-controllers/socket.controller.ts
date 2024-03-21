@@ -42,12 +42,6 @@ export function socketIOHandler(server: Server) {
 
     // The purpose of this is to just relay the message to all participants
     socket.on('PAD', (payload: Record<string, unknown>) => {
-      console.debug(
-        'Relayed %o to room %s, from client %s',
-        payload,
-        roomId,
-        clientId
-      )
       socket.broadcast.to(roomId).emit('PAD', payload)
     })
 

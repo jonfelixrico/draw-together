@@ -4,7 +4,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "CommonJS",
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "resolveJsonModule": true,
     "outDir": "./dist",
     "removeComments": true,
