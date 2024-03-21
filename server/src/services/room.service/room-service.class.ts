@@ -17,19 +17,21 @@ export class RoomService {
      * Its performance will probably be bad if there are hundreds of rooms around.
      * Since the scale of the project is small, we'll choose simplicity over robustness.
      */
-    this.cronJob = new CronJob('* */1 * * * *', () => {
-      const roomIds = Object.keys(this.rooms)
-      const referenceTs = Date.now()
+    this.cronJob = new CronJob('* */1 * * * *', () => this.purgeInactiveRooms())
+  }
 
-      for (const roomId of roomIds) {
-        if (referenceTs - this.rooms[roomId].lastActivityTs < 1000 * 60 * 30) {
-          return
-        }
+  private purgeInactiveRooms() {
+    const roomIds = Object.keys(this.rooms)
+    const referenceTs = Date.now()
 
-        delete this.rooms[roomId]
-        console.debug('Room %s has been deleted due to inactivity', roomId)
+    for (const roomId of roomIds) {
+      if (referenceTs - this.rooms[roomId].lastActivityTs < 1000 * 60 * 30) {
+        return
       }
-    })
+
+      delete this.rooms[roomId]
+      console.debug('Room %s has been deleted due to inactivity', roomId)
+    }
   }
 
   createRoom() {
