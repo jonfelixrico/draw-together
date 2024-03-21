@@ -10,7 +10,7 @@ export class RoomService {
   private rooms: Record<string, Room> = {}
   private cronJob: CronJob
 
-  constructor () {
+  constructor() {
     /*
      * This is for cleaning up inactive rooms
      *
@@ -35,17 +35,16 @@ export class RoomService {
   createRoom() {
     const id = nanoid()
     const room = new Room(id)
-  
+
     this.rooms[id] = room
     return room
   }
 
-  getRoom (id: string) {
+  getRoom(id: string) {
     return this.rooms[id]
   }
 
-  start () {
+  start() {
     this.cronJob.start()
   }
 }
-
