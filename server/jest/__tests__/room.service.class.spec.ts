@@ -11,10 +11,14 @@ describe('room-service', () => {
 
     const service = new RoomService()
     service.rooms['room_id'] = room
+    service.rooms['dummy1'] = new Room('dummy1')
+    service.rooms['dummy2'] = new Room('dummy2')
+    service.rooms['dummy3'] = new Room('dummy3')
 
     expect(service.rooms).toEqual(expect.objectContaining({
       'room_id': expect.any(Room)
     }))
+    expect(Object.values(service.rooms)).toHaveLength(4)
 
     service.purgeInactiveRooms()
 
@@ -23,5 +27,21 @@ describe('room-service', () => {
         'room_id': expect.any(Room)
       })
     )
+    expect(Object.values(service.rooms)).toHaveLength(3)
+  })
+
+  it('does NOT purge rooms not crossing the inactivity threshold', () => {
+    const service = new RoomService()
+
+    // These should all be well above the threshold by default
+    service.rooms['dummy1'] = new Room('dummy1')
+    service.rooms['dummy2'] = new Room('dummy2')
+    service.rooms['dummy3'] = new Room('dummy3')
+
+    expect(Object.values(service.rooms)).toHaveLength(3)
+
+    // None should be purged
+    service.purgeInactiveRooms()
+    expect(Object.values(service.rooms)).toHaveLength(3)
   })
 })
