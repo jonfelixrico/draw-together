@@ -4,7 +4,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "CommonJS",
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "resolveJsonModule": true,
     "outDir": "./dist",
     "removeComments": true,
@@ -14,7 +14,10 @@
     "strict": true,
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["./src/**/*.ts"],
   "exclude": ["./node_modules", "./test/**/*.ts"]
