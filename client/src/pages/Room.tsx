@@ -21,6 +21,8 @@ import { Socket } from 'socket.io-client'
 import { PadEventsService } from '@/services/pad-events'
 import { useMount } from '@/hooks/lifecycle.hook'
 import { createRoomSocket } from '@/utils/room-socket.util'
+import store from '@/store'
+import { UiActions } from '@/store/ui.slice'
 
 enum RoomErrorType {
   NO_USERNAME,
@@ -44,6 +46,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     throw new RoomError(RoomErrorType.UNEXPECTED)
   }
 
+  store.dispatch(UiActions.setLoading(true))
   try {
     const { data } = await api.get<Room>(`room/${params.roomId}`)
     const username = window.localStorage.getItem('username')
@@ -82,6 +85,8 @@ export const loader: LoaderFunction = async ({ params }) => {
     }
 
     throw new RoomError(RoomErrorType.UNEXPECTED)
+  } finally {
+    store.dispatch(UiActions.setLoading(false))
   }
 }
 
