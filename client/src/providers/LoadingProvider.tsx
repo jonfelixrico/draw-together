@@ -13,7 +13,7 @@ export default function LoadingProvider ({
   return <div className="position-relative">
     <If condition={showLoading}>
       <Then>
-        <div className="d-flex flex-column justify-content-center position-absolute h-100 w-100">
+        <div className="d-flex flex-column justify-content-center position-absolute h-100 w-100 align-items-center">
           <Spinner />
         </div>
       </Then>
