@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import Spinner from "react-bootstrap/Spinner";
 import { If, Then } from "react-if";
 
-export default function LoaderProvider ({
+export default function LoadingProvider ({
   children
 }: {
   children: ReactNode
