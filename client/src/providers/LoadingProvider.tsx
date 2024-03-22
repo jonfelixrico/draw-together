@@ -9,16 +9,23 @@ export default function LoadingProvider ({
   children: ReactNode
 }) {
   const showLoading = useAppSelector(state => state.ui.loading)
-
+  
   return <div className="position-relative">
+    {/* This is the loading overlay */}
     <If condition={showLoading}>
       <Then>
-        <div className="d-flex flex-column justify-content-center position-absolute h-100 w-100 align-items-center">
+        <div
+          className="d-flex flex-column justify-content-center position-absolute h-100 w-100 align-items-center"
+          style={{ zIndex: 10 }}
+        >
           <Spinner />
         </div>
       </Then>
     </If> 
-
-    {children}
+    {/* 
+      The intention with isolate is to prevent any children of this div from visually overlapping the overlay
+      even if they have a higher z-index value.
+    */}
+    <div className="isolate">{children}</div>
   </div>
 }
