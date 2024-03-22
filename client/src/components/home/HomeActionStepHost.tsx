@@ -19,16 +19,7 @@ export default function HomeActionStepHost() {
       const { data } = await api.post<ResponseBody>('room')
       
       navigate(`rooms/${data.id}`)
-      /*
-       * We're not doing setLoading(false) for the success use case because we'll let
-       * the rooms/:id route to clean it up for us.
-       * 
-       * This is also a UX-related measure. If we hide the spinner on the success case and
-       * somehow the spinner in the room page got delayed, the user will be able to perceive
-       * a brief moment of unresponsiveness.
-       * 
-       * Room pag spinner can get delayed if the room page code is still being lazy-loaded.
-       */
+      // We'll be leaving the closing of the loading overlay to the room page
     } catch (e) {
       // TODO show user-friendly error
       console.log('Error encoutnered room creation', e)
