@@ -16,9 +16,12 @@ export default function LoadingProvider ({
       <Then>
         <div
           className="d-flex flex-column justify-content-center position-absolute h-100 w-100 align-items-center"
-          style={{ zIndex: 10 }}
+          style={{
+            zIndex: 10,
+            background: 'rgba(0, 0, 0, 0.38)',
+          }}
         >
-          <Spinner />
+          <Spinner variant="light" />
         </div>
       </Then>
     </If> 
