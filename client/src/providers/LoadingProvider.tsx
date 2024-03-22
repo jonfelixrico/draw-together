@@ -20,6 +20,7 @@ export default function LoadingProvider ({
             zIndex: 10,
             background: 'rgba(0, 0, 0, 0.38)',
           }}
+          data-cy="loading-overlay"
         >
           <Spinner variant="light" />
         </div>
