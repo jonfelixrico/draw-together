@@ -30,38 +30,39 @@ export default function RoomContent() {
     >
       <Row className="h-100">
         <Col xs="2" className="py-2">
-          <div className="h-100 d-flex flex-column justify-content-between">
-            <div>
-              <div>Connected Users</div>
-              <ol data-cy="participants">
-                {userList.map(({ id, name }) => {
-                  return (
-                    <li data-cy={id} key={id}>
-                      {name}
-                    </li>
-                  )
-                })}
-              </ol>
-            </div>
-
-            <PadPathControl />
-          </div>
+          <div>Connected Users</div>
+          <ol data-cy="participants">
+            {userList.map(({ id, name }) => {
+              return (
+                <li data-cy={id} key={id}>
+                  {name}
+                </li>
+              )
+            })}
+          </ol>
         </Col>
-        <Col className="border p-0">
-          {/* Intermediate div is present because we can't easily attach ref to Col */}
-          <div className="h-100 position-relative" ref={ref}>
-            <div
-              className="position-absolute"
-              style={{ zIndex: 2 }}
-              data-cy="pad"
-            >
-              <DrawServiceProvider>
-                <PadInput dimensions={dimensions} />
-              </DrawServiceProvider>
-            </div>
+        <Col>
+          <Row className="flex-column h-100 gy-2">
+            <Col>
+              <div className="h-100 position-relative border p-0" ref={ref}>
+                <div
+                  className="position-absolute"
+                  style={{ zIndex: 2 }}
+                  data-cy="pad"
+                >
+                  <DrawServiceProvider>
+                    <PadInput dimensions={dimensions} />
+                  </DrawServiceProvider>
+                </div>
 
-            <PadContentRenderer dimensions={dimensions} />
-          </div>
+                <PadContentRenderer dimensions={dimensions} />
+              </div>
+            </Col>
+            <Col xs="auto">
+              <PadPathControl />
+            </Col>
+            {/* Intermediate div is present because we can't easily attach ref to Col */}
+          </Row>
         </Col>
       </Row>
     </Container>
