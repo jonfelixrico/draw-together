@@ -44,7 +44,9 @@ describe('pre-room', () => {
     cy.visit('/')
 
     cy.getCy('host-action').find('button').click()
+    cy.getCy('loading-overlay').should('exist')
     cy.location('pathname').should('include', '/rooms/')
+    cy.getCy('loading-overlay').should('not.exist')
   })
 
   it('supports joining', () => {
@@ -58,7 +60,14 @@ describe('pre-room', () => {
       cy.getCy('join-action').find('input').type(id)
       cy.getCy('join-action').find('button').click()
 
+      /*
+       * Overlay testing was only added here because Cypress doesn't support Vite 5 for component tests as of writing.
+       * TODO give the loading overlay its own component test once Cypress supports Vite 5
+       */
+      cy.getCy('loading-overlay').should('exist')
+
       cy.getCy('room-page').should('exist')
+      cy.getCy('loading-overlay').should('not.exist')
     })
   })
 

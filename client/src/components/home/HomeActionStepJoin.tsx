@@ -4,10 +4,18 @@ import Stack from 'react-bootstrap/Stack'
 import Card from 'react-bootstrap/Card'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useLoading } from '@/hooks/loading.hook'
 
 export default function HomeActionStepJoin() {
   const [roomId, setRoomId] = useState('')
   const navigate = useNavigate()
+  const { setLoading } = useLoading()
+
+  function joinRoom(roomId: string) {
+    // We'll be letting the room page be the one to remove the loading overlay.
+    setLoading(true)
+    navigate(`/rooms/${roomId}`)
+  }
 
   return (
     <Card className="h-100" data-cy="join-action">
@@ -21,10 +29,7 @@ export default function HomeActionStepJoin() {
             onChange={(event) => setRoomId(event.target.value)}
           />
 
-          <Button
-            disabled={!roomId}
-            onClick={() => navigate(`/rooms/${roomId}`)}
-          >
+          <Button disabled={!roomId} onClick={() => joinRoom(roomId)}>
             Join
           </Button>
         </Stack>
