@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface UiState {
   loading: boolean
@@ -7,13 +7,13 @@ interface UiState {
 export const uiSlice = createSlice({
   name: 'ui',
   initialState: {
-    loading: false
+    loading: false,
   } as UiState,
   reducers: {
-    setLoading (state, { payload }: PayloadAction<boolean>) {
+    setLoading(state, { payload }: PayloadAction<boolean>) {
       state.loading = payload
-    }
-  } 
+    },
+  },
 })
 
 export const UiActions = uiSlice.actions

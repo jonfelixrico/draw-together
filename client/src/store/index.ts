@@ -5,7 +5,7 @@ import uiReducer from './ui.slice'
 const store = configureStore({
   reducer: {
     padPath: padReducer,
-    ui: uiReducer
+    ui: uiReducer,
   },
 })
 

@@ -17,7 +17,7 @@ export default function HomeActionStepHost() {
     setLoading(true)
     try {
       const { data } = await api.post<ResponseBody>('room')
-      
+
       navigate(`rooms/${data.id}`)
       // We'll be leaving the closing of the loading overlay to the room page
     } catch (e) {

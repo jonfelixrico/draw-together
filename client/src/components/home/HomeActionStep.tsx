@@ -23,7 +23,7 @@ export default function HomeActionStep({
         </div>
       </div>
 
-      <Row className='gy-3'>
+      <Row className="gy-3">
         <Col sm="12" md>
           <HomeActionStepHost />
         </Col>
