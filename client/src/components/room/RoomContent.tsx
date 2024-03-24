@@ -40,6 +40,8 @@ export default function RoomContent() {
         <Col>
           <Row className="flex-column h-100 gy-2">
             <Col>
+
+              {/* Intermediate div is present because we can't easily attach ref to Col */}
               <div className="h-100 position-relative border p-0" ref={ref}>
                 <div
                   className="position-absolute"
@@ -57,7 +59,6 @@ export default function RoomContent() {
             <Col xs="auto">
               <PadPathControl />
             </Col>
-            {/* Intermediate div is present because we can't easily attach ref to Col */}
           </Row>
         </Col>
       </Row>
