@@ -11,6 +11,7 @@ import PadPathControl from '@/components/pad/PadPathControl'
 import ParticipantsList from '@/modules/participants/ParticipantsList'
 import { useScreen } from '@/modules/common/screen.hook'
 import { If, Then } from 'react-if'
+import ParticipantsModalButton from '@/modules/participants/ParticipantsModalButton'
 
 export default function RoomContent() {
   useParticipantWatcher()
@@ -56,7 +57,19 @@ export default function RoomContent() {
               </div>
             </Col>
             <Col xs="auto">
-              <PadPathControl />
+              <Row>
+                <If condition={screen.lt.lg}>
+                  <Then>
+                    <Col xs="auto">
+                      <ParticipantsModalButton />
+                    </Col>
+                  </Then>
+                </If>
+                
+                <Col>
+                  <PadPathControl />
+                </Col>
+              </Row>
             </Col>
           </Row>
         </Col>
