@@ -11,7 +11,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { ConnectedParticipant, SocketActions } from '@/store/socket.slice'
 
-export function useParticipantChangesListener() {
+export function useParticipantWatcher() {
   const dispatch = useAppDispatch()
   const setParticipants = useCallback(
     (participants: ConnectedParticipant[]) => {

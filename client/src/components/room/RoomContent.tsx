@@ -1,7 +1,7 @@
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { useConnectedUsers } from './hooks/connected-users.hook'
+import { useConnectedUsers, useParticipantWatcher } from './hooks/connected-users.hook'
 import { useMemo } from 'react'
 import sortBy from 'lodash/sortBy'
 import { useMeasure } from 'react-use'
@@ -12,6 +12,7 @@ import { usePathSocketWatcher } from './service/socket-path-watcher.hook'
 import PadPathControl from '@/components/pad/PadPathControl'
 
 export default function RoomContent() {
+  useParticipantWatcher()
   const users = useConnectedUsers()
   const userList = useMemo(() => {
     return sortBy(Object.values(users), ({ name }) => name)
