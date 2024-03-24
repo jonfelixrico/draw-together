@@ -33,7 +33,7 @@ export default function RoomContent() {
         <If condition={screen.gt.md}>
           <Then>
             <Col xs="2" className="py-2" data-cy="participants-drawer">
-              <div>Participants</div>
+              <div className="h5">Participants</div>
               <ParticipantsList />
             </Col>
           </Then>
