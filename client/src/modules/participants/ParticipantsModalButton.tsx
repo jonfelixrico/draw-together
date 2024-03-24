@@ -26,7 +26,7 @@ export default function ParticipantsModalButton() {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button onClick={() => setOpen(false)} variant={'secondary'}>
+          <Button onClick={() => setOpen(false)} variant="secondary">
             Close
           </Button>
         </Modal.Footer>
