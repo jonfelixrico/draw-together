@@ -62,8 +62,8 @@ describe('pre-room', () => {
        * This is to allow our asserts for loading-overlay be able to find it even if the server is fast.
        * There have been cases where e2e tests fail because loading-overlay can't be found.
        */
-      cy.intercept('/api/room/*', req => {
-        req.continue(res => {
+      cy.intercept('/api/room/*', (req) => {
+        req.continue((res) => {
           res.setDelay(500)
         })
       })
