@@ -1,23 +1,24 @@
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { useConnectedUsers } from './hooks/connected-users.hook'
-import { useMemo } from 'react'
-import sortBy from 'lodash/sortBy'
+import { useParticipantWatcher } from '@/modules/participants/participants.hook'
 import { useMeasure } from 'react-use'
 import PadContentRenderer from '@/components/pad/PadContentRenderer'
 import { PadInput } from '@/components/pad/PadInput'
 import DrawServiceProvider from './service/DrawServiceProvider'
 import { usePathSocketWatcher } from './service/socket-path-watcher.hook'
 import PadPathControl from '@/components/pad/PadPathControl'
+import ParticipantsList from '@/modules/participants/ParticipantsList'
+import { useScreen } from '@/modules/common/screen.hook'
+import { If, Then } from 'react-if'
+import ParticipantsModalButton from '@/modules/participants/ParticipantsModalButton'
 
 export default function RoomContent() {
-  const users = useConnectedUsers()
-  const userList = useMemo(() => {
-    return sortBy(Object.values(users), ({ name }) => name)
-  }, [users])
+  useParticipantWatcher()
   const [ref, dimensions] = useMeasure<HTMLDivElement>()
   usePathSocketWatcher()
+
+  const screen = useScreen()
 
   return (
     <Container
@@ -29,39 +30,54 @@ export default function RoomContent() {
       }}
     >
       <Row className="h-100">
-        <Col xs="2" className="py-2">
-          <div className="h-100 d-flex flex-column justify-content-between">
-            <div>
-              <div>Connected Users</div>
-              <ol data-cy="participants">
-                {userList.map(({ id, name }) => {
-                  return (
-                    <li data-cy={id} key={id}>
-                      {name}
-                    </li>
-                  )
-                })}
-              </ol>
-            </div>
+        <If condition={screen.gt.md}>
+          <Then>
+            <Col xs="2" className="py-2" data-cy="participants-drawer">
+              <div className="h5">Participants</div>
+              <ParticipantsList />
+            </Col>
+          </Then>
+        </If>
+        <Col>
+          <Row className="flex-column h-100 gy-2">
+            <Col className="pt-2">
+              {/* Intermediate div is present because we can't easily attach ref to Col */}
+              <div
+                className="h-100 w-100 position-relative border"
+                ref={ref}
+                style={dimensions}
+              >
+                <div
+                  className="position-absolute"
+                  style={{ zIndex: 2 }}
+                  data-cy="pad"
+                >
+                  <DrawServiceProvider>
+                    <PadInput dimensions={dimensions} />
+                  </DrawServiceProvider>
+                </div>
 
-            <PadPathControl />
-          </div>
-        </Col>
-        <Col className="border p-0">
-          {/* Intermediate div is present because we can't easily attach ref to Col */}
-          <div className="h-100 position-relative" ref={ref}>
-            <div
-              className="position-absolute"
-              style={{ zIndex: 2 }}
-              data-cy="pad"
-            >
-              <DrawServiceProvider>
-                <PadInput dimensions={dimensions} />
-              </DrawServiceProvider>
-            </div>
+                <div className="position-absolute" style={{ zIndex: 1 }}>
+                  <PadContentRenderer dimensions={dimensions} />
+                </div>
+              </div>
+            </Col>
+            <Col xs="auto">
+              <Row>
+                <If condition={screen.lt.lg}>
+                  <Then>
+                    <Col xs="auto">
+                      <ParticipantsModalButton />
+                    </Col>
+                  </Then>
+                </If>
 
-            <PadContentRenderer dimensions={dimensions} />
-          </div>
+                <Col>
+                  <PadPathControl />
+                </Col>
+              </Row>
+            </Col>
+          </Row>
         </Col>
       </Row>
     </Container>
