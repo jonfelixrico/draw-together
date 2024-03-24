@@ -9,11 +9,15 @@ import DrawServiceProvider from './service/DrawServiceProvider'
 import { usePathSocketWatcher } from './service/socket-path-watcher.hook'
 import PadPathControl from '@/components/pad/PadPathControl'
 import ParticipantsList from '@/modules/participants/ParticipantsList'
+import { useScreen } from '@/modules/common/screen.hook'
+import { If, Then } from 'react-if'
 
 export default function RoomContent() {
   useParticipantWatcher()
   const [ref, dimensions] = useMeasure<HTMLDivElement>()
   usePathSocketWatcher()
+
+  const screen = useScreen()
 
   return (
     <Container
@@ -25,10 +29,14 @@ export default function RoomContent() {
       }}
     >
       <Row className="h-100">
-        <Col xs="2" className="py-2">
-          <div>Connected Users</div>
-          <ParticipantsList />
-        </Col>
+        <If condition={screen.gt.md}>
+          <Then>
+            <Col xs="2" className="py-2">
+              <div>Connected Users</div>
+              <ParticipantsList />
+            </Col>
+          </Then>
+        </If>
         <Col>
           <Row className="flex-column h-100 gy-2">
             <Col>
