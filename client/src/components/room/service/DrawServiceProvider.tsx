@@ -5,7 +5,7 @@ import {
   PathInputService,
   PathInputServiceProvider,
 } from '@/components/pad/hooks/path-input.hook'
-import { useSendMessage } from '@/components/room/hooks/room-socket.hook'
+import { useSendMessage } from '@/hooks/room/room-socket.hook'
 import { PathData } from '@/typings/pad.types'
 import {
   PadPathActions,

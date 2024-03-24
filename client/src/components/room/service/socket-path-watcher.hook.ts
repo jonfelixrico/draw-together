@@ -6,7 +6,7 @@ import {
   PathDraftStartPayload,
   PadSocketCode,
 } from '@/typings/pad-socket.types'
-import { useMessageEffect } from '@/components/room/hooks/room-socket.hook'
+import { useMessageEffect } from '@/hooks/room/room-socket.hook'
 import { useCallback } from 'react'
 
 export function usePathSocketWatcher() {

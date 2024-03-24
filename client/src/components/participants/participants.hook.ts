@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from 'react'
-import { useRoomSocket } from './room-socket.hook'
+import { useRoomSocket } from '@/hooks/room/room-socket.hook'
 import pickBy from 'lodash/pickBy'
 import { useSocketOn } from '@/hooks/socket.hook'
 import {
