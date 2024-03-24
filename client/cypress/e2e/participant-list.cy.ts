@@ -79,4 +79,15 @@ describe('participant-list', () => {
       cy.getCy('participants').find(`[data-cy=${otherUserId}]`).should('exist')
     })
   })
+
+  it('should show modal button for smaller screens instead of drawer', () => {
+    cy.viewport('iphone-xr')
+    cy.visit(`/rooms/${getRoomId()}`)
+
+    cy.getCy('participants-drawer').should('not.exist')
+
+    cy.getCy('participants-modal').should('not.exist')
+    cy.getCy('participants-modal-button').should('exist').click()
+    cy.getCy('participants-modal').should('exist')
+  })
 })
