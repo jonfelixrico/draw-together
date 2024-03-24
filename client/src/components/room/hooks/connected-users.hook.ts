@@ -75,8 +75,12 @@ export function useParticipantWatcher() {
   )
 }
 
+export function useParticipants() {
+  return useAppSelector((state) => state.socket.participants)
+}
+
 export function useConnectedUsers() {
-  const participantsMap = useAppSelector((state) => state.socket.participants)
+  const participantsMap = useParticipants() 
   return useMemo(
     () => pickBy(participantsMap, (p) => p.isConnected),
     [participantsMap]
