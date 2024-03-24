@@ -9,19 +9,20 @@ import {
   ServerSocketCode,
 } from '@/typings/server-socket.types'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { ConnectedParticipant, SocketActions } from '@/store/socket.slice'
+import { SocketActions } from '@/store/socket.slice'
+import { Participant } from './participants.types'
 
 export function useParticipantWatcher() {
   const dispatch = useAppDispatch()
   const setParticipants = useCallback(
-    (participants: ConnectedParticipant[]) => {
+    (participants: Participant[]) => {
       dispatch(SocketActions.setParticipants(participants))
     },
     [dispatch]
   )
 
   const setParticipant = useCallback(
-    (participant: ConnectedParticipant) => {
+    (participant: Participant) => {
       dispatch(SocketActions.setParticipant(participant))
     },
     [dispatch]
