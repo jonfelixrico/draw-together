@@ -40,10 +40,10 @@ export default function RoomContent() {
         </If>
         <Col>
           <Row className="flex-column h-100 gy-2">
-            <Col>
+            <Col className="pt-2">
               {/* Intermediate div is present because we can't easily attach ref to Col */}
               <div
-                className="h-100 w-100 position-relative border p-0"
+                className="h-100 w-100 position-relative border"
                 ref={ref}
                 style={dimensions}
               >

@@ -83,7 +83,7 @@ describe('participant-list', () => {
   /*
    * This only intends to test that responsiveness is in effect. Testing of modal behavior
    * should be done in its own component test.
-   * 
+   *
    * TODO create component tests for the modal itself
    */
   it('should show modal button for smaller screens instead of drawer', () => {
