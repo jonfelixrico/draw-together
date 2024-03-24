@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react'
-import { useRoomSocket } from '@/hooks/room/room-socket.hook'
+import { useRoomSocket } from '@/modules/socket/room-socket.hook'
 import pickBy from 'lodash/pickBy'
-import { useSocketOn } from '@/hooks/socket.hook'
+import { useSocketOn } from '@/modules/socket/socket.hook'
 import {
   SERVER_SOCKET_EVENT,
   ServerReq,
