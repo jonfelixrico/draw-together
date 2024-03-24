@@ -51,9 +51,7 @@ describe('participant-list', () => {
     cy.visit(`/rooms/${getRoomId()}`)
 
     // other user shouldn't be connected yet
-    cy.getCy('participants')
-      .findCy(otherUserId) 
-      .should('not.exist')
+    cy.getCy('participants').findCy(otherUserId).should('not.exist')
 
     startSocket().then((socket: Socket) => {
       // at this point, other user has joined
@@ -67,7 +65,7 @@ describe('participant-list', () => {
 
       // since we disconnected the socket for the other user, their name should show offline
       cy.getCy('participants')
-        .findCy(otherUserId)  
+        .findCy(otherUserId)
         .findCy('offline-badge')
         .should('exist')
     })
