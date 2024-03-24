@@ -42,7 +42,11 @@ export default function RoomContent() {
           <Row className="flex-column h-100 gy-2">
             <Col>
               {/* Intermediate div is present because we can't easily attach ref to Col */}
-              <div className="h-100 w-100 position-relative border p-0" ref={ref} style={dimensions}>
+              <div
+                className="h-100 w-100 position-relative border p-0"
+                ref={ref}
+                style={dimensions}
+              >
                 <div
                   className="position-absolute"
                   style={{ zIndex: 2 }}
@@ -53,7 +57,7 @@ export default function RoomContent() {
                   </DrawServiceProvider>
                 </div>
 
-                <div className='position-absolute' style={{ zIndex: 1 }}>
+                <div className="position-absolute" style={{ zIndex: 1 }}>
                   <PadContentRenderer dimensions={dimensions} />
                 </div>
               </div>
