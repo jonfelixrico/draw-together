@@ -1,4 +1,4 @@
-import { findLastIndex } from 'lodash'
+import findLastIndex from 'lodash/findLastIndex'
 import { useMemo } from 'react'
 import { useWindowSize } from 'react-use'
 

@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useAppSelector } from '@/store/hooks'
-import { sortBy } from 'lodash'
+import sortBy from 'lodash/sortBy'
 import { Dimensions } from '@/typings/geometry.types'
 import PadPath from './PadPath'
 
