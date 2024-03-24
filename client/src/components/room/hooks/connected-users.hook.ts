@@ -1,7 +1,6 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useRoomSocket } from './room-socket.hook'
-import { useImmer } from 'use-immer'
-import keyBy from 'lodash/keyBy'
+import pickBy from 'lodash/pickBy'
 import { useSocketOn } from '@/hooks/socket.hook'
 import {
   SERVER_SOCKET_EVENT,
@@ -9,14 +8,30 @@ import {
   ServerResp,
   ServerSocketCode,
 } from '@/typings/server-socket.types'
-
-interface ConnectedUser {
-  id: string
-  name: string
-}
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { ConnectedParticipant, SocketActions } from '@/store/socket.slice'
 
 export function useConnectedUsers() {
-  const [userMap, setUserMap] = useImmer<Record<string, ConnectedUser>>({})
+  const participantsMap = useAppSelector((state) => state.socket.participants)
+  const connectedParticipants = useMemo(() => {
+    return pickBy(participantsMap, (p) => p.isConnected)
+  }, [participantsMap])
+
+  const dispatch = useAppDispatch()
+  const setParticipants = useCallback(
+    (participants: ConnectedParticipant[]) => {
+      dispatch(SocketActions.setParticipants(participants))
+    },
+    [dispatch]
+  )
+
+  const setParticipant = useCallback(
+    (participant: ConnectedParticipant) => {
+      dispatch(SocketActions.setParticipant(participant))
+    },
+    [dispatch]
+  )
+
   const socket = useRoomSocket()
 
   useEffect(() => {
@@ -29,28 +44,32 @@ export function useConnectedUsers() {
         return
       }
 
-      setUserMap(keyBy(CONN_LIST, ({ id }) => id))
+      setParticipants(
+        CONN_LIST.map((p) => {
+          return {
+            ...p,
+            /*
+             * isConnected is hardcoded as true because CONN_LIST only shows users
+             * which are connected, and not those who previously joined then left
+             */
+            isConnected: true,
+          }
+        })
+      )
     }
 
     getList()
-  }, [socket, setUserMap])
+  }, [socket, setParticipants])
 
   const handler = useCallback(
     (payload: NonNullable<ServerResp[ServerSocketCode.CONN_ACTIVITY]>) => {
-      setUserMap((map) => {
-        if (payload.action === 'leave') {
-          delete map[payload.id]
-          return
-        }
-
-        // reaching this point means the user joined
-        map[payload.id] = {
-          id: payload.id,
-          name: payload.name,
-        }
+      const { action, ...participant } = payload
+      setParticipant({
+        ...participant,
+        isConnected: action === 'join',
       })
     },
-    [setUserMap]
+    [setParticipant]
   )
 
   useSocketOn(
@@ -60,5 +79,5 @@ export function useConnectedUsers() {
     handler
   )
 
-  return userMap
+  return connectedParticipants
 }
