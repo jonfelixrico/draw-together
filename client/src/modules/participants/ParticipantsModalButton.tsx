@@ -14,13 +14,15 @@ export default function ParticipantsModalButton() {
     <Modal show={open} onHide={() => setOpen(false)}>
       <Modal.Header closeButton>
         <Modal.Title>Participants</Modal.Title>
-        <Modal.Body>
-          <ParticipantsList />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={() => setOpen(false)} variant={"secondary"}>Close</Button>
-        </Modal.Footer>
       </Modal.Header>
+      
+      <Modal.Body>
+        <ParticipantsList />
+      </Modal.Body>
+      
+      <Modal.Footer>
+        <Button onClick={() => setOpen(false)} variant={"secondary"}>Close</Button>
+      </Modal.Footer>
     </Modal>
   </>
 }
