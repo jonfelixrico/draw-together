@@ -12,7 +12,7 @@ export default function ParticipantsModalButton() {
         Show Participants
       </Button>
 
-      <Modal show={open} onHide={() => setOpen(false)} data-cy="participants-modal">
+      <Modal show={open} onHide={() => setOpen(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Participants</Modal.Title>
         </Modal.Header>
