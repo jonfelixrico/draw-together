@@ -66,7 +66,7 @@ export function useScreen() {
     const map = generateBoolMap()
 
     for (let i = 0; i < SORTED_BREAKPOINTS.length - 1; i++) {
-      map[SORTED_BREAKPOINTS[i].breakpoint] = i > bpIdx
+      map[SORTED_BREAKPOINTS[i].breakpoint] = i < bpIdx
     }
 
     return map
@@ -76,7 +76,7 @@ export function useScreen() {
     const map = generateBoolMap()
 
     for (let i = 0; i < SORTED_BREAKPOINTS.length - 1; i++) {
-      map[SORTED_BREAKPOINTS[i].breakpoint] = i < bpIdx
+      map[SORTED_BREAKPOINTS[i].breakpoint] = i > bpIdx
     }
 
     return map
