@@ -1,8 +1,8 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-interface ConnectedParticipant {
+export interface ConnectedParticipant {
   id: string
-  isConnected: boolean 
+  isConnected: boolean
   name: string
 }
 
@@ -13,19 +13,25 @@ interface SocketSlice {
 export const socketSlice = createSlice({
   name: 'socket',
   initialState: {
-    participants: {}
+    participants: {},
   } as SocketSlice,
   reducers: {
-    setParticipant: (state, { payload }: PayloadAction<ConnectedParticipant>) => {
+    setParticipant: (
+      state,
+      { payload }: PayloadAction<ConnectedParticipant>
+    ) => {
       state.participants[payload.id] = payload
     },
 
-    setParticipants: (state, { payload }: PayloadAction<ConnectedParticipant[]>) => {
+    setParticipants: (
+      state,
+      { payload }: PayloadAction<ConnectedParticipant[]>
+    ) => {
       for (const participant of payload) {
         state.participants[participant.id] = participant
       }
-    }
-  }
+    },
+  },
 })
 
 export const SocketActions = socketSlice.actions

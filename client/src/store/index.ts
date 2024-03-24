@@ -7,7 +7,7 @@ const store = configureStore({
   reducer: {
     padPath: padReducer,
     ui: uiReducer,
-    socket: socketReducer
+    socket: socketReducer,
   },
 })
 
