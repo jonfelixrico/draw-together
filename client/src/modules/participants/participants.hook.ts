@@ -80,7 +80,7 @@ export function useParticipants() {
 }
 
 export function useConnectedUsers() {
-  const participantsMap = useParticipants() 
+  const participantsMap = useParticipants()
   return useMemo(
     () => pickBy(participantsMap, (p) => p.isConnected),
     [participantsMap]

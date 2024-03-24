@@ -1,7 +1,10 @@
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { useConnectedUsers, useParticipantWatcher } from '@/modules/participants/participants.hook'
+import {
+  useConnectedUsers,
+  useParticipantWatcher,
+} from '@/modules/participants/participants.hook'
 import { useMemo } from 'react'
 import sortBy from 'lodash/sortBy'
 import { useMeasure } from 'react-use'
