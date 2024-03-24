@@ -11,12 +11,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { ConnectedParticipant, SocketActions } from '@/store/socket.slice'
 
-export function useConnectedUsers() {
-  const participantsMap = useAppSelector((state) => state.socket.participants)
-  const connectedParticipants = useMemo(() => {
-    return pickBy(participantsMap, (p) => p.isConnected)
-  }, [participantsMap])
-
+export function useParticipantListener() {
   const dispatch = useAppDispatch()
   const setParticipants = useCallback(
     (participants: ConnectedParticipant[]) => {
@@ -78,6 +73,12 @@ export function useConnectedUsers() {
     ServerSocketCode.CONN_ACTIVITY,
     handler
   )
+}
 
-  return connectedParticipants
+export function useConnectedUsers() {
+  const participantsMap = useAppSelector((state) => state.socket.participants)
+  return useMemo(
+    () => pickBy(participantsMap, (p) => p.isConnected),
+    [participantsMap]
+  )
 }
