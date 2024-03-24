@@ -52,22 +52,24 @@ describe('participant-list', () => {
 
     // other user shouldn't be connected yet
     cy.getCy('participants')
-      .find(`[data-cy=${otherUserId}]`)
+      .findCy(otherUserId) 
       .should('not.exist')
 
     startSocket().then((socket: Socket) => {
       // at this point, other user has joined
       cy.getCy('participants')
-        .find(`[data-cy=${otherUserId}]`)
+        .findCy(otherUserId)
+        .findCy('online-badge')
         .should('exist')
         .then(() => {
           socket.disconnect()
         })
 
-      // since we disconnected the socket for the other user, their name should be gone again
+      // since we disconnected the socket for the other user, their name should show offline
       cy.getCy('participants')
-        .find(`[data-cy=${otherUserId}]`)
-        .should('not.exist')
+        .findCy(otherUserId)  
+        .findCy('offline-badge')
+        .should('exist')
     })
   })
 
