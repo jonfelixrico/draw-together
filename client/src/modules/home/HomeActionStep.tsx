@@ -25,7 +25,7 @@ export default function HomeActionStep({
           onClick={clearUsername}
           data-cy="clear-username"
         >
-          Not you? Clear
+          Not you? Click here
         </span>
       </div>
 
