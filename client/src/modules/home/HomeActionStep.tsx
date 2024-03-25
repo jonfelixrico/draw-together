@@ -18,9 +18,15 @@ export default function HomeActionStep({
           Hello, <span data-cy="username">{username}</span>
         </h2>
         {/* TODO stylize like a link */}
-        <div onClick={clearUsername} data-cy="clear-username">
-          Not you? Change
-        </div>
+        <span
+          tabIndex={0}
+          className="text-secondary"
+          style={{ cursor: 'pointer' }}
+          onClick={clearUsername}
+          data-cy="clear-username"
+        >
+          Not you? Clear
+        </span>
       </div>
 
       <Row className="gy-3">
