@@ -51,23 +51,23 @@ describe('participant-list', () => {
     cy.visit(`/rooms/${getRoomId()}`)
 
     // other user shouldn't be connected yet
-    cy.getCy('participants')
-      .find(`[data-cy=${otherUserId}]`)
-      .should('not.exist')
+    cy.getCy('participants').findCy(otherUserId).should('not.exist')
 
     startSocket().then((socket: Socket) => {
       // at this point, other user has joined
       cy.getCy('participants')
-        .find(`[data-cy=${otherUserId}]`)
+        .findCy(otherUserId)
+        .findCy('online-badge')
         .should('exist')
         .then(() => {
           socket.disconnect()
         })
 
-      // since we disconnected the socket for the other user, their name should be gone again
+      // since we disconnected the socket for the other user, their name should show offline
       cy.getCy('participants')
-        .find(`[data-cy=${otherUserId}]`)
-        .should('not.exist')
+        .findCy(otherUserId)
+        .findCy('offline-badge')
+        .should('exist')
     })
   })
 
@@ -78,5 +78,19 @@ describe('participant-list', () => {
       // at this point, other user has joined
       cy.getCy('participants').find(`[data-cy=${otherUserId}]`).should('exist')
     })
+  })
+
+  /*
+   * This only intends to test that responsiveness is in effect. Testing of modal behavior
+   * should be done in its own component test.
+   *
+   * TODO create component tests for the modal itself
+   */
+  it('should show modal button for smaller screens instead of drawer', () => {
+    cy.viewport('iphone-xr')
+    cy.visit(`/rooms/${getRoomId()}`)
+
+    cy.getCy('participants-drawer').should('not.exist')
+    cy.getCy('participants-modal-button').should('exist')
   })
 })

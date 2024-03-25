@@ -44,7 +44,9 @@ describe('pre-room', () => {
     cy.visit('/')
 
     cy.getCy('host-action').find('button').click()
+    cy.getCy('loading-overlay').should('exist')
     cy.location('pathname').should('include', '/rooms/')
+    cy.getCy('loading-overlay').should('not.exist')
   })
 
   it('supports joining', () => {
@@ -55,10 +57,28 @@ describe('pre-room', () => {
       const id = response.body.id as string
 
       cy.visit('/')
+
+      /*
+       * This is to allow our asserts for loading-overlay be able to find it even if the server is fast.
+       * There have been cases where e2e tests fail because loading-overlay can't be found.
+       */
+      cy.intercept('/api/room/*', (req) => {
+        req.continue((res) => {
+          res.setDelay(500)
+        })
+      })
+
       cy.getCy('join-action').find('input').type(id)
       cy.getCy('join-action').find('button').click()
 
+      /*
+       * Overlay testing was only added here because Cypress doesn't support Vite 5 for component tests as of writing.
+       * TODO give the loading overlay its own component test once Cypress supports Vite 5
+       */
+      cy.getCy('loading-overlay').should('exist')
+
       cy.getCy('room-page').should('exist')
+      cy.getCy('loading-overlay').should('not.exist')
     })
   })
 

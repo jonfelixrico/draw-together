@@ -2,6 +2,7 @@ import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import { useApiClient } from '@/hooks/api-client.hook'
 import { useNavigate } from 'react-router-dom'
+import { useLoading } from '@/hooks/loading.hook'
 
 interface ResponseBody {
   id: string
@@ -10,12 +11,20 @@ interface ResponseBody {
 export default function HomeActionStepHost() {
   const api = useApiClient()
   const navigate = useNavigate()
+  const { setLoading } = useLoading()
 
   async function createRoomAndNavigate() {
-    const { data } = await api.post<ResponseBody>('room')
-    // TODO handle errors
-    // TODO add spinner
-    navigate(`rooms/${data.id}`)
+    setLoading(true)
+    try {
+      const { data } = await api.post<ResponseBody>('room')
+
+      navigate(`rooms/${data.id}`)
+      // We'll be leaving the closing of the loading overlay to the room page
+    } catch (e) {
+      // TODO show user-friendly error
+      console.log('Error encoutnered room creation', e)
+      setLoading(false)
+    }
   }
 
   return (
