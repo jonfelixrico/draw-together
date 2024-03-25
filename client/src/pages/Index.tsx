@@ -1,8 +1,8 @@
 import Container from 'react-bootstrap/Container'
 import { useLocalStorage } from 'react-use'
 import { If, Then, Else } from 'react-if'
-import HomeActionStep from '@/components/home/HomeActionStep'
-import HomeUsernameStep from '@/components/home/HomeUsernameStep'
+import HomeActionStep from '@/modules/home/HomeActionStep'
+import HomeUsernameStep from '@/modules/home/HomeUsernameStep'
 
 export function Component() {
   const [username, setUsername, clearUsername] = useLocalStorage(
