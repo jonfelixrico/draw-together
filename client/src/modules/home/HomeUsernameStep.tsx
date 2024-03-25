@@ -16,6 +16,13 @@ export default function HomeUsernameStep(props: {
       <Col xs md="10" lg="6">
         <Card data-cy="username-step">
           <Card.Body>
+            <div className='text-center mb-3'>
+              <Card.Title as="h4"> 
+                Who are you?
+              </Card.Title>
+              <div className='text-secondary'>Please enter a name</div> 
+            </div>
+
             <Stack gap={1}>
               <Form.Control
                 placeholder="Pick a name"
