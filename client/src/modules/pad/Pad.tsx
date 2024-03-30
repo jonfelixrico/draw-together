@@ -1,5 +1,5 @@
 import { Dimensions } from '@/modules/common/geometry.types'
-import PadContentRenderer from '@/modules/pad/PadContentRenderer'
+import PadPathsRenderer from '@/modules/pad/PadPathsRenderer'
 import { PadInput } from '@/modules/pad/PadInput'
 
 export function Pad({ dimensions }: { dimensions: Dimensions }) {
@@ -10,7 +10,7 @@ export function Pad({ dimensions }: { dimensions: Dimensions }) {
       </div>
 
       <div className="position-absolute" style={{ zIndex: 1 }}>
-        <PadContentRenderer dimensions={dimensions} />
+        <PadPathsRenderer dimensions={dimensions} />
       </div>
     </div>
   )

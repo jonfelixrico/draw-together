@@ -4,7 +4,7 @@ import sortBy from 'lodash/sortBy'
 import { Dimensions } from '@/modules/common/geometry.types'
 import PadPath from './PadPath'
 
-export default function PadContentRenderer({
+export default function PadPathsRenderer({
   dimensions,
 }: {
   dimensions: Dimensions
