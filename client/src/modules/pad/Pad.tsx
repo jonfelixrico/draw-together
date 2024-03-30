@@ -5,8 +5,8 @@ import PadCursorsRenderer from '@/modules/pad/PadCursorsRenderer'
 
 export function Pad({ dimensions }: { dimensions: Dimensions }) {
   return (
-    <div className="position-relative isolate" style={dimensions}>
-      <div className="position-absolute" style={{ zIndex: 100 }} data-cy="pad">
+    <div className="position-relative isolate" style={dimensions} data-cy="pad">
+      <div className="position-absolute" style={{ zIndex: 100 }}>
         <PadInput dimensions={dimensions} />
       </div>
 
