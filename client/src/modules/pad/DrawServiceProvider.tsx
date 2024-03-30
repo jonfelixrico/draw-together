@@ -4,16 +4,16 @@ import {
   DrawEvent,
   PathInputService,
   PathInputServiceProvider,
-} from '@/components/pad/hooks/path-input.hook'
+} from '@/modules/pad/path-input.hook'
 import { useSendMessage } from '@/modules/socket/room-socket.hook'
-import { PathData } from '@/typings/pad.types'
+import { PathData } from '@/modules/pad/pad.types'
 import {
   PadPathActions,
   selectColor,
   selectThickness,
 } from '@/store/pad-path.slice'
 import { nanoid } from 'nanoid'
-import { PadSocketCode } from '@/typings/pad-socket.types'
+import { PadSocketCode } from '@/modules/pad-socket/pad-socket.types'
 
 export default function DrawServiceProvider(props: { children: ReactNode }) {
   const color = useAppSelector(selectColor)

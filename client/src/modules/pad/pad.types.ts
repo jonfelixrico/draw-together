@@ -1,4 +1,4 @@
-import { Point } from './geometry.types'
+import { Point } from '@/modules/common/geometry.types'
 
 export type PathColor = React.SVGAttributes<SVGPathElement>['stroke']
 

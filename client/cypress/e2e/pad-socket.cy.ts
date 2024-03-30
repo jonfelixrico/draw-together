@@ -1,7 +1,10 @@
-import { createRoomSocket } from '@/utils/room-socket.util'
+import { createRoomSocket } from '@/modules/common/room-socket.util'
 import { nanoid } from 'nanoid'
 import { Socket } from 'socket.io-client'
-import { PAD_SOCKET_EVENT, PadRequest } from '@/typings/pad-socket.types'
+import {
+  PAD_SOCKET_EVENT,
+  PadRequest,
+} from '@/modules/pad-socket/pad-socket.types'
 
 describe('pad-socket', () => {
   let roomId: string
