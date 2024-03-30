@@ -3,9 +3,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useParticipantWatcher } from '@/modules/participants/participants.hook'
 import { useMeasure } from 'react-use'
-import PadContentRenderer from '@/modules/pad/PadContentRenderer'
-import { PadInput } from '@/modules/pad/PadInput'
-import { usePathSocketWatcher } from '../../modules/pad-socket/socket-path-watcher.hook'
+import { usePathSocketWatcher } from '@/modules/pad-socket/socket-path-watcher.hook'
 import PadPathControl from '@/modules/pad/PadPathControl'
 import ParticipantsList from '@/modules/participants/ParticipantsList'
 import { useScreen } from '@/modules/common/screen.hook'
@@ -13,6 +11,7 @@ import { If, Then } from 'react-if'
 import ParticipantsModalButton from '@/modules/participants/ParticipantsModalButton'
 import { PathInputServiceProvider } from '@/modules/pad-service/path-input-service.context'
 import { usePathInputServiceImpl } from '@/modules/pad-service/path-input-service-impl.hook'
+import { Pad } from '@/modules/pad/Pad'
 
 export default function RoomContent() {
   useParticipantWatcher()
@@ -45,23 +44,11 @@ export default function RoomContent() {
           <Row className="flex-column h-100 gy-2">
             <Col className="pt-2">
               {/* Intermediate div is present because we can't easily attach ref to Col */}
-              <div
-                className="h-100 w-100 position-relative border"
-                ref={ref}
-                style={dimensions}
-              >
-                <div
-                  className="position-absolute"
-                  style={{ zIndex: 2 }}
-                  data-cy="pad"
-                >
+              <div className="h-100 w-100 position-relative border" ref={ref}>
+                <div className="position-absolute">
                   <PathInputServiceProvider value={pathInputService}>
-                    <PadInput dimensions={dimensions} />
+                    <Pad dimensions={dimensions} />
                   </PathInputServiceProvider>
-                </div>
-
-                <div className="position-absolute" style={{ zIndex: 1 }}>
-                  <PadContentRenderer dimensions={dimensions} />
                 </div>
               </div>
             </Col>
