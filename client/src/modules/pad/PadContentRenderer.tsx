@@ -9,8 +9,8 @@ export default function PadContentRenderer({
 }: {
   dimensions: Dimensions
 }) {
-  const draftPaths = useAppSelector((state) => state.padPath.draftPaths)
-  const paths = useAppSelector((state) => state.padPath.paths)
+  const draftPaths = useAppSelector((state) => state.pad.draftPaths)
+  const paths = useAppSelector((state) => state.pad.paths)
 
   const pathsToRender = useMemo(() => {
     const arr = [...Object.values(paths), ...Object.values(draftPaths)]

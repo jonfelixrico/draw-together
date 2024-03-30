@@ -28,8 +28,8 @@ const INITIAL_STATE: PadState = {
   },
 }
 
-export const padPathSlice = createSlice({
-  name: 'padPath',
+export const padSlice = createSlice({
+  name: 'pad',
   initialState: INITIAL_STATE,
   reducers: {
     setPath: (state, { payload }: PayloadAction<PathData>) => {
@@ -72,10 +72,9 @@ export const padPathSlice = createSlice({
   },
 })
 
-export const PadPathActions = padPathSlice.actions
+export const PadActions = padSlice.actions
 
-export default padPathSlice.reducer
+export default padSlice.reducer
 
-export const selectThickness = ({ padPath }: RootState) =>
-  padPath.options.thickness
-export const selectColor = ({ padPath }: RootState) => padPath.options.color
+export const selectThickness = ({ pad }: RootState) => pad.options.thickness
+export const selectColor = ({ pad }: RootState) => pad.options.color

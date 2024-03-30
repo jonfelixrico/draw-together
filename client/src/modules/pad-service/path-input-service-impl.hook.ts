@@ -3,11 +3,7 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { DrawEvent } from './path-input-service.context'
 import { useSendMessage } from '@/modules/socket/room-socket.hook'
 import { PathData } from '@/modules/pad/pad.types'
-import {
-  PadPathActions,
-  selectColor,
-  selectThickness,
-} from '@/store/pad-path.slice'
+import { PadActions, selectColor, selectThickness } from '@/store/pad.slice'
 import { nanoid } from 'nanoid'
 import { PadSocketCode } from '@/modules/pad-socket/pad-socket.types'
 
@@ -30,7 +26,7 @@ export function usePathInputServiceImpl() {
           id: nanoid(),
         }
 
-        dispatch(PadPathActions.setDraftPath(newDraft))
+        dispatch(PadActions.setDraftPath(newDraft))
         sendMessage(PadSocketCode.PATH_DRAFT_START, {
           ...newDraft,
           counter: 0,
@@ -57,11 +53,11 @@ export function usePathInputServiceImpl() {
 
       if (event.isEnd) {
         sendMessage(PadSocketCode.PATH_CREATE, updated)
-        dispatch(PadPathActions.setPath(updated))
-        dispatch(PadPathActions.removeDraftPath(draft.id))
+        dispatch(PadActions.setPath(updated))
+        dispatch(PadActions.removeDraftPath(draft.id))
       } else {
         // reaching this line means that we're processing regular move events
-        dispatch(PadPathActions.setDraftPath(updated))
+        dispatch(PadActions.setDraftPath(updated))
       }
 
       draftRef.current = updated

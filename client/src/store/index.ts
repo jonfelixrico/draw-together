@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import padReducer from './pad-path.slice'
+import padReducer from './pad.slice'
 import uiReducer from './ui.slice'
 import socketReducer from './socket.slice'
 
 const store = configureStore({
   reducer: {
-    padPath: padReducer,
+    pad: padReducer,
     ui: uiReducer,
     socket: socketReducer,
   },
