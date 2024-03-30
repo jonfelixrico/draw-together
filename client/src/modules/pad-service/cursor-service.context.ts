@@ -16,5 +16,3 @@ export const CursorServiceProvider = CursorServiceContext.Provider
 export function useCursorService() {
   return useContext(CursorServiceContext)
 }
-
-export const CURRENT_USER_ID_PLACEHOLDER = 'USER'
