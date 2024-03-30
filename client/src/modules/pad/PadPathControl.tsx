@@ -7,7 +7,7 @@ import {
   PadActions,
   selectColor,
   selectThickness,
-} from '@/store/pad.slice'
+} from '@/modules/pad-service/pad.slice'
 import Slider from '@/lib/Slider'
 
 export default function PadPathControl() {

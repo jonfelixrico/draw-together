@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import padReducer from './pad.slice'
+import padReducer from '../modules/pad-service/pad.slice'
 import uiReducer from '../modules/ui/ui.slice'
 import socketReducer from './socket.slice'
 

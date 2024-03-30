@@ -1,5 +1,5 @@
 import { useAppDispatch } from '@/store/hooks'
-import { PadActions } from '@/store/pad.slice'
+import { PadActions } from '@/modules/pad-service/pad.slice'
 import {
   PathCreatePayload,
   PathDraftMovePayload,
