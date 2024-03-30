@@ -20,11 +20,13 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
+    "rootDir": "./",
+
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"],
+  "include": ["./src"],
   "exclude": ["cypress.config.ts", "cypress", "node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
