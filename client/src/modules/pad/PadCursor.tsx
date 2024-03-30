@@ -31,19 +31,36 @@ export default function PadCursor({
   label: string
 }) {
   return (
-    <div style={dimensions}>
+    <div
+      style={{
+        ...dimensions,
+        // Important because we don't want the cursor to be out of bounds
+        overflow: 'clip',
+      }}
+      className="position-relative"
+    >
       <div
+        className="position-absolute"
         style={{
-          transformOrigin: 'center',
           transform: `translate(${point.x}px, ${point.y}px)`,
+          lineHeight: 0,
         }}
       >
-        <Cursor diameter={diameter} />
+        <div
+          style={{
+            transform: 'translate(-50%, -50%)',
+            mixBlendMode: 'multiply',
+          }}
+          className="d-inline-block"
+        >
+          <Cursor diameter={diameter} />
+        </div>
       </div>
       <div
+        className="position-absolute"
         style={{
-          transformOrigin: 'left center',
-          transform: `translate(${point.x}px, ${point.y}px)`,
+          transform: `translate(${point.x + diameter / 2 + CURSOR_STROKE_WIDTH}px, ${point.y}px)`,
+          lineHeight: 0,
         }}
       >
         {label}
