@@ -1,5 +1,5 @@
 import { Socket } from 'socket.io-client'
-import { PAD_SOCKET_EVENT, PadResponse } from '@/typings/pad-socket.types'
+import { PAD_SOCKET_EVENT, PadResponse } from '@/modules/pad-socket/pad-socket.types'
 import { useCallback, useEffect } from 'react'
 import { useLoaderData } from 'react-router-dom'
 import { PadEventsService } from '@/services/pad-events'

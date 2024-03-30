@@ -2,7 +2,7 @@ import {
   PadHistoryRequest,
   PadHistoryResponse,
 } from '@/typings/pad-history-socket.types'
-import { PadResponse } from '@/typings/pad-socket.types'
+import { PadResponse } from '@/modules/pad-socket/pad-socket.types'
 import { Observable, ReplaySubject, Subject, concat, takeWhile } from 'rxjs'
 import { Socket } from 'socket.io-client'
 

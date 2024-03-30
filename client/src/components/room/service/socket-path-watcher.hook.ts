@@ -5,7 +5,7 @@ import {
   PathDraftMovePayload,
   PathDraftStartPayload,
   PadSocketCode,
-} from '@/typings/pad-socket.types'
+} from '@/modules/pad-socket/pad-socket.types'
 import { useMessageEffect } from '@/modules/socket/room-socket.hook'
 import { useCallback } from 'react'
 
