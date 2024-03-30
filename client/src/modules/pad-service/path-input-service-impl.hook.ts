@@ -3,7 +3,11 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { DrawEvent } from './path-input-service.context'
 import { useSendMessage } from '@/modules/socket/room-socket.hook'
 import { PathData } from '@/modules/pad-common/pad.types'
-import { PadActions, selectColor, selectThickness } from './pad.slice'
+import {
+  PadActions,
+  selectColor,
+  selectThickness,
+} from '@/modules/pad-common/pad.slice'
 import { nanoid } from 'nanoid'
 import { PadSocketCode } from '@/modules/pad-socket/pad-socket.types'
 
