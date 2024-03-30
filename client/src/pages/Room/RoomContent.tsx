@@ -12,6 +12,8 @@ import ParticipantsModalButton from '@/modules/participants/ParticipantsModalBut
 import { PathInputServiceProvider } from '@/modules/pad-service/path-input-service.context'
 import { usePathInputServiceImpl } from '@/modules/pad-service/path-input-service-impl.hook'
 import { Pad } from '@/modules/pad/Pad'
+import { CursorServiceProvider } from '@/modules/pad-service/cursor-service.context'
+import { useCursorServiceImpl } from '@/modules/pad-service/cursor-service-impl.hook'
 
 export default function RoomContent() {
   useParticipantWatcher()
@@ -21,6 +23,7 @@ export default function RoomContent() {
   const screen = useScreen()
 
   const pathInputService = usePathInputServiceImpl()
+  const cursorService = useCursorServiceImpl()
 
   return (
     <Container
@@ -47,7 +50,9 @@ export default function RoomContent() {
               <div className="h-100 w-100 position-relative border" ref={ref}>
                 <div className="position-absolute">
                   <PathInputServiceProvider value={pathInputService}>
-                    <Pad dimensions={dimensions} />
+                    <CursorServiceProvider value={cursorService}>
+                      <Pad dimensions={dimensions} />
+                    </CursorServiceProvider>
                   </PathInputServiceProvider>
                 </div>
               </div>
