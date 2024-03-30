@@ -34,7 +34,7 @@ export default function PadCursorsRenderer({
   const cursorList = useMemo(() => {
     // To display, the "age" of the cursor data must be no longer than the time set in the props
     const toDisplay = Object.values(cursorMap).filter(
-      ({ timestamp }) => now - timestamp > hideCursorThreshold
+      ({ timestamp }) => now - timestamp < hideCursorThreshold
     )
 
     // We're sorting by id to keep the ordering consistent between recomputes
