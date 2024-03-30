@@ -4,7 +4,7 @@ import Stack from 'react-bootstrap/Stack'
 import Card from 'react-bootstrap/Card'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useLoading } from '@/modules/common/loading.hook'
+import { useLoading } from '@/modules/ui/loading.hook'
 
 export default function HomeActionStepJoin() {
   const [roomId, setRoomId] = useState('')
