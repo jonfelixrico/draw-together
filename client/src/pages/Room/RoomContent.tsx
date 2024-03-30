@@ -5,13 +5,14 @@ import { useParticipantWatcher } from '@/modules/participants/participants.hook'
 import { useMeasure } from 'react-use'
 import PadContentRenderer from '@/modules/pad/PadContentRenderer'
 import { PadInput } from '@/modules/pad/PadInput'
-import DrawServiceProvider from '../../modules/pad-service/DrawServiceProvider'
 import { usePathSocketWatcher } from '../../modules/pad-socket/socket-path-watcher.hook'
 import PadPathControl from '@/modules/pad/PadPathControl'
 import ParticipantsList from '@/modules/participants/ParticipantsList'
 import { useScreen } from '@/modules/common/screen.hook'
 import { If, Then } from 'react-if'
 import ParticipantsModalButton from '@/modules/participants/ParticipantsModalButton'
+import { PathInputServiceProvider } from '@/modules/pad-service/path-input-service.context'
+import { usePathInputServiceImpl } from '@/modules/pad-service/path-input-service-impl.hook'
 
 export default function RoomContent() {
   useParticipantWatcher()
@@ -19,6 +20,8 @@ export default function RoomContent() {
   usePathSocketWatcher()
 
   const screen = useScreen()
+
+  const pathInputService = usePathInputServiceImpl()
 
   return (
     <Container
@@ -52,9 +55,9 @@ export default function RoomContent() {
                   style={{ zIndex: 2 }}
                   data-cy="pad"
                 >
-                  <DrawServiceProvider>
+                  <PathInputServiceProvider value={pathInputService}>
                     <PadInput dimensions={dimensions} />
-                  </DrawServiceProvider>
+                  </PathInputServiceProvider>
                 </div>
 
                 <div className="position-absolute" style={{ zIndex: 1 }}>
