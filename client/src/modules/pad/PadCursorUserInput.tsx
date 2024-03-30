@@ -6,7 +6,7 @@ export default function PadCursorUserInput({
 }: {
   children: ReactNode
 }) {
-  const { setUserCursor } = useCursorService()
+  const { setUserCursor, clearUserCursor } = useCursorService()
   const ref = useRef<HTMLDivElement>(null)
 
   const handleMouseMove: React.MouseEventHandler<HTMLDivElement> = useCallback(
@@ -26,7 +26,7 @@ export default function PadCursorUserInput({
   )
 
   return (
-    <div ref={ref} onMouseMove={handleMouseMove}>
+    <div ref={ref} onMouseMove={handleMouseMove} onMouseLeave={clearUserCursor}>
       {children}
     </div>
   )

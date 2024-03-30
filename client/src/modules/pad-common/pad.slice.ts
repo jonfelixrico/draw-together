@@ -79,6 +79,10 @@ export const padSlice = createSlice({
     setCursor: (state, { payload }: PayloadAction<PadCursor>) => {
       state.cursors[payload.id] = payload
     },
+
+    clearCursor: (state, { payload }: PayloadAction<string>) => {
+      delete state.cursors[payload]
+    },
   },
 })
 

@@ -21,7 +21,12 @@ export function useCursorServiceImpl(): CursorService {
     [dispatch, userId]
   )
 
+  const clearUserCursor: CursorService['clearUserCursor'] = useCallback(() => {
+    dispatch(PadActions.clearCursor(userId))
+  }, [dispatch, userId])
+
   return {
     setUserCursor,
+    clearUserCursor,
   }
 }
