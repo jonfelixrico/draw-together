@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import padReducer from './pad.slice'
-import uiReducer from './ui.slice'
+import uiReducer from '../modules/ui/ui.slice'
 import socketReducer from './socket.slice'
 
 const store = configureStore({

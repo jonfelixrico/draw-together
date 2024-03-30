@@ -1,5 +1,5 @@
 import { useAppDispatch } from '@/store/hooks'
-import { UiActions } from '@/store/ui.slice'
+import { UiActions } from './ui.slice'
 import { useCallback } from 'react'
 
 export function useLoading() {
