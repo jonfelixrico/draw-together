@@ -17,5 +17,5 @@ export interface PadCursor {
   point: Point
   id: string
   timestamp: number
-  diameter: number
+  diameter?: number
 }
