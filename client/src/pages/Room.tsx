@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 
-import { getApiClient } from '@/services/api-client'
+import { getApiClient } from '@/modules/common/api-client'
 import {
   LoaderFunction,
   useLoaderData,
