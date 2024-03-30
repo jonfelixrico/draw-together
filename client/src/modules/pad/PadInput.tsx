@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
-import { Dimensions } from '@/typings/geometry.types'
-import Draggable, { DraggableEvent } from '@/components/interact/Draggable'
-import { usePathInputService } from './hooks/path-input.hook'
+import { Dimensions } from '@/modules/common/geometry.types'
+import Draggable, { DraggableEvent } from './Draggable'
+import { usePathInputService } from './path-input.hook'
 
 export function PadInput({ dimensions }: { dimensions: Dimensions }) {
   const { emitDraw } = usePathInputService()

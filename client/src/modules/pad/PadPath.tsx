@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import { PathRenderData } from '@/typings/pad.types'
-import { Dimensions } from '@/typings/geometry.types'
+import { PathRenderData } from './pad.types'
+import { Dimensions } from '@/modules/common/geometry.types'
 
 export default function PadPath({
   value,

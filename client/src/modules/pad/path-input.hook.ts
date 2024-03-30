@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import { Point } from '@/typings/geometry.types'
+import { Point } from '@/modules/common/geometry.types'
 
 export interface DrawEvent {
   point: Point

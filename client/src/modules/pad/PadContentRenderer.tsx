@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useAppSelector } from '@/store/hooks'
 import sortBy from 'lodash/sortBy'
-import { Dimensions } from '@/typings/geometry.types'
+import { Dimensions } from '@/modules/common/geometry.types'
 import PadPath from './PadPath'
 
 export default function PadContentRenderer({
