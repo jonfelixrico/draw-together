@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { PathColor, PathData } from '@/modules/pad-common/pad.types'
+import { PadCursor, PathColor, PathData } from '@/modules/pad-common/pad.types'
 import { Point } from '@/modules/common/geometry.types'
 import type { RootState } from '@/store'
 
@@ -16,6 +16,10 @@ export interface PadState {
     thickness: number
     color: PathColor
   }
+
+  cursors: {
+    [id: string]: PadCursor
+  }
 }
 
 const INITIAL_STATE: PadState = {
@@ -26,6 +30,8 @@ const INITIAL_STATE: PadState = {
     thickness: 5,
     color: '#000000',
   },
+
+  cursors: {},
 }
 
 export const padSlice = createSlice({
@@ -68,6 +74,10 @@ export const padSlice = createSlice({
 
     setThickness: (state, { payload }: PayloadAction<number>) => {
       state.options.thickness = payload
+    },
+
+    setCursor: (state, { payload }: PayloadAction<PadCursor>) => {
+      state.cursors[payload.id] = payload
     },
   },
 })
