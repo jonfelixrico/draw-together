@@ -1,4 +1,5 @@
-import { Dimensions, Point } from '@/modules/common/geometry.types'
+import { Dimensions } from '@/modules/common/geometry.types'
+import { BasePadCursor } from '@/modules/pad-common/pad.types'
 
 const CURSOR_STROKE_WIDTH = 2
 function Cursor({ diameter }: { diameter: number }) {
@@ -20,16 +21,13 @@ function Cursor({ diameter }: { diameter: number }) {
 }
 
 export default function PadCursor({
+  cursor,
   dimensions,
-  point,
-  diameter,
-  label,
 }: {
   dimensions: Dimensions
-  point: Point
-  diameter: number
-  label: string
+  cursor: BasePadCursor
 }) {
+  const { point, diameter, label } = cursor
   return (
     <div style={dimensions}>
       <div
