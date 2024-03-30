@@ -1,5 +1,5 @@
 import { useCursorService } from '@/modules/pad-service/cursor-service.context'
-import { ReactNode, useCallback, useRef } from 'react'
+import { ReactNode, useCallback } from 'react'
 
 export default function PadCursorUserInput({
   children,
@@ -7,26 +7,19 @@ export default function PadCursorUserInput({
   children: ReactNode
 }) {
   const { setUserCursor, clearUserCursor } = useCursorService()
-  const ref = useRef<HTMLDivElement>(null)
 
   const handleMouseMove: React.MouseEventHandler<HTMLDivElement> = useCallback(
     (evt) => {
-      const el = ref.current
-      if (!el) {
-        return
-      }
-
-      const rect = el.getBoundingClientRect()
       setUserCursor({
-        x: evt.clientX - rect.x,
-        y: evt.clientY - rect.y,
+        x: evt.nativeEvent.offsetX,
+        y: evt.nativeEvent.offsetY,
       })
     },
     [setUserCursor]
   )
 
   return (
-    <div ref={ref} onMouseMove={handleMouseMove} onMouseLeave={clearUserCursor}>
+    <div onMouseMoveCapture={handleMouseMove} onMouseLeave={clearUserCursor}>
       {children}
     </div>
   )
