@@ -38,7 +38,6 @@ export function PadInput({ dimensions }: { dimensions: Dimensions }) {
     [emitDraw]
   )
 
-  return (
-    <Draggable dimensions={dimensions} onDrag={handleDrag} cursor="crosshair" />
-  )
+  // Removing the cursor since we have implemented our own
+  return <Draggable dimensions={dimensions} onDrag={handleDrag} cursor="none" />
 }
