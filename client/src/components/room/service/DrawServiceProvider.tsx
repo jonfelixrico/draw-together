@@ -4,9 +4,9 @@ import {
   DrawEvent,
   PathInputService,
   PathInputServiceProvider,
-} from '@/components/pad/hooks/path-input.hook'
+} from '@/modules/pad/path-input.hook'
 import { useSendMessage } from '@/modules/socket/room-socket.hook'
-import { PathData } from '@/typings/pad.types'
+import { PathData } from '@/modules/pad/pad.types'
 import {
   PadPathActions,
   selectColor,
