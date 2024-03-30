@@ -17,11 +17,11 @@ export default function PadPathControl() {
   const thickness = useAppSelector(selectThickness)
 
   function setColor(color: PathColor) {
-    dispatch(PadActions.setColor(color))
+    dispatch(PadActions.setPathColor(color))
   }
 
   function setThickness(thickness: number) {
-    dispatch(PadActions.setThickness(thickness))
+    dispatch(PadActions.setPathThickness(thickness))
   }
 
   return (
