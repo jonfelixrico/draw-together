@@ -32,35 +32,34 @@ export default function PadCursor({
 }) {
   return (
     <div
-      style={{
-        ...dimensions,
-        // Important because we don't want the cursor to be out of bounds
-        overflow: 'clip',
-      }}
-      className="position-relative"
+      style={dimensions}
+      /*
+       * overflow-clip is here because:
+       * - translate can trigger the appearance of scrollbars -- we don't want that
+       * - we don't want the cursors to appear outside of the boundary
+       */
+      className="position-relative overflow-clip"
     >
       <div
-        className="position-absolute"
+        className="position-absolute lh-0"
         style={{
           transform: `translate(${point.x}px, ${point.y}px)`,
-          lineHeight: 0,
         }}
       >
         <div
           style={{
             transform: 'translate(-50%, -50%)',
-            mixBlendMode: 'multiply',
           }}
           className="d-inline-block"
         >
           <Cursor diameter={diameter} />
         </div>
       </div>
+
       <div
-        className="position-absolute"
+        className="position-absolute lh-0"
         style={{
           transform: `translate(${point.x + diameter / 2 + CURSOR_STROKE_WIDTH}px, ${point.y}px)`,
-          lineHeight: 0,
         }}
       >
         {label}
