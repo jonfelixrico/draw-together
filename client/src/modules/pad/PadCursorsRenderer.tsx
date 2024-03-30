@@ -1,7 +1,8 @@
 import { Dimensions } from '@/modules/common/geometry.types'
 import PadCursor from '@/modules/pad/PadCursor'
 import { useAppSelector } from '@/store/hooks'
-import { mapValues, sortBy } from 'lodash'
+import mapValues from 'lodash/mapValues'
+import sortBy from 'lodash/sortBy'
 import { useMemo, useState } from 'react'
 import { useInterval } from 'react-use'
 
