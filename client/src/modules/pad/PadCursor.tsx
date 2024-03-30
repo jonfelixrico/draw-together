@@ -1,6 +1,6 @@
 import { Dimensions, Point } from '@/modules/common/geometry.types'
 
-const CURSOR_STROKE_WIDTH = 2
+const CURSOR_STROKE_WIDTH = 1
 function Cursor({ diameter }: { diameter: number }) {
   const radius = diameter / 2
   const size = diameter + CURSOR_STROKE_WIDTH * 2
