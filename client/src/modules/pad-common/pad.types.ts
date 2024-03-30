@@ -13,13 +13,9 @@ export interface PathData extends PathRenderData {
   timestamp: number
 }
 
-export interface BasePadCursor {
+export interface PadCursor {
   point: Point
   id: string
-  label: string
-  diameter: number
-}
-
-export interface PadCursor extends BasePadCursor {
   timestamp: number
+  diameter: number
 }
