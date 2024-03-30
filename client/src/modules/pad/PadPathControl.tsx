@@ -2,7 +2,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { PathColor } from '@/modules/pad/pad.types'
+import { PathColor } from '@/modules/pad-common/pad.types'
 import {
   PadActions,
   selectColor,
