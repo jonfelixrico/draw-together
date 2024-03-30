@@ -10,11 +10,19 @@ export function Pad({ dimensions }: { dimensions: Dimensions }) {
         <PadInput dimensions={dimensions} />
       </div>
 
-      <div className="position-absolute" style={{ zIndex: 1 }}>
+      <div
+        className="position-absolute"
+        style={{ zIndex: 1 }}
+        data-cy="pad-paths-renderer"
+      >
         <PadPathsRenderer dimensions={dimensions} />
       </div>
 
-      <div className="position-absolute" style={{ zIndex: 2 }}>
+      <div
+        className="position-absolute"
+        style={{ zIndex: 2 }}
+        data-cy="pad-cursors-renderer"
+      >
         <PadCursorsRenderer dimensions={dimensions} />
       </div>
     </div>
