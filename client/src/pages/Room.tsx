@@ -13,7 +13,7 @@ import RoomLoaderErrorNotFound from '@/components/room/error-boundary/RoomLoader
 import RoomLoaderErrorNoName from '@/components/room/error-boundary/RoomLoaderErrorNoName'
 import RoomLoaderErrorUnexpected from '@/components/room/error-boundary/RoomLoaderErrorUnexpected'
 import RoomContent from '@/components/room/RoomContent'
-import { Room } from '@/typings/room.types'
+import { Room } from '@/modules/common/room.types'
 import { SocketIoError } from '@/utils/socket.util'
 import { getClientUUID } from '@/utils/local-storage-vars.util'
 import { useUnmount } from 'react-use'
