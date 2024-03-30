@@ -4,7 +4,7 @@ import {
   DrawEvent,
   PathInputService,
   PathInputServiceProvider,
-} from './path-input.hook'
+} from './path-input-service.context'
 import { useSendMessage } from '@/modules/socket/room-socket.hook'
 import { PathData } from '@/modules/pad/pad.types'
 import {
