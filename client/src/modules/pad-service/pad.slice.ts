@@ -12,7 +12,7 @@ export interface PadState {
     [id: string]: PathData
   }
 
-  pathOptions: {
+  options: {
     thickness: number
     color: PathColor
   }
@@ -22,7 +22,7 @@ const INITIAL_STATE: PadState = {
   paths: {},
   draftPaths: {},
 
-  pathOptions: {
+  options: {
     thickness: 5,
     color: '#000000',
   },
@@ -62,12 +62,12 @@ export const padSlice = createSlice({
       delete state.draftPaths[payload]
     },
 
-    setPathColor: (state, { payload }: PayloadAction<PathColor>) => {
-      state.pathOptions.color = payload
+    setColor: (state, { payload }: PayloadAction<PathColor>) => {
+      state.options.color = payload
     },
 
-    setPathThickness: (state, { payload }: PayloadAction<number>) => {
-      state.pathOptions.thickness = payload
+    setThickness: (state, { payload }: PayloadAction<number>) => {
+      state.options.thickness = payload
     },
   },
 })
@@ -76,5 +76,5 @@ export const PadActions = padSlice.actions
 
 export default padSlice.reducer
 
-export const selectThickness = ({ pad }: RootState) => pad.pathOptions.thickness
-export const selectColor = ({ pad }: RootState) => pad.pathOptions.color
+export const selectThickness = ({ pad }: RootState) => pad.options.thickness
+export const selectColor = ({ pad }: RootState) => pad.options.color
