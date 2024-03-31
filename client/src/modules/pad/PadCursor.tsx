@@ -59,6 +59,7 @@ export default function PadCursor({
       <div
         className="position-absolute lh-0"
         style={{
+          // The additional value to point.x is to make the label appear on the right of the cursor
           transform: `translate(${point.x + diameter / 2 + CURSOR_STROKE_WIDTH}px, ${point.y}px)`,
         }}
       >
