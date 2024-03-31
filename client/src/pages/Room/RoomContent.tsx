@@ -69,7 +69,7 @@ function ShareButton() {
   function copyUrl() {
     copy(link)
     setShow(false)
-    toast('The join link has been copied to the clipboard')
+    toast('The join URL has been copied to the clipboard')
   }
 
   return (
@@ -91,13 +91,13 @@ function ShareButton() {
           </div>
           <div>
             Room code:{' '}
-            <strong onClick={copyCode} className="cursor-pointer">
+            <strong onClick={copyCode} className="cursor-pointer text-primary">
               {roomId}
             </strong>
           </div>
           <div>
             Join URL:{' '}
-            <strong onClick={copyUrl} className="cursor-pointer">
+            <strong onClick={copyUrl} className="cursor-pointer text-primary">
               {link}
             </strong>
           </div>
