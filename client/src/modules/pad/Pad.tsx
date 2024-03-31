@@ -3,6 +3,7 @@ import PadPathsRenderer from '@/modules/pad/PadPathsRenderer'
 import { PadInput } from '@/modules/pad/PadInput'
 import PadCursorsRenderer from '@/modules/pad/PadCursorsRenderer'
 import PadCursorUserInput from '@/modules/pad/PadCursorUserInput'
+import PadOptionsThicknessWheelInput from '@/modules/pad/PadOptionsThicknessWheelInput'
 
 export function Pad({ dimensions }: { dimensions: Dimensions }) {
   return (
@@ -13,7 +14,9 @@ export function Pad({ dimensions }: { dimensions: Dimensions }) {
         data-cy="pad"
       >
         <div className="position-absolute" style={{ zIndex: 100 }}>
-          <PadInput dimensions={dimensions} />
+          <PadOptionsThicknessWheelInput>
+            <PadInput dimensions={dimensions} />
+          </PadOptionsThicknessWheelInput>
         </div>
 
         <div
