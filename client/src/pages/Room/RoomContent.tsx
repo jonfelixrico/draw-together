@@ -14,16 +14,49 @@ import Button from 'react-bootstrap/Button'
 import { useNavigate } from 'react-router-dom'
 import PadOptionsControls from '@/modules/pad/PadOptionsControls'
 import MobileScreenWarningModal from '@/pages/Room/MobileScreenWarningModal'
+import { useState } from 'react'
+import BasicModal from '@/modules/common/BasicModal'
+
+function LeaveButton() {
+  const navigate = useNavigate()
+  const [show, setShow] = useState(false)
+
+  return (
+    <>
+      <Button size="sm" variant="danger" onClick={() => setShow(true)}>
+        Leave Room
+      </Button>
+      <BasicModal
+        title="Leave Room"
+        ok={{
+          label: 'Yes',
+        }}
+        cancel={{
+          label: 'No',
+        }}
+        show={show}
+        onHide={() => {
+          setShow(false)
+        }}
+        onCancel={() => {
+          setShow(false)
+        }}
+        onOk={() => {
+          setShow(false)
+          navigate('/')
+        }}
+      >
+        Are you sure you want to leave the room?
+      </BasicModal>
+    </>
+  )
+}
 
 function Toolbar() {
-  const navigate = useNavigate()
-
   return (
     <Row className="justify-content-between align-items-center">
       <Col xs="auto">
-        <Button size="sm" variant="danger" onClick={() => navigate('/')}>
-          Leave Room
-        </Button>
+        <LeaveButton />
       </Col>
     </Row>
   )
