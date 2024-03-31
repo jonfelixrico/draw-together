@@ -24,12 +24,11 @@ export default function PadCursorsRenderer({
 }) {
   const now = useCurrentTime()
 
-  const participants = useAppSelector((root) => {
-    return root.socket.participants
-  })
-  const nameMap = useMemo(() => {
-    return mapValues(participants, (value) => value.name)
-  }, [participants])
+  const participants = useAppSelector((root) => root.socket.participants)
+  const nameMap = useMemo(
+    () => mapValues(participants, (value) => value.name),
+    [participants]
+  )
 
   const cursorMap = useAppSelector((root) => root.pad.cursors)
   const cursorList = useMemo(() => {
