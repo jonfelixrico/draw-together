@@ -23,6 +23,8 @@ import { useMount } from '@/modules/common/lifecycle.hook'
 import { createRoomSocket } from '@/modules/common/room-socket.util'
 import store from '@/store'
 import { UiActions } from '@/modules/ui/ui.slice'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 enum RoomErrorType {
   NO_USERNAME,
@@ -108,7 +110,20 @@ export function Component() {
     padEventsService.start()
   })
 
-  return <RoomContent />
+  return (
+    <>
+      <RoomContent />
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+    </>
+  )
 }
 
 export function ErrorBoundary() {

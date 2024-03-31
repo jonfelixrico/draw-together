@@ -10,23 +10,9 @@ import { usePathInputServiceImpl } from '@/modules/pad-service/path-input-servic
 import { Pad } from '@/modules/pad/Pad'
 import { CursorServiceProvider } from '@/modules/pad-service/cursor-service.context'
 import { useCursorServiceImpl } from '@/modules/pad-service/cursor-service-impl.hook'
-import Button from 'react-bootstrap/Button'
-import { useNavigate } from 'react-router-dom'
 import PadOptionsControls from '@/modules/pad/PadOptionsControls'
-
-function Toolbar() {
-  const navigate = useNavigate()
-
-  return (
-    <Row className="justify-content-between align-items-center">
-      <Col xs="auto">
-        <Button size="sm" variant="danger" onClick={() => navigate('/')}>
-          Leave Room
-        </Button>
-      </Col>
-    </Row>
-  )
-}
+import MobileScreenWarningModal from '@/pages/Room/MobileScreenWarningModal'
+import { RoomToolbar } from '@/pages/Room/RoomToolbar'
 
 function Drawer() {
   return (
@@ -57,44 +43,47 @@ export default function RoomContent() {
   const cursorService = useCursorServiceImpl()
 
   return (
-    <Container
-      data-cy="room-page"
-      className="vh-100"
-      style={{
-        // touch-action: none is required to make drawing work for touchscreen devices
-        touchAction: 'none',
-      }}
-      fluid
-    >
-      <Row className="h-100 flex-column">
-        <Col xs="auto" className="py-2 bg-body-secondary border-bottom">
-          <Toolbar />
-        </Col>
-        <Col>
-          <Row className="h-100">
-            <Col className="p-0">
-              {/* Intermediate div is present because we can't easily attach ref to Col */}
-              <div className="h-100 w-100 position-relative" ref={ref}>
-                <div className="position-absolute">
-                  <PathInputServiceProvider value={pathInputService}>
-                    <CursorServiceProvider value={cursorService}>
-                      <Pad dimensions={dimensions} />
-                    </CursorServiceProvider>
-                  </PathInputServiceProvider>
+    <>
+      <MobileScreenWarningModal />
+      <Container
+        data-cy="room-page"
+        className="vh-100"
+        style={{
+          // touch-action: none is required to make drawing work for touchscreen devices
+          touchAction: 'none',
+        }}
+        fluid
+      >
+        <Row className="h-100 flex-column">
+          <Col xs="auto" className="py-2 bg-body-secondary border-bottom">
+            <RoomToolbar />
+          </Col>
+          <Col>
+            <Row className="h-100">
+              <Col className="p-0">
+                {/* Intermediate div is present because we can't easily attach ref to Col */}
+                <div className="h-100 w-100 position-relative" ref={ref}>
+                  <div className="position-absolute">
+                    <PathInputServiceProvider value={pathInputService}>
+                      <CursorServiceProvider value={cursorService}>
+                        <Pad dimensions={dimensions} />
+                      </CursorServiceProvider>
+                    </PathInputServiceProvider>
+                  </div>
                 </div>
-              </div>
-            </Col>
+              </Col>
 
-            <Col
-              xs="2"
-              className="p-2 bg-body-tertiary border-start"
-              data-cy="participants-drawer"
-            >
-              <Drawer />
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-    </Container>
+              <Col
+                xs="2"
+                className="p-2 bg-body-tertiary border-start"
+                data-cy="participants-drawer"
+              >
+                <Drawer />
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
+    </>
   )
 }
