@@ -10,6 +10,9 @@ import {
 } from '@/modules/pad-common/pad.slice'
 import Slider from '@/lib/Slider'
 
+/**
+ * @deprecated
+ */
 export default function PadPathControl() {
   const dispatch = useAppDispatch()
 
