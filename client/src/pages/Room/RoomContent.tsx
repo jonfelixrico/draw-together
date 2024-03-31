@@ -24,12 +24,6 @@ function Toolbar() {
           Leave Room
         </Button>
       </Col>
-      <Col xs="auto">
-        {/* TODO add impl */}
-        <Button size="sm" variant="primary">
-          Share
-        </Button>
-      </Col>
     </Row>
   )
 }
