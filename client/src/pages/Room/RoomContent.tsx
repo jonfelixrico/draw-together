@@ -29,23 +29,34 @@ export default function RoomContent() {
       }}
       fluid
     >
-      <Row className="h-100">
-        <Col className="p-0">
-          {/* Intermediate div is present because we can't easily attach ref to Col */}
-          <div className="h-100 w-100 position-relative border" ref={ref}>
-            <div className="position-absolute">
-              <PathInputServiceProvider value={pathInputService}>
-                <CursorServiceProvider value={cursorService}>
-                  <Pad dimensions={dimensions} />
-                </CursorServiceProvider>
-              </PathInputServiceProvider>
-            </div>
-          </div>
+      <Row className="h-100 flex-column">
+        <Col xs="auto" className="py-2 bg-body-secondary border-bottom">
+          Test
         </Col>
+        <Col>
+          <Row className="h-100">
+            <Col className="p-0">
+              {/* Intermediate div is present because we can't easily attach ref to Col */}
+              <div className="h-100 w-100 position-relative" ref={ref}>
+                <div className="position-absolute">
+                  <PathInputServiceProvider value={pathInputService}>
+                    <CursorServiceProvider value={cursorService}>
+                      <Pad dimensions={dimensions} />
+                    </CursorServiceProvider>
+                  </PathInputServiceProvider>
+                </div>
+              </div>
+            </Col>
 
-        <Col xs="2" className="p-2" data-cy="participants-drawer">
-          <div className="h5">Participants</div>
-          <ParticipantsList />
+            <Col
+              xs="2"
+              className="p-2 bg-body-tertiary border-start"
+              data-cy="participants-drawer"
+            >
+              <div className="h5">Participants</div>
+              <ParticipantsList />
+            </Col>
+          </Row>
         </Col>
       </Row>
     </Container>
