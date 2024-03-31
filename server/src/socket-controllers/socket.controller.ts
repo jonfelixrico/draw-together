@@ -45,6 +45,10 @@ export function socketIOHandler(server: Server) {
       socket.broadcast.to(roomId).emit('PAD', payload)
     })
 
+    socket.on('PAD_TRANSIENT', (payload: Record<string, unknown>) => {
+      socket.broadcast.to(roomId).emit('PAD_TRANSIENT', payload)
+    })
+
     padHistoryHandler(socket, roomId)
   })
 }
