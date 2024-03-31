@@ -2,6 +2,11 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { PadCursor, PathColor, PathData } from '@/modules/pad-common/pad.types'
 import { Point } from '@/modules/common/geometry.types'
 import type { RootState } from '@/store'
+import clamp from 'lodash/clamp'
+import {
+  MAX_THICKNESS,
+  MIN_THICKNESS,
+} from '@/modules/pad-common/pad-options.utils'
 
 export interface PadState {
   paths: {
@@ -74,6 +79,14 @@ export const padSlice = createSlice({
 
     setThickness: (state, { payload }: PayloadAction<number>) => {
       state.options.thickness = payload
+    },
+
+    incrementThickness: ({ options }, { payload }: PayloadAction<number>) => {
+      options.thickness = clamp(
+        options.thickness + payload,
+        MIN_THICKNESS,
+        MAX_THICKNESS
+      )
     },
 
     setCursor: (state, { payload }: PayloadAction<PadCursor>) => {
