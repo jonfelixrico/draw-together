@@ -34,7 +34,7 @@ export default function BasicModal({
         <If condition={!!cancel}>
           <Then>
             <Button variant="secondary" onClick={onHide}>
-              {cancel!.label}
+              {cancel?.label}
             </Button>
           </Then>
         </If>
