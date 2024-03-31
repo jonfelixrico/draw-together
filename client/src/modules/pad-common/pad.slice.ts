@@ -33,7 +33,7 @@ const INITIAL_STATE: PadState = {
 
   options: {
     thickness: 5,
-    color: '#000000',
+    color: '#00000000',
   },
 
   cursors: {},
