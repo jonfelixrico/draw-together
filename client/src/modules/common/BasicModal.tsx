@@ -34,24 +34,28 @@ export default function BasicModal({
 
       <Modal.Body>{children}</Modal.Body>
 
-      <Modal.Footer>
-        <If condition={!!cancel}>
-          <Then>
-            <Button variant="secondary" onClick={onCancel}>
-              {/* At this point, we expect cancel to be not null. The `?` operator is just here to not make TS complain. */}
-              {cancel?.label}
-            </Button>
-          </Then>
-        </If>
+      <If condition={!!cancel || !!ok}>
+        <Then>
+          <Modal.Footer>
+            <If condition={!!cancel}>
+              <Then>
+                <Button variant="secondary" onClick={onCancel}>
+                  {/* At this point, we expect cancel to be not null. The `?` operator is just here to not make TS complain. */}
+                  {cancel?.label}
+                </Button>
+              </Then>
+            </If>
 
-        <If condition={!!ok}>
-          <Then>
-            <Button variant="primary" onClick={onOk}>
-              {ok?.label}
-            </Button>
-          </Then>
-        </If>
-      </Modal.Footer>
+            <If condition={!!ok}>
+              <Then>
+                <Button variant="primary" onClick={onOk}>
+                  {ok?.label}
+                </Button>
+              </Then>
+            </If>
+          </Modal.Footer>
+        </Then>
+      </If>
     </Modal>
   )
 }
