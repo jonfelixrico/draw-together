@@ -30,7 +30,7 @@ function Toolbar() {
 
 function Drawer() {
   return (
-    <Row className="h-100 flex-column gy-2">
+    <Row className="h-100 flex-column gy-3">
       <Col xs="auto">
         <div className="h6">Participants</div>
         <ParticipantsList />
