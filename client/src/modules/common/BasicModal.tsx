@@ -22,7 +22,7 @@ export default function BasicModal({
   cancel?: {
     label: string
   }
-  ok: {
+  ok?: {
     label: string
   }
 }) {
@@ -44,9 +44,13 @@ export default function BasicModal({
           </Then>
         </If>
 
-        <Button variant="primary" onClick={onOk}>
-          {ok.label}
-        </Button>
+        <If condition={!!ok}>
+          <Then>
+            <Button variant="primary" onClick={onOk}>
+              {ok?.label}
+            </Button>
+          </Then>
+        </If>
       </Modal.Footer>
     </Modal>
   )
