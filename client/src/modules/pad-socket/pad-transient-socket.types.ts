@@ -11,3 +11,10 @@ export interface CursorUpdatePayload {
   id: string
   diameter: number
 }
+
+export interface CursorUpdate {
+  [PadTransientSocketCode.CURSOR_UPDATE]: CursorUpdatePayload
+}
+
+export type PadTransientRequest = CursorUpdate
+export type PadTransientResponse = CursorUpdate
