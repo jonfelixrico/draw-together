@@ -52,11 +52,35 @@ function LeaveButton() {
   )
 }
 
+function ShareButton() {
+  const [show, setShow] = useState(false)
+
+  return (
+    <>
+      <Button size="sm" variant="primary" onClick={() => setShow(true)}>
+        Share
+      </Button>
+      <BasicModal
+        title="Share"
+        show={show}
+        onHide={() => {
+          setShow(false)
+        }}
+      >
+        Are you sure you want to leave the room?
+      </BasicModal>
+    </>
+  )
+}
+
 function Toolbar() {
   return (
     <Row className="justify-content-between align-items-center">
       <Col xs="auto">
         <LeaveButton />
+      </Col>
+      <Col xs="auto">
+        <ShareButton />
       </Col>
     </Row>
   )
