@@ -1,7 +1,7 @@
 import {
-  CursorUpdate,
   CursorUpdatePayload,
   PAD_TRANSIENT_EVENT_TYPE,
+  PadTransientRequest,
   PadTransientResponse,
   PadTransientSocketCode,
 } from '@/modules/pad-socket/pad-transient-socket.types'
@@ -9,7 +9,7 @@ import { useClientId } from '@/modules/common/client-id.hook'
 import { PadActions } from '@/modules/pad-common/pad.slice'
 import { CursorService } from '@/modules/pad-service/cursor-service.context'
 import { useRoomSocket } from '@/modules/socket/room-socket.hook'
-import { useSocketOn } from '@/modules/socket/socket.hook'
+import { useSocketEmit, useSocketOn } from '@/modules/socket/socket.hook'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { useCallback } from 'react'
 
@@ -38,6 +38,12 @@ export function useCursorServiceImpl(): CursorService {
     cursorFromOtherUsersHandler
   )
 
+  const emitCursor = useSocketEmit<PadTransientRequest>(
+    socket,
+    PAD_TRANSIENT_EVENT_TYPE,
+    PadTransientSocketCode.CURSOR_UPDATE
+  )
+
   const setUserCursor: CursorService['setUserCursor'] = useCallback(
     (point) => {
       dispatch(
@@ -48,15 +54,13 @@ export function useCursorServiceImpl(): CursorService {
         })
       )
 
-      socket.emit(PAD_TRANSIENT_EVENT_TYPE, {
-        CURSOR_UPDATE: {
-          diameter,
-          id: userId,
-          point,
-        },
-      } as CursorUpdate)
+      emitCursor({
+        diameter,
+        id: userId,
+        point,
+      })
     },
-    [dispatch, userId, socket, diameter]
+    [dispatch, userId, diameter, emitCursor]
   )
 
   const clearUserCursor: CursorService['clearUserCursor'] = useCallback(() => {
