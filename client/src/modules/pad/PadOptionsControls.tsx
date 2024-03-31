@@ -12,9 +12,10 @@ export default function PadOptionsControls() {
   const dispatch = useAppDispatch()
 
   return (
-    <Stack>
-      <Row>
-        <Col xs={2}>Thickness</Col>
+    <Stack gap={3}>
+      <Row className="align-items-center">
+        <Col xs="auto">Thickness</Col>
+
         <Col>
           <Slider
             value={thickness}
@@ -26,10 +27,14 @@ export default function PadOptionsControls() {
           />
         </Col>
       </Row>
-      <HexColorPicker
-        color={color}
-        onChange={(newColor) => dispatch(PadActions.setColor(newColor))}
-      />
+      <Row className="justify-content-center">
+        <Col xs="auto">
+          <HexColorPicker
+            color={color}
+            onChange={(newColor) => dispatch(PadActions.setColor(newColor))}
+          />
+        </Col>
+      </Row>
     </Stack>
   )
 }
