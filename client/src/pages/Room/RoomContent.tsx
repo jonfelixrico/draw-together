@@ -36,11 +36,16 @@ function Toolbar() {
 
 function Drawer() {
   return (
-    <Row className="h-100 flex-column gy-3">
+    <Row className="h-100 flex-column gy-2">
       <Col xs="auto">
         <div className="h6">Participants</div>
         <ParticipantsList />
       </Col>
+
+      <div>
+        <div className="border-bottom" />
+      </div>
+
       <Col xs="auto">
         <div className="h6">Options</div>
         <PadOptionsControls />
