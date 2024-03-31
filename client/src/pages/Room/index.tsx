@@ -22,7 +22,7 @@ import { PadEventsService } from '@/modules/pad-socket/pad-events'
 import { useMount } from '@/modules/common/lifecycle.hook'
 import { createRoomSocket } from '@/modules/common/room-socket.util'
 import store from '@/store'
-import { UiActions } from '@/store/ui.slice'
+import { UiActions } from '@/modules/ui/ui.slice'
 
 enum RoomErrorType {
   NO_USERNAME,

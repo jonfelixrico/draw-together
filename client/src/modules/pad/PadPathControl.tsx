@@ -2,12 +2,12 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { PathColor } from '@/modules/pad/pad.types'
+import { PathColor } from '@/modules/pad-common/pad.types'
 import {
-  PadPathActions,
+  PadActions,
   selectColor,
   selectThickness,
-} from '@/store/pad-path.slice'
+} from '@/modules/pad-common/pad.slice'
 import Slider from '@/lib/Slider'
 
 export default function PadPathControl() {
@@ -17,11 +17,11 @@ export default function PadPathControl() {
   const thickness = useAppSelector(selectThickness)
 
   function setColor(color: PathColor) {
-    dispatch(PadPathActions.setColor(color))
+    dispatch(PadActions.setColor(color))
   }
 
   function setThickness(thickness: number) {
-    dispatch(PadPathActions.setThickness(thickness))
+    dispatch(PadActions.setThickness(thickness))
   }
 
   return (

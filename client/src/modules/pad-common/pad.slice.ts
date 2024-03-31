@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { PathColor, PathData } from '@/modules/pad/pad.types'
+import { PadCursor, PathColor, PathData } from '@/modules/pad-common/pad.types'
 import { Point } from '@/modules/common/geometry.types'
 import type { RootState } from '@/store'
 
@@ -16,6 +16,10 @@ export interface PadState {
     thickness: number
     color: PathColor
   }
+
+  cursors: {
+    [id: string]: PadCursor
+  }
 }
 
 const INITIAL_STATE: PadState = {
@@ -26,10 +30,12 @@ const INITIAL_STATE: PadState = {
     thickness: 5,
     color: '#000000',
   },
+
+  cursors: {},
 }
 
-export const padPathSlice = createSlice({
-  name: 'padPath',
+export const padSlice = createSlice({
+  name: 'pad',
   initialState: INITIAL_STATE,
   reducers: {
     setPath: (state, { payload }: PayloadAction<PathData>) => {
@@ -69,13 +75,20 @@ export const padPathSlice = createSlice({
     setThickness: (state, { payload }: PayloadAction<number>) => {
       state.options.thickness = payload
     },
+
+    setCursor: (state, { payload }: PayloadAction<PadCursor>) => {
+      state.cursors[payload.id] = payload
+    },
+
+    clearCursor: (state, { payload }: PayloadAction<string>) => {
+      delete state.cursors[payload]
+    },
   },
 })
 
-export const PadPathActions = padPathSlice.actions
+export const PadActions = padSlice.actions
 
-export default padPathSlice.reducer
+export default padSlice.reducer
 
-export const selectThickness = ({ padPath }: RootState) =>
-  padPath.options.thickness
-export const selectColor = ({ padPath }: RootState) => padPath.options.color
+export const selectThickness = ({ pad }: RootState) => pad.options.thickness
+export const selectColor = ({ pad }: RootState) => pad.options.color

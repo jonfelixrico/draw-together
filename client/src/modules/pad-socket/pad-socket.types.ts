@@ -1,5 +1,5 @@
 import { Point } from '@/modules/common/geometry.types'
-import { PathData } from '@/modules/pad/pad.types'
+import { PathData } from '@/modules/pad-common/pad.types'
 
 export const PAD_SOCKET_EVENT = 'PAD'
 

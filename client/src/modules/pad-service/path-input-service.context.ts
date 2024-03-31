@@ -7,6 +7,9 @@ export interface DrawEvent {
   isEnd?: boolean
 }
 
+/**
+ * Facade/abstract for path input mechanisms
+ */
 export interface PathInputService {
   emitDraw(event: DrawEvent): void
 }
@@ -17,6 +20,10 @@ const PathInputServiceContext = createContext<PathInputService>({
   },
 })
 
+/**
+ * To be used at the ancestor level.
+ * This will provide the implementation of `PathInputService`
+ */
 export const PathInputServiceProvider = PathInputServiceContext.Provider
 
 export function usePathInputService() {
