@@ -27,14 +27,14 @@ export default function PadOptionsControls() {
           />
         </Col>
       </Row>
-      <Row className="justify-content-center">
-        <Col xs="auto">
-          <HexColorPicker
-            color={color}
-            onChange={(newColor) => dispatch(PadActions.setColor(newColor))}
-          />
-        </Col>
-      </Row>
+
+      <div className="px-2">
+        <HexColorPicker
+          className="w-100"
+          color={color}
+          onChange={(newColor) => dispatch(PadActions.setColor(newColor))}
+        />
+      </div>
     </Stack>
   )
 }
