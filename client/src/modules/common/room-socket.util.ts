@@ -1,4 +1,4 @@
-import { createSocket } from './socket.util'
+import { createSocket } from '../socket/socket.util'
 
 export async function createRoomSocket(options: {
   roomId: string

@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 
-import { getApiClient } from '@/services/api-client'
+import { getApiClient } from '@/modules/common/api-client'
 import {
   LoaderFunction,
   useLoaderData,
@@ -9,20 +9,20 @@ import {
 } from 'react-router-dom'
 import { HttpStatusCode, isAxiosError } from 'axios'
 import { Case, Default, Switch } from 'react-if'
-import RoomLoaderErrorNotFound from '@/components/room/error-boundary/RoomLoaderErrorNotFound'
-import RoomLoaderErrorNoName from '@/components/room/error-boundary/RoomLoaderErrorNoName'
-import RoomLoaderErrorUnexpected from '@/components/room/error-boundary/RoomLoaderErrorUnexpected'
-import RoomContent from '@/components/room/RoomContent'
-import { Room } from '@/typings/room.types'
-import { SocketIoError } from '@/utils/socket.util'
-import { getClientUUID } from '@/utils/local-storage-vars.util'
+import RoomLoaderErrorNotFound from '@/pages/Room/error-boundary/RoomLoaderErrorNotFound'
+import RoomLoaderErrorNoName from '@/pages/Room/error-boundary/RoomLoaderErrorNoName'
+import RoomLoaderErrorUnexpected from '@/pages/Room/error-boundary/RoomLoaderErrorUnexpected'
+import RoomContent from './RoomContent'
+import { Room } from '@/modules/common/room.types'
+import { SocketIoError } from '@/modules/socket/socket.util'
+import { getClientUUID } from '@/modules/common/local-storage-vars.util'
 import { useUnmount } from 'react-use'
 import { Socket } from 'socket.io-client'
-import { PadEventsService } from '@/services/pad-events'
-import { useMount } from '@/hooks/lifecycle.hook'
-import { createRoomSocket } from '@/utils/room-socket.util'
+import { PadEventsService } from '@/modules/pad-socket/pad-events'
+import { useMount } from '@/modules/common/lifecycle.hook'
+import { createRoomSocket } from '@/modules/common/room-socket.util'
 import store from '@/store'
-import { UiActions } from '@/store/ui.slice'
+import { UiActions } from '@/modules/ui/ui.slice'
 
 enum RoomErrorType {
   NO_USERNAME,

@@ -1,11 +1,11 @@
 import { useAppDispatch } from '@/store/hooks'
-import { PadPathActions } from '@/store/pad-path.slice'
+import { PadActions } from '@/modules/pad-common/pad.slice'
 import {
   PathCreatePayload,
   PathDraftMovePayload,
   PathDraftStartPayload,
   PadSocketCode,
-} from '@/typings/pad-socket.types'
+} from '@/modules/pad-socket/pad-socket.types'
 import { useMessageEffect } from '@/modules/socket/room-socket.hook'
 import { useCallback } from 'react'
 
@@ -14,8 +14,8 @@ export function usePathSocketWatcher() {
 
   const pathCreateHandler = useCallback(
     (payload: PathCreatePayload) => {
-      dispatch(PadPathActions.setPath(payload))
-      dispatch(PadPathActions.removeDraftPath(payload.id))
+      dispatch(PadActions.setPath(payload))
+      dispatch(PadActions.removeDraftPath(payload.id))
     },
     [dispatch]
   )
@@ -24,7 +24,7 @@ export function usePathSocketWatcher() {
 
   const pathDraftStartHandler = useCallback(
     (payload: PathDraftStartPayload) => {
-      dispatch(PadPathActions.setDraftPath(payload))
+      dispatch(PadActions.setDraftPath(payload))
     },
     [dispatch]
   )
@@ -34,7 +34,7 @@ export function usePathSocketWatcher() {
   const pathDraftMoveHandler = useCallback(
     ({ id, point }: PathDraftMovePayload) => {
       dispatch(
-        PadPathActions.addPointToDraftPath({
+        PadActions.addPointToDraftPath({
           id,
           point,
         })

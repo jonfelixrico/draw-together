@@ -6,9 +6,9 @@ import {
   ServerReq,
   ServerResp,
   ServerSocketCode,
-} from '@/typings/server-socket.types'
+} from '@/modules/socket/server-socket.types'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { SocketActions } from '@/store/socket.slice'
+import { SocketActions } from '@/modules/socket/socket.slice'
 import { Participant } from './participants.types'
 
 export function useParticipantWatcher() {

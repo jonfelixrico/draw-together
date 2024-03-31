@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { getApiClient } from '@/services/api-client'
+import { getApiClient } from '@/modules/common/api-client'
 
 /**
  * Use this over `getApiClient` inside of components.

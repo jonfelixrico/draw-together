@@ -1,21 +1,17 @@
-import { ReactNode, useCallback, useMemo, useRef } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import {
-  DrawEvent,
-  PathInputService,
-  PathInputServiceProvider,
-} from '@/components/pad/hooks/path-input.hook'
+import { DrawEvent } from './path-input-service.context'
 import { useSendMessage } from '@/modules/socket/room-socket.hook'
-import { PathData } from '@/typings/pad.types'
+import { PathData } from '@/modules/pad-common/pad.types'
 import {
-  PadPathActions,
+  PadActions,
   selectColor,
   selectThickness,
-} from '@/store/pad-path.slice'
+} from '@/modules/pad-common/pad.slice'
 import { nanoid } from 'nanoid'
-import { PadSocketCode } from '@/typings/pad-socket.types'
+import { PadSocketCode } from '@/modules/pad-socket/pad-socket.types'
 
-export default function DrawServiceProvider(props: { children: ReactNode }) {
+export function usePathInputServiceImpl() {
   const color = useAppSelector(selectColor)
   const thickness = useAppSelector(selectThickness)
 
@@ -34,7 +30,7 @@ export default function DrawServiceProvider(props: { children: ReactNode }) {
           id: nanoid(),
         }
 
-        dispatch(PadPathActions.setDraftPath(newDraft))
+        dispatch(PadActions.setDraftPath(newDraft))
         sendMessage(PadSocketCode.PATH_DRAFT_START, {
           ...newDraft,
           counter: 0,
@@ -61,11 +57,11 @@ export default function DrawServiceProvider(props: { children: ReactNode }) {
 
       if (event.isEnd) {
         sendMessage(PadSocketCode.PATH_CREATE, updated)
-        dispatch(PadPathActions.setPath(updated))
-        dispatch(PadPathActions.removeDraftPath(draft.id))
+        dispatch(PadActions.setPath(updated))
+        dispatch(PadActions.removeDraftPath(draft.id))
       } else {
         // reaching this line means that we're processing regular move events
-        dispatch(PadPathActions.setDraftPath(updated))
+        dispatch(PadActions.setDraftPath(updated))
       }
 
       draftRef.current = updated
@@ -73,15 +69,9 @@ export default function DrawServiceProvider(props: { children: ReactNode }) {
     [sendMessage, dispatch, color, thickness]
   )
 
-  const service: PathInputService = useMemo(() => {
+  return useMemo(() => {
     return {
       emitDraw: handleDraw,
     }
   }, [handleDraw])
-
-  return (
-    <PathInputServiceProvider value={service}>
-      {props.children}
-    </PathInputServiceProvider>
-  )
 }

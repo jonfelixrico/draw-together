@@ -1,8 +1,8 @@
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
-import { useApiClient } from '@/hooks/api-client.hook'
+import { useApiClient } from '@/modules/common/api-client.hook'
 import { useNavigate } from 'react-router-dom'
-import { useLoading } from '@/hooks/loading.hook'
+import { useLoading } from '@/modules/ui/loading.hook'
 
 interface ResponseBody {
   id: string
