@@ -10,6 +10,8 @@ import { usePathInputServiceImpl } from '@/modules/pad-service/path-input-servic
 import { Pad } from '@/modules/pad/Pad'
 import { CursorServiceProvider } from '@/modules/pad-service/cursor-service.context'
 import { useCursorServiceImpl } from '@/modules/pad-service/cursor-service-impl.hook'
+import Button from 'react-bootstrap/Button'
+import { useNavigate } from 'react-router-dom'
 
 export default function RoomContent() {
   useParticipantWatcher()
@@ -18,6 +20,8 @@ export default function RoomContent() {
 
   const pathInputService = usePathInputServiceImpl()
   const cursorService = useCursorServiceImpl()
+
+  const navigate = useNavigate()
 
   return (
     <Container
@@ -31,7 +35,19 @@ export default function RoomContent() {
     >
       <Row className="h-100 flex-column">
         <Col xs="auto" className="py-2 bg-body-secondary border-bottom">
-          Test
+          <Row className="justify-content-between align-items-center">
+            <Col xs="auto">
+              <Button size="sm" variant="danger" onClick={() => navigate('/')}>
+                Leave Room
+              </Button>
+            </Col>
+            <Col xs="auto">
+              {/* TODO add impl */}
+              <Button size="sm" variant="primary">
+                Share
+              </Button>
+            </Col>
+          </Row>
         </Col>
         <Col>
           <Row className="h-100">
