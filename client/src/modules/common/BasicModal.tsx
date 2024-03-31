@@ -10,9 +10,13 @@ export default function BasicModal({
   cancel,
   ok,
   title,
+  onCancel,
+  onOk,
 }: {
   show: boolean
-  onHide: () => void
+  onHide?: () => void
+  onOk?: () => void
+  onCancel?: () => void
   children: ReactNode
   title: string
   cancel?: {
@@ -33,14 +37,14 @@ export default function BasicModal({
       <Modal.Footer>
         <If condition={!!cancel}>
           <Then>
-            <Button variant="secondary" onClick={onHide}>
+            <Button variant="secondary" onClick={onCancel}>
               {/* At this point, we expect cancel to be not null. The `?` operator is just here to not make TS complain. */}
               {cancel?.label}
             </Button>
           </Then>
         </If>
 
-        <Button variant="primary" onClick={onHide}>
+        <Button variant="primary" onClick={onOk}>
           {ok.label}
         </Button>
       </Modal.Footer>

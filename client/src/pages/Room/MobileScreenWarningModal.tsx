@@ -26,6 +26,7 @@ export default function MobileScreenWarningModal() {
       }}
       show={show}
       onHide={handleClose}
+      onOk={handleClose}
     >
       We noticed that you are using a mobile device. Currently it is not
       supported by the web app. For the best experience, please use a laptop or
