@@ -53,7 +53,6 @@ export function useCursorServiceImpl(): CursorService {
         PadActions.setCursor({
           id: userId,
           point,
-          timestamp: Date.now(),
         })
       )
 

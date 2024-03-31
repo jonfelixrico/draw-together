@@ -2,7 +2,7 @@ import { PadActions } from '@/modules/pad-common/pad.slice'
 import { useAppDispatch } from '@/store/hooks'
 import { ReactNode } from 'react'
 
-export default function PadOptionThicknessWheelInput({
+export default function PadOptionsThicknessWheelInput({
   children,
 }: {
   children: ReactNode
