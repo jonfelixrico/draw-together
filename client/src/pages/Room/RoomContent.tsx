@@ -12,6 +12,42 @@ import { CursorServiceProvider } from '@/modules/pad-service/cursor-service.cont
 import { useCursorServiceImpl } from '@/modules/pad-service/cursor-service-impl.hook'
 import Button from 'react-bootstrap/Button'
 import { useNavigate } from 'react-router-dom'
+import PadOptionsControls from '@/modules/pad/PadOptionsControls'
+
+function Toolbar() {
+  const navigate = useNavigate()
+
+  return (
+    <Row className="justify-content-between align-items-center">
+      <Col xs="auto">
+        <Button size="sm" variant="danger" onClick={() => navigate('/')}>
+          Leave Room
+        </Button>
+      </Col>
+      <Col xs="auto">
+        {/* TODO add impl */}
+        <Button size="sm" variant="primary">
+          Share
+        </Button>
+      </Col>
+    </Row>
+  )
+}
+
+function Drawer() {
+  return (
+    <Row className="h-100 flex-column gy-3">
+      <Col xs="auto">
+        <div className="h6">Participants</div>
+        <ParticipantsList />
+      </Col>
+      <Col xs="auto">
+        <div className="h6">Options</div>
+        <PadOptionsControls />
+      </Col>
+    </Row>
+  )
+}
 
 export default function RoomContent() {
   useParticipantWatcher()
@@ -20,8 +56,6 @@ export default function RoomContent() {
 
   const pathInputService = usePathInputServiceImpl()
   const cursorService = useCursorServiceImpl()
-
-  const navigate = useNavigate()
 
   return (
     <Container
@@ -35,19 +69,7 @@ export default function RoomContent() {
     >
       <Row className="h-100 flex-column">
         <Col xs="auto" className="py-2 bg-body-secondary border-bottom">
-          <Row className="justify-content-between align-items-center">
-            <Col xs="auto">
-              <Button size="sm" variant="danger" onClick={() => navigate('/')}>
-                Leave Room
-              </Button>
-            </Col>
-            <Col xs="auto">
-              {/* TODO add impl */}
-              <Button size="sm" variant="primary">
-                Share
-              </Button>
-            </Col>
-          </Row>
+          <Toolbar />
         </Col>
         <Col>
           <Row className="h-100">
@@ -69,8 +91,7 @@ export default function RoomContent() {
               className="p-2 bg-body-tertiary border-start"
               data-cy="participants-drawer"
             >
-              <div className="h5">Participants</div>
-              <ParticipantsList />
+              <Drawer />
             </Col>
           </Row>
         </Col>
