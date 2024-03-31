@@ -16,7 +16,7 @@ import { RoomToolbar } from '@/pages/Room/RoomToolbar'
 
 function Drawer() {
   return (
-    <Row className="h-100 flex-column gy-3">
+    <Row className="h-100 w-100 flex-column gy-3">
       <Col xs="auto">
         <div className="h6">Participants</div>
         <ParticipantsList />
