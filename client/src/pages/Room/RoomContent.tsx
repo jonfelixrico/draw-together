@@ -23,8 +23,8 @@ function LeaveButton() {
 
   return (
     <>
-      <Button size="sm" variant="danger" onClick={() => setShow(true)}>
-        Leave Room
+      <Button size="sm" variant="secondary" onClick={() => setShow(true)}>
+        Leave
       </Button>
       <BasicModal
         title="Leave Room"
