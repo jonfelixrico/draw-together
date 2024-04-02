@@ -11,7 +11,7 @@ class RoomDb extends Dexie {
   constructor() {
     super('room-db')
     this.version(1).stores({
-      room: 'id',
+      rooms: 'id',
     })
   }
 }
