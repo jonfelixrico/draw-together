@@ -13,7 +13,7 @@ export default function HomeActionStepHistory() {
       <Card.Body>
         <Card.Title>Join History</Card.Title>
         <If condition={!rooms?.length}>
-          <Then>{rooms!.map((room) => JSON.stringify(room))}</Then>
+          <Then>{rooms?.map((room) => JSON.stringify(room))}</Then>
           <Else>No items</Else>
         </If>
       </Card.Body>
