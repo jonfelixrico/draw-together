@@ -12,9 +12,9 @@ export default function HomeActionStepHistory() {
     <Card>
       <Card.Body>
         <Card.Title>Join History</Card.Title>
-        <If condition={!rooms?.length}>
+        <If condition={rooms?.length}>
           <Then>{rooms?.map((room) => JSON.stringify(room))}</Then>
-          <Else>No items</Else>
+          <Else>No items to show</Else>
         </If>
       </Card.Body>
     </Card>
