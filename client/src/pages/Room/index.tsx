@@ -26,6 +26,7 @@ import { UiActions } from '@/modules/ui/ui.slice'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { roomDb } from '@/modules/room/room.db'
+import { PadActions } from '@/modules/pad-common/pad.slice'
 
 enum RoomErrorType {
   NO_USERNAME,
@@ -48,6 +49,9 @@ export const loader: LoaderFunction = async ({ params }) => {
   if (!params.roomId) {
     throw new RoomError(RoomErrorType.UNEXPECTED)
   }
+
+  // TODO implement a better way to do this
+  store.dispatch(PadActions.resetState())
 
   store.dispatch(UiActions.setLoading(true))
   try {
