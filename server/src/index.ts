@@ -29,11 +29,15 @@ app.post('/room', (_, res) => {
 app.get('/room/:roomId', (req, res) => {
   const { roomId } = req.params
 
-  if (!roomService.getRoom(roomId)) {
+  const room = roomService.getRoom(roomId)
+  if (!room) {
     return res.sendStatus(404)
   }
 
-  res.sendStatus(200)
+  res.json({
+    id: roomId,
+    name: room.name,
+  })
 })
 
 socketIOHandler(io)
