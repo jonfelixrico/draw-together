@@ -25,6 +25,7 @@ import store from '@/store'
 import { UiActions } from '@/modules/ui/ui.slice'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { roomDb } from '@/modules/room/room.db'
 
 enum RoomErrorType {
   NO_USERNAME,
@@ -55,6 +56,23 @@ export const loader: LoaderFunction = async ({ params }) => {
 
     if (!username) {
       throw new RoomError(RoomErrorType.NO_USERNAME)
+    }
+
+    const localRecord = await roomDb.rooms
+      .where('id')
+      .equals(params.roomId)
+      .first()
+    if (!localRecord) {
+      await roomDb.rooms.add({
+        id: params.roomId,
+        lastOpened: Date.now(),
+        name: data.name,
+      })
+    } else {
+      await roomDb.rooms.update(params.roomId, {
+        lastOpened: Date.now(),
+        name: data.name,
+      })
     }
 
     const socket = await createRoomSocket({
