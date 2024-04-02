@@ -101,6 +101,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     }
 
     if (isAxiosError(e) && e.response?.status === HttpStatusCode.NotFound) {
+      await roomDb.rooms.delete(params.roomId)
       throw new RoomError(RoomErrorType.NOT_FOUND)
     }
 
