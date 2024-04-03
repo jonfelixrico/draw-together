@@ -8,7 +8,7 @@ import {
   ServerSocketCode,
 } from '@/modules/socket/server-socket.types'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { RoomActions } from '@/modules/room/socket.slice'
+import { RoomActions } from '@/modules/room/room.slice'
 import { Participant } from './participants.types'
 
 export function useParticipantWatcher() {
