@@ -5,7 +5,7 @@ export interface RoomDbRecord extends Room {
   lastOpened: number
 }
 
-class RoomDb extends Dexie {
+class LocalDb extends Dexie {
   rooms!: Table<RoomDbRecord>
 
   constructor() {
@@ -16,4 +16,4 @@ class RoomDb extends Dexie {
   }
 }
 
-export const roomDb = new RoomDb()
+export const roomDb = new LocalDb()
