@@ -3,6 +3,7 @@ import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import HomeActionStepHost from './HomeActionStepHost'
 import HomeActionStepJoin from './HomeActionStepJoin'
+import HomeActionStepHistory from '@/modules/home/HomeActionStepHistory'
 
 export default function HomeActionStep({
   username,
@@ -36,6 +37,10 @@ export default function HomeActionStep({
 
         <Col sm="12" md>
           <HomeActionStepJoin />
+        </Col>
+
+        <Col xs="12">
+          <HomeActionStepHistory />
         </Col>
       </Row>
     </Container>

@@ -13,7 +13,7 @@ import RoomLoaderErrorNotFound from '@/pages/Room/error-boundary/RoomLoaderError
 import RoomLoaderErrorNoName from '@/pages/Room/error-boundary/RoomLoaderErrorNoName'
 import RoomLoaderErrorUnexpected from '@/pages/Room/error-boundary/RoomLoaderErrorUnexpected'
 import RoomContent from './RoomContent'
-import { Room } from '@/modules/common/room.types'
+import { Room } from '@/modules/room/room.types'
 import { SocketIoError } from '@/modules/socket/socket.util'
 import { getClientUUID } from '@/modules/common/local-storage-vars.util'
 import { useUnmount } from 'react-use'
@@ -25,6 +25,8 @@ import store from '@/store'
 import { UiActions } from '@/modules/ui/ui.slice'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { roomDb } from '@/modules/room/room.db'
+import { PadActions } from '@/modules/pad-common/pad.slice'
 
 enum RoomErrorType {
   NO_USERNAME,
@@ -48,6 +50,9 @@ export const loader: LoaderFunction = async ({ params }) => {
     throw new RoomError(RoomErrorType.UNEXPECTED)
   }
 
+  // TODO implement a better way to do this
+  store.dispatch(PadActions.resetState())
+
   store.dispatch(UiActions.setLoading(true))
   try {
     const { data } = await api.get<Room>(`room/${params.roomId}`)
@@ -55,6 +60,23 @@ export const loader: LoaderFunction = async ({ params }) => {
 
     if (!username) {
       throw new RoomError(RoomErrorType.NO_USERNAME)
+    }
+
+    const localRecord = await roomDb.rooms
+      .where('id')
+      .equals(params.roomId)
+      .first()
+    if (!localRecord) {
+      await roomDb.rooms.add({
+        id: params.roomId,
+        lastOpened: Date.now(),
+        name: data.name,
+      })
+    } else {
+      await roomDb.rooms.update(params.roomId, {
+        lastOpened: Date.now(),
+        name: data.name,
+      })
     }
 
     const socket = await createRoomSocket({
@@ -83,6 +105,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     }
 
     if (isAxiosError(e) && e.response?.status === HttpStatusCode.NotFound) {
+      await roomDb.rooms.delete(params.roomId)
       throw new RoomError(RoomErrorType.NOT_FOUND)
     }
 

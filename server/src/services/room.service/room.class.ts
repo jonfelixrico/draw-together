@@ -1,3 +1,5 @@
+import { faker } from '@faker-js/faker'
+
 export class Room {
   /*
    * TODO add types for the "abstract" event
@@ -5,9 +7,11 @@ export class Room {
    */
   private _history: unknown[] = []
   private _lastActivityTs: number
+  private _name: string
 
   constructor(public readonly roomId: string) {
     this._lastActivityTs = Date.now()
+    this._name = `${faker.word.adjective()} ${faker.animal.type()}`
   }
 
   bumpLastActivityTs() {
@@ -25,5 +29,9 @@ export class Room {
 
   get lastActivityTs() {
     return this._lastActivityTs
+  }
+
+  get name() {
+    return this._name
   }
 }

@@ -11,7 +11,7 @@ export class RoomService {
   /**
    * TODO persist room data
    * For simplicity, we're just storing them in-memory for now
-   * 
+   *
    * This is public to be mockable by jest. This should NOT be accessed
    * outside of tests.
    * @private
@@ -31,14 +31,17 @@ export class RoomService {
 
   /**
    * Exposed as public for jest. Do NOT call in app code.
-   * @private 
+   * @private
    */
   purgeInactiveRooms() {
     const roomIds = Object.keys(this.rooms)
     const referenceTs = Date.now()
 
     for (const roomId of roomIds) {
-      if (referenceTs - this.rooms[roomId].lastActivityTs < INACTIVITY_THRESHOLD) {
+      if (
+        referenceTs - this.rooms[roomId].lastActivityTs <
+        INACTIVITY_THRESHOLD
+      ) {
         return
       }
 
