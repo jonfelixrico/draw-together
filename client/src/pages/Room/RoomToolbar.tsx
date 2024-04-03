@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useCopyToClipboard } from 'react-use'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import { useAppSelector } from '@/store/hooks'
 
 function LeaveButton() {
   const navigate = useNavigate()
@@ -97,10 +98,22 @@ function ShareButton() {
 }
 
 export function RoomToolbar() {
+  const title = useAppSelector((app) => app.room.name)
+
   return (
     <Row className="justify-content-between align-items-center">
       <Col xs="auto">
         <LeaveButton />
+      </Col>
+      <Col>
+        <Row className="align-items-center gx-2">
+          <Col xs="auto">
+            <div className="col-auto">Room name:</div>
+          </Col>
+          <Col xs="auto">
+            <h1 className="h5 my-0 col-auto">{title}</h1>
+          </Col>
+        </Row>
       </Col>
       <Col xs="auto">
         <ShareButton />

@@ -13,18 +13,21 @@ import RoomLoaderErrorNotFound from '@/pages/Room/error-boundary/RoomLoaderError
 import RoomLoaderErrorNoName from '@/pages/Room/error-boundary/RoomLoaderErrorNoName'
 import RoomLoaderErrorUnexpected from '@/pages/Room/error-boundary/RoomLoaderErrorUnexpected'
 import RoomContent from './RoomContent'
-import { Room } from '@/modules/common/room.types'
+import { Room } from '@/modules/room/room.types'
 import { SocketIoError } from '@/modules/socket/socket.util'
 import { getClientUUID } from '@/modules/common/local-storage-vars.util'
-import { useUnmount } from 'react-use'
 import { Socket } from 'socket.io-client'
-import { PadEventsService } from '@/modules/pad-socket/pad-events'
-import { useMount } from '@/modules/common/lifecycle.hook'
 import { createRoomSocket } from '@/modules/common/room-socket.util'
 import store from '@/store'
 import { UiActions } from '@/modules/ui/ui.slice'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { localDb } from '@/modules/common/db'
+import { PadEventsProvider } from '@/modules/pad-socket/pad-events-v2.context'
+import { useEffect } from 'react'
+import { useAppDispatch } from '@/store/hooks'
+import { PadActions } from '@/modules/pad-common/pad.slice'
+import { RoomActions } from '@/modules/room/room.slice'
 
 enum RoomErrorType {
   NO_USERNAME,
@@ -57,6 +60,23 @@ export const loader: LoaderFunction = async ({ params }) => {
       throw new RoomError(RoomErrorType.NO_USERNAME)
     }
 
+    const localRecord = await localDb.rooms
+      .where('id')
+      .equals(params.roomId)
+      .first()
+    if (!localRecord) {
+      await localDb.rooms.add({
+        id: params.roomId,
+        lastOpened: Date.now(),
+        name: data.name,
+      })
+    } else {
+      await localDb.rooms.update(params.roomId, {
+        lastOpened: Date.now(),
+        name: data.name,
+      })
+    }
+
     const socket = await createRoomSocket({
       roomId: params.roomId,
       clientId: getClientUUID(),
@@ -64,12 +84,9 @@ export const loader: LoaderFunction = async ({ params }) => {
     })
     console.debug('Connected to room %s', params.roomId)
 
-    const padEventsService = new PadEventsService(socket)
-
     return {
       room: data,
       socket,
-      padEventsService,
     }
   } catch (e) {
     if (e instanceof RoomError) {
@@ -83,6 +100,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     }
 
     if (isAxiosError(e) && e.response?.status === HttpStatusCode.NotFound) {
+      await localDb.rooms.delete(params.roomId)
       throw new RoomError(RoomErrorType.NOT_FOUND)
     }
 
@@ -93,25 +111,26 @@ export const loader: LoaderFunction = async ({ params }) => {
 }
 
 export function Component() {
-  const { socket, padEventsService } = useLoaderData() as {
+  const { socket, room } = useLoaderData() as {
     socket: Socket
-    padEventsService: PadEventsService
+    room: Room
   }
+  const { roomId } = useParams()
+  const dispatch = useAppDispatch()
 
-  useUnmount(() => {
+  useEffect(() => {
+    socket.connect()
+    dispatch(RoomActions.setName(room.name))
+
     return () => {
-      console.log('Unmount detected, disconnecting socket.io id %s', socket.id)
       socket.disconnect()
+      dispatch(PadActions.resetSlice())
+      dispatch(RoomActions.resetSlice())
     }
-  })
-
-  useMount(() => {
-    console.info('Started the pad events service')
-    padEventsService.start()
-  })
+  }, [socket, dispatch, room])
 
   return (
-    <>
+    <PadEventsProvider socket={socket} roomId={roomId!}>
       <RoomContent />
       <ToastContainer
         position="bottom-center"
@@ -122,7 +141,7 @@ export function Component() {
         draggable
         pauseOnHover
       />
-    </>
+    </PadEventsProvider>
   )
 }
 
