@@ -40,6 +40,34 @@ app.get('/room/:roomId', (req, res) => {
   })
 })
 
+app.get('/room/:roomId/event/length', (req, res) => {
+  const { roomId } = req.params
+
+  const room = roomService.getRoom(roomId)
+  if (!room) {
+    return res.sendStatus(404)
+  }
+
+  res.json({
+    length: room.history.length,
+  })
+})
+
+app.get('/room/:roomId/event', (req, res) => {
+  const { roomId } = req.params
+
+  const room = roomService.getRoom(roomId)
+  if (!room) {
+    return res.sendStatus(404)
+  }
+
+  const { start, end } = req.query
+
+  res.json(
+    room.history.slice(parseInt(start as string), parseInt(end as string))
+  )
+})
+
 socketIOHandler(io)
 
 server.listen(3000)

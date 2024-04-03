@@ -16,17 +16,18 @@ import RoomContent from './RoomContent'
 import { Room } from '@/modules/room/room.types'
 import { SocketIoError } from '@/modules/socket/socket.util'
 import { getClientUUID } from '@/modules/common/local-storage-vars.util'
-import { useUnmount } from 'react-use'
 import { Socket } from 'socket.io-client'
-import { PadEventsService } from '@/modules/pad-socket/pad-events'
-import { useMount } from '@/modules/common/lifecycle.hook'
 import { createRoomSocket } from '@/modules/common/room-socket.util'
 import store from '@/store'
 import { UiActions } from '@/modules/ui/ui.slice'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { roomDb } from '@/modules/room/room.db'
+import { PadEventsProvider } from '@/modules/pad-socket/pad-events-v2.context'
+import { useEffect } from 'react'
+import { useAppDispatch } from '@/store/hooks'
 import { PadActions } from '@/modules/pad-common/pad.slice'
+import { SocketActions } from '@/modules/socket/socket.slice'
 
 enum RoomErrorType {
   NO_USERNAME,
@@ -49,9 +50,6 @@ export const loader: LoaderFunction = async ({ params }) => {
   if (!params.roomId) {
     throw new RoomError(RoomErrorType.UNEXPECTED)
   }
-
-  // TODO implement a better way to do this
-  store.dispatch(PadActions.resetState())
 
   store.dispatch(UiActions.setLoading(true))
   try {
@@ -86,12 +84,9 @@ export const loader: LoaderFunction = async ({ params }) => {
     })
     console.debug('Connected to room %s', params.roomId)
 
-    const padEventsService = new PadEventsService(socket)
-
     return {
       room: data,
       socket,
-      padEventsService,
     }
   } catch (e) {
     if (e instanceof RoomError) {
@@ -116,25 +111,24 @@ export const loader: LoaderFunction = async ({ params }) => {
 }
 
 export function Component() {
-  const { socket, padEventsService } = useLoaderData() as {
+  const { socket } = useLoaderData() as {
     socket: Socket
-    padEventsService: PadEventsService
   }
+  const { roomId } = useParams()
+  const dispatch = useAppDispatch()
 
-  useUnmount(() => {
+  useEffect(() => {
+    socket.connect()
+
     return () => {
-      console.log('Unmount detected, disconnecting socket.io id %s', socket.id)
       socket.disconnect()
+      dispatch(PadActions.resetSlice())
+      dispatch(SocketActions.resetSlice())
     }
-  })
-
-  useMount(() => {
-    console.info('Started the pad events service')
-    padEventsService.start()
-  })
+  }, [socket, dispatch])
 
   return (
-    <>
+    <PadEventsProvider socket={socket} roomId={roomId!}>
       <RoomContent />
       <ToastContainer
         position="bottom-center"
@@ -145,7 +139,7 @@ export function Component() {
         draggable
         pauseOnHover
       />
-    </>
+    </PadEventsProvider>
   )
 }
 
