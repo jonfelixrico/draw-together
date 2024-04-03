@@ -79,7 +79,7 @@ export default function HomeActionStepHistory() {
   return (
     <>
       <BasicModal
-        title="Delete"
+        title="Clear History"
         show={show}
         onHide={() => setShow(false)}
         onOk={() => {
@@ -87,7 +87,7 @@ export default function HomeActionStepHistory() {
           roomDb.rooms.clear()
         }}
         ok={{
-          label: 'Yes, delete all',
+          label: 'Yes, clear history',
           variant: 'danger',
         }}
         cancel={{
@@ -111,7 +111,7 @@ export default function HomeActionStepHistory() {
                 onClick={() => setShow(true)}
                 disabled={!rooms?.length}
               >
-                Delete All
+                Clear History
               </Button>
             </Col>
           </Row>
