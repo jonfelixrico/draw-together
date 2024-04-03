@@ -12,6 +12,5 @@ export async function createRoomSocket(options: {
   return await createSocket({
     query: options,
     path: '/api/socket.io',
-    autoConnect: false,
   })
 }
