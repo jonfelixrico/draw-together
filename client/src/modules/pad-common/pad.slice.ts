@@ -97,7 +97,7 @@ export const padSlice = createSlice({
       delete state.cursors[payload]
     },
 
-    resetState: () => INITIAL_STATE,
+    resetSlice: () => INITIAL_STATE,
   },
 })
 

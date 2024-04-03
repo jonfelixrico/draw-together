@@ -121,7 +121,7 @@ export function Component() {
 
     return () => {
       socket.disconnect()
-      dispatch(PadActions.resetState())
+      dispatch(PadActions.resetSlice())
     }
   }, [socket, dispatch])
 
