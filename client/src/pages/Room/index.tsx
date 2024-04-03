@@ -27,6 +27,7 @@ import { PadEventsProvider } from '@/modules/pad-socket/pad-events-v2.context'
 import { useEffect } from 'react'
 import { useAppDispatch } from '@/store/hooks'
 import { PadActions } from '@/modules/pad-common/pad.slice'
+import { SocketActions } from '@/modules/socket/socket.slice'
 
 enum RoomErrorType {
   NO_USERNAME,
@@ -122,6 +123,7 @@ export function Component() {
     return () => {
       socket.disconnect()
       dispatch(PadActions.resetSlice())
+      dispatch(SocketActions.resetSlice())
     }
   }, [socket, dispatch])
 
