@@ -27,7 +27,7 @@ import { PadEventsProvider } from '@/modules/pad-socket/pad-events-v2.context'
 import { useEffect } from 'react'
 import { useAppDispatch } from '@/store/hooks'
 import { PadActions } from '@/modules/pad-common/pad.slice'
-import { SocketActions } from '@/modules/socket/socket.slice'
+import { SocketActions } from '@/modules/room/socket.slice'
 
 enum RoomErrorType {
   NO_USERNAME,
