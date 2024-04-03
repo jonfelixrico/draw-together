@@ -29,6 +29,7 @@ function HistoryEntry({
         }}
         ok={{
           label: 'Yes, delete',
+          variant: 'danger',
         }}
         cancel={{
           label: 'No, cancel',
