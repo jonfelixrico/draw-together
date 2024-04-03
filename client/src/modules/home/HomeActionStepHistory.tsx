@@ -1,7 +1,7 @@
 import Card from 'react-bootstrap/Card'
 import { Else, If, Then } from 'react-if'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { RoomDbRecord, roomDb } from '@/modules/room/room.db'
+import { RoomDbRecord, localDb } from '@/modules/room/room.db'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import ListGroup from 'react-bootstrap/ListGroup'
@@ -68,13 +68,13 @@ export default function HomeActionStepHistory() {
 
   const rooms = useLiveQuery(async () => {
     return sortBy(
-      await roomDb.rooms.toArray(),
+      await localDb.rooms.toArray(),
       ({ lastOpened }) => lastOpened
     ).reverse()
   })
 
   async function deleteHistoryEntry(id: string) {
-    const results = await roomDb.rooms.where('id').equals(id).delete()
+    const results = await localDb.rooms.where('id').equals(id).delete()
     if (results) {
       console.info('Room %s has been removed from the history', id)
     }
@@ -88,7 +88,7 @@ export default function HomeActionStepHistory() {
         onHide={() => setShow(false)}
         onOk={() => {
           setShow(false)
-          roomDb.rooms.clear()
+          localDb.rooms.clear()
         }}
         ok={{
           label: 'Yes, clear history',

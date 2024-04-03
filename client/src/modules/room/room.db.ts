@@ -16,4 +16,4 @@ class LocalDb extends Dexie {
   }
 }
 
-export const roomDb = new LocalDb()
+export const localDb = new LocalDb()

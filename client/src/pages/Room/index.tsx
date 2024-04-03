@@ -22,7 +22,7 @@ import store from '@/store'
 import { UiActions } from '@/modules/ui/ui.slice'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { roomDb } from '@/modules/room/room.db'
+import { localDb } from '@/modules/room/room.db'
 import { PadEventsProvider } from '@/modules/pad-socket/pad-events-v2.context'
 import { useEffect } from 'react'
 import { useAppDispatch } from '@/store/hooks'
@@ -60,18 +60,18 @@ export const loader: LoaderFunction = async ({ params }) => {
       throw new RoomError(RoomErrorType.NO_USERNAME)
     }
 
-    const localRecord = await roomDb.rooms
+    const localRecord = await localDb.rooms
       .where('id')
       .equals(params.roomId)
       .first()
     if (!localRecord) {
-      await roomDb.rooms.add({
+      await localDb.rooms.add({
         id: params.roomId,
         lastOpened: Date.now(),
         name: data.name,
       })
     } else {
-      await roomDb.rooms.update(params.roomId, {
+      await localDb.rooms.update(params.roomId, {
         lastOpened: Date.now(),
         name: data.name,
       })
@@ -100,7 +100,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     }
 
     if (isAxiosError(e) && e.response?.status === HttpStatusCode.NotFound) {
-      await roomDb.rooms.delete(params.roomId)
+      await localDb.rooms.delete(params.roomId)
       throw new RoomError(RoomErrorType.NOT_FOUND)
     }
 
