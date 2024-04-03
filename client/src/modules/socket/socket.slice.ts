@@ -5,6 +5,7 @@ interface SocketSlice {
   participants: Record<string, Participant>
 }
 
+// TODO rename to room slice
 export const socketSlice = createSlice({
   name: 'socket',
   initialState: {
