@@ -1,20 +1,22 @@
 import { Participant } from '@/modules/participants/participants.types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-interface SocketSlice {
+interface RoomSlice {
   participants: Record<string, Participant>
+  name: string
 }
 
-const INITIAL_STATE: SocketSlice = {
+const INITIAL_STATE: RoomSlice = {
   participants: {},
+  name: '',
 }
 
-// TODO rename to room slice
-export const socketSlice = createSlice({
-  name: 'socket',
+const roomSlice = createSlice({
+  name: 'room',
   initialState: INITIAL_STATE,
   reducers: {
     resetSlice: () => INITIAL_STATE,
+
     setParticipant: (state, { payload }: PayloadAction<Participant>) => {
       state.participants[payload.id] = payload
     },
@@ -24,8 +26,12 @@ export const socketSlice = createSlice({
         state.participants[participant.id] = participant
       }
     },
+
+    setName: (state, { payload }: PayloadAction<string>) => {
+      state.name = payload
+    },
   },
 })
 
-export const SocketActions = socketSlice.actions
-export default socketSlice.reducer
+export const RoomActions = roomSlice.actions
+export default roomSlice.reducer

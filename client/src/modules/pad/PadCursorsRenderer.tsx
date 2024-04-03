@@ -24,7 +24,7 @@ export default function PadCursorsRenderer({
 }) {
   const now = useCurrentTime()
 
-  const participants = useAppSelector((root) => root.socket.participants)
+  const participants = useAppSelector((root) => root.room.participants)
   const nameMap = useMemo(
     () => mapValues(participants, (value) => value.name),
     [participants]

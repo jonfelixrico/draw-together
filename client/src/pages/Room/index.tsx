@@ -27,7 +27,7 @@ import { PadEventsProvider } from '@/modules/pad-socket/pad-events-v2.context'
 import { useEffect } from 'react'
 import { useAppDispatch } from '@/store/hooks'
 import { PadActions } from '@/modules/pad-common/pad.slice'
-import { SocketActions } from '@/modules/socket/socket.slice'
+import { RoomActions } from '@/modules/room/room.slice'
 
 enum RoomErrorType {
   NO_USERNAME,
@@ -111,21 +111,23 @@ export const loader: LoaderFunction = async ({ params }) => {
 }
 
 export function Component() {
-  const { socket } = useLoaderData() as {
+  const { socket, room } = useLoaderData() as {
     socket: Socket
+    room: Room
   }
   const { roomId } = useParams()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     socket.connect()
+    dispatch(RoomActions.setName(room.name))
 
     return () => {
       socket.disconnect()
       dispatch(PadActions.resetSlice())
-      dispatch(SocketActions.resetSlice())
+      dispatch(RoomActions.resetSlice())
     }
-  }, [socket, dispatch])
+  }, [socket, dispatch, room])
 
   return (
     <PadEventsProvider socket={socket} roomId={roomId!}>
