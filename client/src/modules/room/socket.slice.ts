@@ -9,8 +9,7 @@ const INITIAL_STATE: RoomSlice = {
   participants: {},
 }
 
-// TODO rename to room slice
-export const socketSlice = createSlice({
+const roomSlice = createSlice({
   name: 'room',
   initialState: INITIAL_STATE,
   reducers: {
@@ -27,5 +26,5 @@ export const socketSlice = createSlice({
   },
 })
 
-export const SocketActions = socketSlice.actions
-export default socketSlice.reducer
+export const SocketActions = roomSlice.actions
+export default roomSlice.reducer
