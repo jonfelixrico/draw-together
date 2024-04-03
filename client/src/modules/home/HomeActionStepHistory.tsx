@@ -1,11 +1,41 @@
 import Card from 'react-bootstrap/Card'
 import { Else, If, Then } from 'react-if'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { roomDb } from '@/modules/room/room.db'
+import { RoomDbRecord, roomDb } from '@/modules/room/room.db'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Button from 'react-bootstrap/Button'
+
+function HistoryEntry({
+  room,
+  onDelete,
+}: {
+  room: RoomDbRecord
+  onDelete: () => void
+}) {
+  return (
+    <ListGroup.Item>
+      <Row>
+        <Col>
+          <div className="h5">{room.name}</div>
+          <div>Last opened {new Date(room.lastOpened).toString()}</div>
+        </Col>
+        <Col
+          xs="auto"
+          className="d-flex flex-row justify-content-center align-items-center gap-2"
+        >
+          <Button variant="danger" size="sm" onClick={onDelete}>
+            Delete
+          </Button>
+          <Button href={`/rooms/${room.id}`} size="sm">
+            Join Room
+          </Button>
+        </Col>
+      </Row>
+    </ListGroup.Item>
+  )
+}
 
 export default function HomeActionStepHistory() {
   const rooms = useLiveQuery(async () => {
@@ -41,31 +71,11 @@ export default function HomeActionStepHistory() {
           <Then>
             <ListGroup>
               {rooms?.map((room) => (
-                <ListGroup.Item key={room.id}>
-                  <Row>
-                    <Col>
-                      <div className="h5">{room.name}</div>
-                      <div>
-                        Last opened {new Date(room.lastOpened).toString()}
-                      </div>
-                    </Col>
-                    <Col
-                      xs="auto"
-                      className="d-flex flex-row justify-content-center align-items-center gap-2"
-                    >
-                      <Button
-                        variant="danger"
-                        size="sm"
-                        onClick={() => deleteHistoryEntry(room.id)}
-                      >
-                        Delete
-                      </Button>
-                      <Button href={`/rooms/${room.id}`} size="sm">
-                        Join Room
-                      </Button>
-                    </Col>
-                  </Row>
-                </ListGroup.Item>
+                <HistoryEntry
+                  room={room}
+                  key={room.id}
+                  onDelete={() => deleteHistoryEntry(room.id)}
+                />
               ))}
             </ListGroup>
           </Then>
