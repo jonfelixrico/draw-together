@@ -76,5 +76,5 @@ export function useParticipantWatcher() {
 }
 
 export function useParticipants() {
-  return useAppSelector((state) => state.socket.participants)
+  return useAppSelector((state) => state.room.participants)
 }
