@@ -14,19 +14,21 @@ export function Component() {
   )
 
   return (
-    <Container className="vh-100 d-flex flex-column justify-content-center">
-      <If condition={!!username}>
-        <Then>
-          <HomeActionStep
-            username={username ?? ''}
-            clearUsername={clearUsername}
-          />
-        </Then>
+    <div className="vh-100 py-4 overflow-auto">
+      <Container className="d-flex flex-column justify-content-center">
+        <If condition={!!username}>
+          <Then>
+            <HomeActionStep
+              username={username ?? ''}
+              clearUsername={clearUsername}
+            />
+          </Then>
 
-        <Else>
-          <HomeUsernameStep onInput={setUsername} />
-        </Else>
-      </If>
-    </Container>
+          <Else>
+            <HomeUsernameStep onInput={setUsername} />
+          </Else>
+        </If>
+      </Container>
+    </div>
   )
 }
