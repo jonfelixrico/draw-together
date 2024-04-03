@@ -5,7 +5,7 @@ import {
 } from '@/modules/pad-socket/pad-socket.types'
 import { useCallback, useEffect } from 'react'
 import { useLoaderData } from 'react-router-dom'
-import { PadEventsService } from '@/modules/pad-socket/pad-events'
+import { usePadEvents } from '@/modules/pad-socket/pad-events-v2.context'
 
 export function useSendMessage() {
   const socket = useRoomSocket()
@@ -25,12 +25,10 @@ export function useMessageEffect<T extends keyof PadResponse>(
   code: T,
   handler: (payload: NonNullable<PadResponse[T]>) => void
 ) {
-  const { padEventsService } = useLoaderData() as {
-    padEventsService: PadEventsService
-  }
+  const padEvents = usePadEvents()
 
   useEffect(() => {
-    const unsubscribe = padEventsService.on((msg) => {
+    const subscription = padEvents.subscribe((msg) => {
       const payload = msg[code]
       if (!payload) {
         return
@@ -39,8 +37,8 @@ export function useMessageEffect<T extends keyof PadResponse>(
       handler(payload)
     })
 
-    return unsubscribe
-  }, [padEventsService, code, handler])
+    return () => subscription.unsubscribe()
+  }, [padEvents, code, handler])
 }
 
 export function useRoomSocket() {
