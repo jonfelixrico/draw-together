@@ -53,7 +53,7 @@ app.get('/room/:roomId/events/length', (req, res) => {
   })
 })
 
-app.get('/room/:roomId/events', (req, res) => {
+app.get('/room/:roomId/event', (req, res) => {
   const { roomId } = req.params
 
   const room = roomService.getRoom(roomId)
