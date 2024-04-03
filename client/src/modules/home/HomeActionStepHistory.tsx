@@ -31,7 +31,7 @@ export default function HomeActionStepHistory() {
           <Then>
             <ListGroup>
               {rooms?.map((room) => (
-                <ListGroup.Item>
+                <ListGroup.Item key={room.id}>
                   <div>
                     <Link to={`/rooms/${room.id}`}>{room.name}</Link>
                   </div>
