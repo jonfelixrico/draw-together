@@ -9,10 +9,13 @@ import { createServer } from 'http'
 import { Server } from 'socket.io'
 import { socketIOHandler } from './socket-controllers/socket.controller'
 import roomService from './services/room.service'
+import nocache from 'nocache'
 
 const app = express()
 const server = createServer(app)
 const io = new Server(server)
+
+app.use(nocache())
 
 app.get('/', (_, res) => {
   res.send('Hello World')

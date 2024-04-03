@@ -22,7 +22,10 @@ function prepareCatchUp(roomId: string) {
 
   async function startCatchUp() {
     const lengthResp = await api.get<{ length: number }>(
-      `/room/${roomId}/event/length`
+      `/room/${roomId}/event/length`,
+      {
+        signal: abortCtrl.signal,
+      }
     )
     const length = lengthResp.data.length
 
@@ -52,11 +55,11 @@ function prepareCatchUp(roomId: string) {
         console.debug('Finished fetching %d to %d', start, end)
       }
 
-      console.debug('Finished catching up to %s')
+      console.debug('Finished catching up')
       events$.complete()
     } catch (e) {
       if (isCancel(e)) {
-        console.debug('Catch up cancelled for room %s', roomId, length)
+        console.debug('Catch up cancelled for room %s', roomId)
         events$.complete()
         return
       }
