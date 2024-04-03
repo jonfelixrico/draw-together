@@ -8,6 +8,7 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import Button from 'react-bootstrap/Button'
 import { useState } from 'react'
 import BasicModal from '@/modules/common/BasicModal'
+import sortBy from 'lodash/sortBy'
 
 function HistoryEntry({
   room,
@@ -66,7 +67,10 @@ export default function HomeActionStepHistory() {
   const [show, setShow] = useState(false)
 
   const rooms = useLiveQuery(async () => {
-    return await roomDb.rooms.toArray()
+    return sortBy(
+      await roomDb.rooms.toArray(),
+      ({ lastOpened }) => lastOpened
+    ).reverse()
   })
 
   async function deleteHistoryEntry(id: string) {
