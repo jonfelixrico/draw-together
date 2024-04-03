@@ -111,21 +111,23 @@ export const loader: LoaderFunction = async ({ params }) => {
 }
 
 export function Component() {
-  const { socket } = useLoaderData() as {
+  const { socket, room } = useLoaderData() as {
     socket: Socket
+    room: Room
   }
   const { roomId } = useParams()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     socket.connect()
+    dispatch(RoomActions.setName(room.name))
 
     return () => {
       socket.disconnect()
       dispatch(PadActions.resetSlice())
       dispatch(RoomActions.resetSlice())
     }
-  }, [socket, dispatch])
+  }, [socket, dispatch, room])
 
   return (
     <PadEventsProvider socket={socket} roomId={roomId!}>
