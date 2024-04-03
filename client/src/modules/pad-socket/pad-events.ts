@@ -8,6 +8,9 @@ import { Socket } from 'socket.io-client'
 
 type Payload = PadResponse
 
+/**
+ * @deprecated Will be replaced by a more idemponent approach
+ */
 export class PadEventsService {
   private catchUp$ = new ReplaySubject<Payload | 'DONE'>()
   private live$ = new ReplaySubject<Payload>()
