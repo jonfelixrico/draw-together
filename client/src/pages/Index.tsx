@@ -14,7 +14,7 @@ export function Component() {
   )
 
   return (
-    <Container className="vh-100 d-flex flex-column justify-content-center">
+    <Container className="min-vh-100 py-5 d-flex flex-column justify-content-center">
       <If condition={!!username}>
         <Then>
           <HomeActionStep
