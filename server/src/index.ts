@@ -40,7 +40,7 @@ app.get('/room/:roomId', (req, res) => {
   })
 })
 
-app.get('/room/:roomId/events', (req, res) => {
+app.get('/room/:roomId/events/length', (req, res) => {
   const { roomId } = req.params
 
   const room = roomService.getRoom(roomId)
