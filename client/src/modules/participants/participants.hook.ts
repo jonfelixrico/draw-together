@@ -8,21 +8,21 @@ import {
   ServerSocketCode,
 } from '@/modules/socket/server-socket.types'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { SocketActions } from '@/modules/room/socket.slice'
+import { RoomActions } from '@/modules/room/socket.slice'
 import { Participant } from './participants.types'
 
 export function useParticipantWatcher() {
   const dispatch = useAppDispatch()
   const setParticipants = useCallback(
     (participants: Participant[]) => {
-      dispatch(SocketActions.setParticipants(participants))
+      dispatch(RoomActions.setParticipants(participants))
     },
     [dispatch]
   )
 
   const setParticipant = useCallback(
     (participant: Participant) => {
-      dispatch(SocketActions.setParticipant(participant))
+      dispatch(RoomActions.setParticipant(participant))
     },
     [dispatch]
   )
