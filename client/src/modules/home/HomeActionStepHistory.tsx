@@ -1,7 +1,7 @@
 import Card from 'react-bootstrap/Card'
 import { Else, If, Then } from 'react-if'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { RoomDbRecord, localDb } from '@/modules/room/room.db'
+import { RoomDbRecord, localDb } from '@/modules/common/db'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import ListGroup from 'react-bootstrap/ListGroup'
