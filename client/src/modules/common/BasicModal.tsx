@@ -1,17 +1,23 @@
 import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
+import Button, { ButtonProps } from 'react-bootstrap/Button'
 import { ReactNode } from 'react'
 import { If, Then } from 'react-if'
 
+const EMPTY_FN = () => {}
+
+type BasicModalButtonProps = { label: string; emitHide?: boolean } & Partial<
+  Pick<ButtonProps, 'variant'>
+>
+
 export default function BasicModal({
   show,
-  onHide,
+  onHide = EMPTY_FN,
   children,
   cancel,
   ok,
   title,
-  onCancel,
-  onOk,
+  onCancel = EMPTY_FN,
+  onOk = EMPTY_FN,
 }: {
   show: boolean
   onHide?: () => void
@@ -19,13 +25,25 @@ export default function BasicModal({
   onCancel?: () => void
   children: ReactNode
   title: string
-  cancel?: {
-    label: string
-  }
-  ok?: {
-    label: string
-  }
+  cancel?: BasicModalButtonProps
+  ok?: BasicModalButtonProps
 }) {
+  const handleCancel = () => {
+    if (cancel?.emitHide) {
+      onHide()
+    }
+
+    onCancel()
+  }
+
+  const handleOk = () => {
+    if (ok?.emitHide) {
+      onHide()
+    }
+
+    onOk()
+  }
+
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
@@ -39,7 +57,10 @@ export default function BasicModal({
           <Modal.Footer>
             <If condition={!!cancel}>
               <Then>
-                <Button variant="secondary" onClick={onCancel}>
+                <Button
+                  variant={cancel?.variant ?? 'secondary'}
+                  onClick={handleCancel}
+                >
                   {/* At this point, we expect cancel to be not null. The `?` operator is just here to not make TS complain. */}
                   {cancel?.label}
                 </Button>
@@ -48,7 +69,7 @@ export default function BasicModal({
 
             <If condition={!!ok}>
               <Then>
-                <Button variant="primary" onClick={onOk}>
+                <Button variant={ok?.variant ?? 'primary'} onClick={handleOk}>
                   {ok?.label}
                 </Button>
               </Then>
