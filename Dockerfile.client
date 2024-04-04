@@ -1,0 +1,19 @@
+# Reference: https://skamalakannan.dev/posts/dockerizing-your-spa/
+
+FROM nginx:alpine
+
+# We're only copying here because we assume that the client has been built outside of docker
+# This decision is mostly for GitHub actions. By building outside of Docker, we're able to use
+# the yarn cache of GH actions
+COPY client/dist /usr/share/nginx/html
+
+# This is to prevent 404s from being thrown if we refresh while in http://appurl/some/valid/path/here
+# It also prevents 404s when directly accessing http://appurl/some/valid/path/here
+# Ref: https://stackoverflow.com/questions/43555282/react-js-application-showing-404-not-found-in-nginx-server
+COPY client/nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+STOPSIGNAL SIGTERM
+
+CMD ["nginx", "-g", "daemon off;"]

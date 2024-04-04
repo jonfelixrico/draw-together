@@ -1,0 +1,17 @@
+name: On Push
+
+on:
+  push:
+    branches-ignore:
+      - develop-**
+
+jobs:
+  verify-client:
+    uses: ./.github/workflows/verify-client-reusable.yml
+  verify-server:
+    uses: ./.github/workflows/verify-server-reusable.yml
+  verify:
+    needs:
+      - verify-client
+      - verify-server
+    uses: ./.github/workflows/verify-reusable.yml
