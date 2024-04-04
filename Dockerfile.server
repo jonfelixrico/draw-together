@@ -23,7 +23,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist .
 
 ARG VERSION_OVERRIDE_ARG
-ENV VERSION_OVERRIDE = $VERSION_OVERRIDE_ARG
+ENV VERSION_OVERRIDE $VERSION_OVERRIDE_ARG
 
 EXPOSE 3000
 ENTRYPOINT ["node", "src/index.js"]
