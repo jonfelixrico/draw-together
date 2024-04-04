@@ -19,6 +19,7 @@ export default defineConfig({
 
   resolve: {
     alias: {
+      '@manifest': path.resolve(__dirname, './package.json'),
       '@': path.resolve(__dirname, './src'),
     },
   },

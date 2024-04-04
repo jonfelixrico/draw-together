@@ -13,10 +13,13 @@ import { useCursorServiceImpl } from '@/modules/pad-service/cursor-service-impl.
 import PadOptionsControls from '@/modules/pad/PadOptionsControls'
 import MobileScreenWarningModal from '@/pages/Room/MobileScreenWarningModal'
 import { RoomToolbar } from '@/pages/Room/RoomToolbar'
+import manifest from '@manifest'
+
+const VERSION = import.meta.env.VERSION_OVERRIDE ?? manifest.version
 
 function Drawer() {
   return (
-    <Row className="h-100 w-100 flex-column gy-3">
+    <Row className="h-100 w-100 flex-column gy-3 m-0">
       <Col xs="auto">
         <div className="h6">Participants</div>
         <ParticipantsList />
@@ -26,9 +29,13 @@ function Drawer() {
         <div className="border-bottom" />
       </div>
 
-      <Col xs="auto">
+      <Col>
         <div className="h6">Options</div>
         <PadOptionsControls />
+      </Col>
+
+      <Col xs="auto" className="text-end">
+        v{VERSION}
       </Col>
     </Row>
   )
