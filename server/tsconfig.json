@@ -16,6 +16,6 @@
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true
   },
-  "include": ["./**/*.ts"],
+  "include": ["./src/**/*.ts", "./*.d.ts"],
   "exclude": ["./node_modules", "./test/**/*.ts"]
 }
