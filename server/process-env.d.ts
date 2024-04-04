@@ -1,8 +1,9 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      [key: string]: string | undefined
-      BUILD_VERSION?: string
+      readonly [key: string]: string | undefined
+      readonly BUILD_VERSION?: string
+      readonly TZ?: string
     }
   }
 }
