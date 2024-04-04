@@ -23,6 +23,7 @@
     "rootDir": "./",
 
     "paths": {
+      "@manifest": ["./package.json"],
       "@/*": ["./src/*"]
     }
   },

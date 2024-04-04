@@ -1,20 +1,29 @@
-name: Build
+name: To Master
 
 on:
-  workflow_call:
-    inputs:
-      docker-push:
-        type: boolean
-        required: true
-      tag-prepend:
-        type: string
-        required: true
-
-permissions:
-  packages: write
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
+  verify-client:
+    uses: ./.github/workflows/verify-client-reusable.yml
+  verify-server:
+    uses: ./.github/workflows/verify-server-reusable.yml
+  verify:
+    needs:
+      - verify-client
+      - verify-server
+    uses: ./.github/workflows/verify-reusable.yml
+
   docker-server:
+    needs:
+      - verify-client
+      - verify-server
+      - verify
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -29,7 +38,7 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}-server
           tags: |
-            type=raw,value=${{ inputs.tag-prepend }}${{ steps.package-version.outputs.current-version }}
+            type=raw,value=${{ steps.package-version.outputs.current-version }}
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -48,9 +57,13 @@ jobs:
           file: ./Dockerfile.server
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          push: ${{ inputs.docker-push }}
+          push: ${{ github.event_name == 'push' }}
 
   docker-client:
+    needs:
+      - verify-client
+      - verify-server
+      - verify
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -68,6 +81,10 @@ jobs:
         working-directory: ./client
         shell: bash
 
+      - name: Get version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+
       - name: Run build script
         run: yarn build
         working-directory: ./client
@@ -75,17 +92,13 @@ jobs:
 
       # Build docker image
 
-      - name: Get version
-        id: package-version
-        uses: martinbeentjes/npm-get-version-action@v1.3.1
-
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/${{ github.repository }}-client
           tags: |
-            type=raw,value=${{ inputs.tag-prepend }}${{ steps.package-version.outputs.current-version }}
+            type=raw,value=${{ steps.package-version.outputs.current-version }}
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -104,4 +117,4 @@ jobs:
           file: ./Dockerfile.client
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          push: ${{ inputs.docker-push }}
+          push: ${{ github.event_name == 'push' }}
