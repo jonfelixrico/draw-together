@@ -50,6 +50,11 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Get HEAD SHA
+        id: sha
+        shell: bash
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
@@ -58,6 +63,8 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           push: ${{ github.event_name == 'push' }}
+          build-args:
+            - VERSION_OVERRIDE_ARG=${{ steps.package-version.outputs.current-version }}-develop.${{ steps.sha.outputs.sha_short }}
 
   docker-client:
     needs:
@@ -81,16 +88,23 @@ jobs:
         working-directory: ./client
         shell: bash
 
+      - name: Get version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+
+      - name: Get HEAD SHA
+        id: sha
+        shell: bash
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
       - name: Run build script
         run: yarn build
         working-directory: ./client
         shell: bash
+        env:
+          VITE_VERSION_OVERRIDE: ${{ steps.package-version.outputs.current-version }}-develop.${{ steps.sha.outputs.sha_short }}
 
       # Build docker image
-
-      - name: Get version
-        id: package-version
-        uses: martinbeentjes/npm-get-version-action@v1.3.1
 
       - name: Docker meta
         id: meta
