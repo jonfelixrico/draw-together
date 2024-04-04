@@ -63,8 +63,8 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           push: ${{ github.event_name == 'push' }}
-          build-args:
-            - VERSION_OVERRIDE_ARG=${{ steps.package-version.outputs.current-version }}-develop.${{ steps.sha.outputs.sha_short }}
+          build-args: |
+            VERSION_OVERRIDE_ARG=${{ steps.package-version.outputs.current-version }}-develop.${{ steps.sha.outputs.sha_short }}
 
   docker-client:
     needs:
