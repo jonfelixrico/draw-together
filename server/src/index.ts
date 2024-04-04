@@ -20,7 +20,7 @@ app.use(nocache())
 
 app.get('/', (_, res) => {
   res.json({
-    version: process.env.BUILD_VERSION ?? manifest.version,
+    version: process.env.VERSION_OVERRIDE ?? manifest.version,
   })
 })
 
