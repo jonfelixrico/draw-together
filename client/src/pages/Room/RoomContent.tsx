@@ -15,7 +15,7 @@ import MobileScreenWarningModal from '@/pages/Room/MobileScreenWarningModal'
 import { RoomToolbar } from '@/pages/Room/RoomToolbar'
 import manifest from '@manifest'
 
-const VERSION = import.meta.env.VERSION_OVERRIDE ?? manifest.version
+const VERSION = import.meta.env.VITE_VERSION_OVERRIDE ?? manifest.version
 
 function Drawer() {
   return (
