@@ -4,8 +4,8 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "lint": "eslint src/**/*.ts",
-    "format": "prettier ./**/*.{ts,json} --w",
+    "lint": "eslint ./**/*.ts",
+    "format": "prettier ./**/*.{ts,json,js} --w",
     "build": "tsc && tsc-alias",
     "start": "node dist/src/index.js",
     "dev": "tsx src/index.ts",
