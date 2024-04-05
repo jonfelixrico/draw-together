@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
@@ -24,14 +24,14 @@ jobs:
         run: yarn install
         working-directory: ./server
         shell: bash
-      
+
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
           install: false
           working-directory: ./client
           build: yarn build
-          start: yarn preview, yarn server:dev
+          start: yarn preview, yarn test:e2e:server
           wait-on: http://localhost:4173, http://localhost:3000
           config: baseUrl=http://localhost:4173
 
