@@ -14,7 +14,10 @@
     "strict": true,
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["./src/**/*.ts", "./*.d.ts"],
   "exclude": ["./node_modules", "./test/**/*.ts"]
