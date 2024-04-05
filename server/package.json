@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint src/**/*.ts",
-    "format": "prettier ./**/*.{ts,json} --w",
+    "format": "prettier ./**/*.{ts,json,js} --w",
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
