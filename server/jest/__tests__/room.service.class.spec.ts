@@ -1,4 +1,3 @@
-// TODO support absolute paths. these are a mess.
 import {
   INACTIVITY_THRESHOLD,
   RoomService,
