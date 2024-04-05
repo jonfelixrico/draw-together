@@ -1,12 +1,15 @@
-// TODO support absolute paths. these are a mess.
-import { INACTIVITY_THRESHOLD, RoomService } from '../../../server/src/services/room.service/room-service.class'
-import { Room } from '../../src/services/room.service/room.class'
+import {
+  INACTIVITY_THRESHOLD,
+  RoomService,
+} from '@/services/room.service/room-service.class'
+import { Room } from '@/services/room.service/room.class'
 
 describe('room-service', () => {
   it('purges rooms past the inactivity threshold', () => {
     const room = new Room('room_id')
     // Forces lastActivityTs to be way past the inactivity threshold
-    jest.spyOn(room, 'lastActivityTs', 'get')
+    jest
+      .spyOn(room, 'lastActivityTs', 'get')
       .mockReturnValue(Date.now() - INACTIVITY_THRESHOLD * 2)
 
     const service = new RoomService()
@@ -15,16 +18,18 @@ describe('room-service', () => {
     service.rooms['dummy2'] = new Room('dummy2')
     service.rooms['dummy3'] = new Room('dummy3')
 
-    expect(service.rooms).toEqual(expect.objectContaining({
-      'room_id': expect.any(Room)
-    }))
+    expect(service.rooms).toEqual(
+      expect.objectContaining({
+        room_id: expect.any(Room),
+      })
+    )
     expect(Object.values(service.rooms)).toHaveLength(4)
 
     service.purgeInactiveRooms()
 
     expect(service.rooms).toEqual(
       expect.not.objectContaining({
-        'room_id': expect.any(Room)
+        room_id: expect.any(Room),
       })
     )
     expect(Object.values(service.rooms)).toHaveLength(3)
