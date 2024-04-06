@@ -16,9 +16,10 @@
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
     "paths": {
+      "@manifest": ["./package.json"],
+      "@test/*": ["./jest/*"],
       "@/*": ["./src/*"]
     }
   },
-  "include": ["./src/**/*.ts", "./*.d.ts"],
-  "exclude": ["./node_modules", "./test/**/*.ts"]
+  "exclude": ["./node_modules"]
 }
