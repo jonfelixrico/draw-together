@@ -56,14 +56,12 @@ describe('socket-join', () => {
       })
     )
 
-    expect(connectSpy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        CONN_ACTIVITY: {
-          id: 'user-2',
-          name: 'User 2',
-        },
-      })
-    )
+    expect(connectSpy).toHaveBeenCalledWith({
+      CONN_ACTIVITY: expect.objectContaining({
+        id: 'user-2',
+        name: 'User 2',
+      }),
+    })
   })
 
   afterEach(async () => {
