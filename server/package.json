@@ -10,7 +10,7 @@
     "build:clean": "rm -rf ./dist",
     "start": "node dist/src/index.js",
     "dev": "tsx src/index.ts",
-    "test": "jest"
+    "test:unit": "jest ./src"
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
