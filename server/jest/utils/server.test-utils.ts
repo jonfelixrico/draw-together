@@ -1,11 +1,7 @@
 import { initServer } from '@/server'
 import enableDestroy from 'server-destroy'
 
-type InitReturnValue = {
-  close(): Promise<void>
-}
-
-export function createAppInstance() {
+export async function createAppInstance() {
   const httpServer = initServer()
 
   async function close() {
@@ -20,17 +16,19 @@ export function createAppInstance() {
     })
   }
 
-  return new Promise<InitReturnValue>((resolve, reject) => {
+  await new Promise<void>((resolve, reject) => {
     try {
       enableDestroy(httpServer)
       httpServer.listen(3000, () => {
-        resolve({
-          close,
-        })
+        resolve()
       })
     } catch (e) {
       // calling server.listen can throw, hence we have a try-catch here
       reject(e)
     }
   })
+
+  return {
+    close,
+  }
 }
