@@ -1,25 +1,16 @@
 import { initServer } from '@/server'
+import enableDestroy from 'server-destroy'
 
 type InitReturnValue = {
   close(): Promise<void>
 }
 
 export function createAppInstance() {
-  const { httpServer, socketServer } = initServer()
+  const httpServer = initServer()
 
   async function close() {
     await new Promise<void>((resolve, reject) => {
-      socketServer.close((err) => {
-        if (err) {
-          return reject(err)
-        }
-
-        resolve()
-      })
-    })
-
-    await new Promise<void>((resolve, reject) => {
-      httpServer.close((err) => {
+      httpServer.destroy((err) => {
         if (err) {
           return reject(err)
         }
@@ -31,6 +22,7 @@ export function createAppInstance() {
 
   return new Promise<InitReturnValue>((resolve, reject) => {
     try {
+      enableDestroy(httpServer)
       httpServer.listen(3000, () => {
         resolve({
           close,

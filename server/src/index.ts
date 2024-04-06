@@ -4,5 +4,5 @@ config({
   path: ['.env.local', '.env'],
 })
 
-const { httpServer } = initServer()
+const httpServer = initServer()
 httpServer.listen(3000)
