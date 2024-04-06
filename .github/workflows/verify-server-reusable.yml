@@ -40,7 +40,7 @@ jobs:
         working-directory: ./server
         shell: bash
 
-  test:
+  test-unit:
     needs:
       - build
       - lint
@@ -57,6 +57,6 @@ jobs:
         working-directory: ./server
         shell: bash
       - name: Run Jest tests
-        run: yarn test
+        run: yarn test:unit
         working-directory: ./server
         shell: bash
