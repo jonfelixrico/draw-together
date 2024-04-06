@@ -10,7 +10,7 @@ import { Server } from 'socket.io'
 import { socketIOHandler } from './socket-controllers/socket.controller'
 import roomService from './services/room.service'
 import nocache from 'nocache'
-import manifest from '../package.json'
+import manifest from '@/package.json'
 
 const app = express()
 const server = createServer(app)

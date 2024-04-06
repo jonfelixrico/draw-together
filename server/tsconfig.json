@@ -16,7 +16,8 @@
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@manifest": ["./package.json"]
     }
   },
   "exclude": ["./node_modules"]

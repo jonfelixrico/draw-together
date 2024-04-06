@@ -92,6 +92,7 @@ const config = {
   moduleNameMapper: {
     '@/(.*)': '<rootDir>/src/$1',
     '@test/(.*)': '<rootDir>/test/$1',
+    '@manifest': '<rootDir>/package.json',
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
