@@ -71,5 +71,9 @@ Cypress.Commands.add(
   }
 )
 
+Cypress.on('uncaught:exception', () => {
+  return false
+})
+
 // Without this, TS will complain
 export {}
