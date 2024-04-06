@@ -55,6 +55,13 @@ describe('pad-socket', () => {
     ]
 
     cy.visit(`/rooms/${getRoomId()}`)
+    /*
+     * This wait is to let the pad be able to do the catch-up (or at least partially)
+     * Without this, local tests can fail
+     * TODO remove this once we've found a way to check if catch-up is done
+     */
+    cy.wait(1_000)
+
     cy.getCy('pad')
       .should('exist')
       .then(() => {
