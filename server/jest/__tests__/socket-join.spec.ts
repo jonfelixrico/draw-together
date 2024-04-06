@@ -66,10 +66,7 @@ describe('socket-join', () => {
       }),
     })
 
-    await new Promise<void>((resolve) => {
-      clientB.once('disconnect', () => resolve())
-      clientB.disconnect()
-    })
+    clientB.disconnect()
 
     /*
      * Arbitray delay, we just want to wait for the server broadcast for disconnect
