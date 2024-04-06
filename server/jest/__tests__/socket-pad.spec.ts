@@ -75,4 +75,26 @@ describe('socket-join', () => {
       },
     })
   })
+
+  it('broadcasts PAD_TRANSIENT events', async () => {
+    const clientAHandler = jest.fn()
+    const clientBHandler = jest.fn()
+
+    clientA.on('PAD_TRANSIENT', clientAHandler)
+    clientB.on('PAD_TRANSIENT', clientBHandler)
+
+    clientA.emit('PAD_TRANSIENT', {
+      DUMMY_MESSAGE: {
+        foo: 'bar',
+      },
+    })
+
+    await Bluebird.delay(1_000)
+    expect(clientAHandler).not.toHaveBeenCalled()
+    expect(clientBHandler).toHaveBeenCalledWith({
+      DUMMY_MESSAGE: {
+        foo: 'bar',
+      },
+    })
+  })
 })
