@@ -1,11 +1,32 @@
 import { initServer } from '@/server'
 import { Server } from 'http'
 
+type InitReturnValue = {
+  server: Server
+  close(): Promise<void>
+}
+
 export function createAppInstance() {
   const server = initServer()
-  return new Promise<Server>((resolve, reject) => {
+
+  function close() {
+    return new Promise<void>((resolve, reject) => {
+      server.close((err) => {
+        if (err) {
+          return reject(err)
+        }
+
+        resolve()
+      })
+    })
+  }
+
+  return new Promise<InitReturnValue>((resolve, reject) => {
     server.listen(3000, () => {
-      resolve(server)
+      resolve({
+        server,
+        close,
+      })
     })
 
     setTimeout(() => {
