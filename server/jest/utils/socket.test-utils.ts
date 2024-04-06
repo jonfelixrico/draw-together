@@ -11,3 +11,23 @@ export function connectWrapper(socket: Socket) {
 
   return waiter
 }
+
+export function connectWrapperManager() {
+  let clients: Socket[] = []
+
+  async function connect(socket: Socket) {
+    const client = await connectWrapper(socket)
+    clients.push(client)
+    return client
+  }
+
+  function disconnectAll() {
+    clients.forEach((client) => client.disconnect())
+    clients = []
+  }
+
+  return {
+    connectWrapper: connect,
+    disconnectAll,
+  }
+}
