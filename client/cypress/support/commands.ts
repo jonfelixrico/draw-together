@@ -71,5 +71,13 @@ Cypress.Commands.add(
   }
 )
 
+/*
+ * This is needed to prevent Cypress from failing the test if uncaught exceptions are found, i.e.
+ * uncaught HTTP errors from API calls
+ */
+Cypress.on('uncaught:exception', () => {
+  return false
+})
+
 // Without this, TS will complain
 export {}
