@@ -11,6 +11,7 @@ RUN yarn install
 
 COPY server/src ./src
 COPY server/tsconfig.json .
+COPY server/tsconfig.production.json .
 RUN yarn build
 
 # Run stage
