@@ -67,13 +67,16 @@ describe('socket-join', () => {
     })
 
     clientB.disconnect()
-
     /*
      * Arbitray delay, we just want to wait for the server broadcast for disconnect
      * TODO find a better method than doing a delay. this is not going to be very consistent if the server takes longer than the delay to broadcast.
+     *
+     * Things tried before falling back to this:
+     * - Listening for the disconnect event on clientB (`clientB.once('disconnect', ...)`). The event firing doesn't mean that the message has been
+     *   broadcasted.
+     * - // add more here
      */
     await Bluebird.delay(1_000)
-
     expect(serverEventSpy).toHaveBeenNthCalledWith(2, {
       CONN_ACTIVITY: expect.objectContaining({
         id: 'user-2',
