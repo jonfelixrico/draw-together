@@ -1,19 +1,14 @@
-import { initServer } from '@/server'
 import { Server } from 'http'
 import { Socket, io } from 'socket.io-client'
 import { testAxios } from '@test/lib/axios'
 import { connectWrapper } from '@test/utils/socket.test-utils'
+import { createAppInstance } from '@test/utils/server.test-utils'
 
 describe('socket-join', () => {
   let server: Server
 
   beforeEach(async () => {
-    server = initServer()
-    await new Promise<void>((resolve) => {
-      server.listen(3000, () => {
-        resolve()
-      })
-    })
+    server = await createAppInstance()
   })
 
   it('allows connecting', async () => {
