@@ -1308,13 +1308,6 @@
     "@types/mime" "*"
     "@types/node" "*"
 
-"@types/server-destroy@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@types/server-destroy/-/server-destroy-1.0.3.tgz#2460932ea3a02a70ec99669c8f40ff089a5b8a2b"
-  integrity sha512-Qq0fn70C7TLDG1W9FCblKufNWW1OckQ41dVKV2Dku5KdZF7bexezG4e2WBaBKhdwL3HZ+cYCEIKwg2BRgzrWmA==
-  dependencies:
-    "@types/node" "*"
-
 "@types/sinonjs__fake-timers@8.1.1":
   version "8.1.1"
   resolved "https://registry.yarnpkg.com/@types/sinonjs__fake-timers/-/sinonjs__fake-timers-8.1.1.tgz#b49c2c70150141a15e0fa7e79cf1f92a72934ce3"
@@ -5422,11 +5415,6 @@ serve-static@1.15.0:
     escape-html "~1.0.3"
     parseurl "~1.3.3"
     send "0.18.0"
-
-server-destroy@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/server-destroy/-/server-destroy-1.0.1.tgz#f13bf928e42b9c3e79383e61cc3998b5d14e6cdd"
-  integrity sha512-rb+9B5YBIEzYcD6x2VKidaa+cqYBJQKnU4oe4E3ANwRRN56yk/ua1YCJT1n21NTS8w6CcOclAKNP3PhdCXKYtQ==
 
 set-function-length@^1.2.1:
   version "1.2.2"
