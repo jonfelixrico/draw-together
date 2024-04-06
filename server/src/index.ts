@@ -12,68 +12,73 @@ import roomService from './services/room.service'
 import nocache from 'nocache'
 import manifest from '@manifest'
 
-const app = express()
-const server = createServer(app)
-const io = new Server(server)
+function initServer() {
+  const app = express()
+  const server = createServer(app)
+  const io = new Server(server)
 
-app.use(nocache())
+  app.use(nocache())
 
-app.get('/', (_, res) => {
-  res.json({
-    version: process.env.VERSION_OVERRIDE || manifest.version,
+  app.get('/', (_, res) => {
+    res.json({
+      version: process.env.VERSION_OVERRIDE || manifest.version,
+    })
   })
-})
 
-app.post('/room', (_, res) => {
-  const room = roomService.createRoom()
+  app.post('/room', (_, res) => {
+    const room = roomService.createRoom()
 
-  res.json({
-    id: room.roomId,
+    res.json({
+      id: room.roomId,
+    })
   })
-})
 
-app.get('/room/:roomId', (req, res) => {
-  const { roomId } = req.params
+  app.get('/room/:roomId', (req, res) => {
+    const { roomId } = req.params
 
-  const room = roomService.getRoom(roomId)
-  if (!room) {
-    return res.sendStatus(404)
-  }
+    const room = roomService.getRoom(roomId)
+    if (!room) {
+      return res.sendStatus(404)
+    }
 
-  res.json({
-    id: roomId,
-    name: room.name,
+    res.json({
+      id: roomId,
+      name: room.name,
+    })
   })
-})
 
-app.get('/room/:roomId/event/length', (req, res) => {
-  const { roomId } = req.params
+  app.get('/room/:roomId/event/length', (req, res) => {
+    const { roomId } = req.params
 
-  const room = roomService.getRoom(roomId)
-  if (!room) {
-    return res.sendStatus(404)
-  }
+    const room = roomService.getRoom(roomId)
+    if (!room) {
+      return res.sendStatus(404)
+    }
 
-  res.json({
-    length: room.history.length,
+    res.json({
+      length: room.history.length,
+    })
   })
-})
 
-app.get('/room/:roomId/event', (req, res) => {
-  const { roomId } = req.params
+  app.get('/room/:roomId/event', (req, res) => {
+    const { roomId } = req.params
 
-  const room = roomService.getRoom(roomId)
-  if (!room) {
-    return res.sendStatus(404)
-  }
+    const room = roomService.getRoom(roomId)
+    if (!room) {
+      return res.sendStatus(404)
+    }
 
-  const { start, end } = req.query
+    const { start, end } = req.query
 
-  res.json(
-    room.history.slice(parseInt(start as string), parseInt(end as string))
-  )
-})
+    res.json(
+      room.history.slice(parseInt(start as string), parseInt(end as string))
+    )
+  })
 
-socketIOHandler(io)
+  socketIOHandler(io)
 
+  return server
+}
+
+const server = initServer()
 server.listen(3000)
