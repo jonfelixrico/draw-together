@@ -11,7 +11,7 @@ describe('socket-join', () => {
   let roomId: string
   beforeAll(async () => {
     console.log('starting')
-    const { close } = await createAppInstance()
+    const { close } = await createAppInstance(3002)
     serverCleanup = close
 
     const { data } = await testAxios.post<{
