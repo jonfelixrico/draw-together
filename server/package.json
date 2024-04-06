@@ -11,7 +11,7 @@
     "start": "node dist/src/index.js",
     "dev": "tsx src/index.ts",
     "test:unit": "jest --passWithNoTests ./src",
-    "test:e2e": "jest --passWithNoTests ./jest"
+    "test:e2e": "jest --passWithNoTests --forceExit ./jest"
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
