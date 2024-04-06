@@ -18,7 +18,6 @@ describe('socket-join', () => {
   })
   afterAll(async () => {
     await serverCleanup!()
-    console.log('closing')
   })
 
   it('allows connecting', async () => {

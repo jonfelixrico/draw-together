@@ -10,7 +10,6 @@ describe('socket-join', () => {
   let serverCleanup: () => Promise<void>
   let roomId: string
   beforeAll(async () => {
-    console.log('starting')
     const { close } = await createAppInstance(3002)
     serverCleanup = close
 
