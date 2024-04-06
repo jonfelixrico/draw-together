@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint ./**/*.ts",
     "format": "prettier ./**/*.{ts,json,js} --w",
-    "build": "tsc && tsc-alias",
+    "build": "tsc -p ./tsconfig.production.json && tsc-alias -p ./tsconfig.production.json",
+    "build:clean": "rm -rf ./dist",
     "start": "node dist/src/index.js",
     "dev": "tsx src/index.ts",
     "test": "jest"
