@@ -1,24 +1,19 @@
 import { initServer } from '@/server'
-import enableDestroy from 'server-destroy'
+import { createHttpTerminator } from 'http-terminator'
 
 export async function createAppInstance() {
   const httpServer = initServer()
 
-  async function close() {
-    await new Promise<void>((resolve, reject) => {
-      httpServer.destroy((err) => {
-        if (err) {
-          return reject(err)
-        }
+  const terminator = createHttpTerminator({
+    server: httpServer,
+  })
 
-        resolve()
-      })
-    })
+  async function close() {
+    terminator.terminate()
   }
 
   await new Promise<void>((resolve, reject) => {
     try {
-      enableDestroy(httpServer)
       httpServer.listen(3000, () => {
         resolve()
       })
