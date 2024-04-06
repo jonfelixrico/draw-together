@@ -11,9 +11,9 @@
     "format": "prettier --write './**/*.{js,ts,tsx,css,md,json}'",
     "preview": "vite preview",
     "cypress:open": "cypress open",
-    "test:e2e": "cypress run --project cypress/e2e",
+    "test:e2e": "cypress run --spec './cypress/e2e/**/*.cy.ts'",
     "test:e2e:server": "cd ../server && yarn build && yarn start",
-    "test:component": "cypress run --project cypress/component"
+    "test:component": "cypress run --spec './cypress/component/**/*.cy.ts'"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.1",
