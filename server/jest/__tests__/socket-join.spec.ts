@@ -1,10 +1,11 @@
 import { io } from 'socket.io-client'
-import { testAxios } from '@test/lib/axios'
 import { createAppInstance } from '@test/utils/server.test-utils'
 import { connectWrapperManager } from '@test/utils/socket.test-utils'
 import Bluebird from 'bluebird'
+import { createTestAxios } from '@test/utils/axios.test-utils'
 
 describe('socket-join', () => {
+  const testAxios = createTestAxios(3001)
   const { connectWrapper, disconnectAll } = connectWrapperManager()
   afterEach(() => {
     disconnectAll()
@@ -12,7 +13,7 @@ describe('socket-join', () => {
 
   let serverCleanup: () => Promise<void>
   beforeAll(async () => {
-    const { close } = await createAppInstance()
+    const { close } = await createAppInstance(3001)
     serverCleanup = close
   })
   afterAll(async () => {
@@ -24,7 +25,7 @@ describe('socket-join', () => {
     const { data } = await testAxios.post<{ id: string }>('/room')
     const roomId = data.id
 
-    const client = io('http://localhost:3000', {
+    const client = io('http://localhost:3001', {
       query: {
         roomId,
         name: 'User 1',
@@ -40,7 +41,7 @@ describe('socket-join', () => {
     const roomId = data.id
 
     const clientA = await connectWrapper(
-      io('http://localhost:3000', {
+      io('http://localhost:3001', {
         query: {
           roomId,
           name: 'User 1',
@@ -54,7 +55,7 @@ describe('socket-join', () => {
 
     // role: joiner
     const clientB = await connectWrapper(
-      io('http://localhost:3000', {
+      io('http://localhost:3001', {
         query: {
           roomId,
           name: 'User 2',

@@ -1,7 +1,7 @@
 import { initServer } from '@/server'
 import { createHttpTerminator } from 'http-terminator'
 
-export async function createAppInstance() {
+export async function createAppInstance(port = 3000) {
   const httpServer = initServer()
 
   const terminator = createHttpTerminator({
@@ -14,7 +14,7 @@ export async function createAppInstance() {
 
   await new Promise<void>((resolve, reject) => {
     try {
-      httpServer.listen(3000, () => {
+      httpServer.listen(port, () => {
         resolve()
       })
     } catch (e) {
