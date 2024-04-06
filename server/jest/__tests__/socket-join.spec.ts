@@ -5,13 +5,19 @@ import { connectWrapperManager } from '@test/utils/socket.test-utils'
 import Bluebird from 'bluebird'
 
 describe('socket-join', () => {
-  let serverCleanup: () => Promise<void>
-
   const { connectWrapper, disconnectAll } = connectWrapperManager()
+  afterEach(() => {
+    disconnectAll()
+  })
 
-  beforeEach(async () => {
+  let serverCleanup: () => Promise<void>
+  beforeAll(async () => {
     const { close } = await createAppInstance()
     serverCleanup = close
+  })
+  afterAll(async () => {
+    await serverCleanup!()
+    console.log('closing')
   })
 
   it('allows connecting', async () => {
@@ -84,10 +90,5 @@ describe('socket-join', () => {
         action: 'leave',
       }),
     })
-  })
-
-  afterEach(async () => {
-    disconnectAll()
-    await serverCleanup!()
   })
 })

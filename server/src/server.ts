@@ -17,5 +17,8 @@ export function initServer() {
 
   socketIOHandler(io)
 
-  return server
+  return {
+    httpServer: server,
+    socketServer: io,
+  }
 }

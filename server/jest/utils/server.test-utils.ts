@@ -1,17 +1,25 @@
 import { initServer } from '@/server'
-import { Server } from 'http'
 
 type InitReturnValue = {
-  server: Server
   close(): Promise<void>
 }
 
 export function createAppInstance() {
-  const server = initServer()
+  const { httpServer, socketServer } = initServer()
 
-  function close() {
-    return new Promise<void>((resolve, reject) => {
-      server.close((err) => {
+  async function close() {
+    await new Promise<void>((resolve, reject) => {
+      socketServer.close((err) => {
+        if (err) {
+          return reject(err)
+        }
+
+        resolve()
+      })
+    })
+
+    await new Promise<void>((resolve, reject) => {
+      httpServer.close((err) => {
         if (err) {
           return reject(err)
         }
@@ -22,15 +30,15 @@ export function createAppInstance() {
   }
 
   return new Promise<InitReturnValue>((resolve, reject) => {
-    server.listen(3000, () => {
-      resolve({
-        server,
-        close,
+    try {
+      httpServer.listen(3000, () => {
+        resolve({
+          close,
+        })
       })
-    })
-
-    setTimeout(() => {
-      reject(new Error('Took too long to start'))
-    }, 3_000)
+    } catch (e) {
+      // calling server.listen can throw, hence we have a try-catch here
+      reject(e)
+    }
   })
 }
