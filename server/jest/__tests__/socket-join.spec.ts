@@ -2,6 +2,7 @@ import { io } from 'socket.io-client'
 import { testAxios } from '@test/lib/axios'
 import { createAppInstance } from '@test/utils/server.test-utils'
 import { connectWrapperManager } from '@test/utils/socket.test-utils'
+import Bluebird from 'bluebird'
 
 describe('socket-join', () => {
   let serverCleanup: () => Promise<void>
@@ -14,8 +15,8 @@ describe('socket-join', () => {
   })
 
   it('allows connecting', async () => {
-    const { data } = await testAxios.post<{ roomId: string }>('/room')
-    const roomId = data.roomId
+    const { data } = await testAxios.post<{ id: string }>('/room')
+    const roomId = data.id
 
     const client = io('http://localhost:3000', {
       query: {
@@ -28,9 +29,9 @@ describe('socket-join', () => {
     await expect(connectWrapper(client)).resolves.toBeTruthy()
   })
 
-  it('broadcasts joins to other people', async () => {
-    const { data } = await testAxios.post<{ roomId: string }>('/room')
-    const roomId = data.roomId
+  it('broadcasts joins/leaves to other people', async () => {
+    const { data } = await testAxios.post<{ id: string }>('/room')
+    const roomId = data.id
 
     const clientA = await connectWrapper(
       io('http://localhost:3000', {
@@ -42,24 +43,45 @@ describe('socket-join', () => {
       })
     )
 
-    const connectSpy = jest.fn()
-    clientA.once('SERVER', connectSpy)
+    const serverEventSpy = jest.fn()
+    clientA.on('SERVER', serverEventSpy)
 
     // role: joiner
-    await connectWrapper(
+    const clientB = await connectWrapper(
       io('http://localhost:3000', {
         query: {
           roomId,
           name: 'User 2',
           clientId: 'user-2',
         },
+        forceNew: true,
       })
     )
 
-    expect(connectSpy).toHaveBeenCalledWith({
+    expect(serverEventSpy).toHaveBeenNthCalledWith(1, {
       CONN_ACTIVITY: expect.objectContaining({
         id: 'user-2',
         name: 'User 2',
+        action: 'join',
+      }),
+    })
+
+    await new Promise<void>((resolve) => {
+      clientB.once('disconnect', () => resolve())
+      clientB.disconnect()
+    })
+
+    /*
+     * Arbitray delay, we just want to wait for the server broadcast for disconnect
+     * TODO find a better method than doing a delay. this is not going to be very consistent if the server takes longer than the delay to broadcast.
+     */
+    await Bluebird.delay(1_000)
+
+    expect(serverEventSpy).toHaveBeenNthCalledWith(2, {
+      CONN_ACTIVITY: expect.objectContaining({
+        id: 'user-2',
+        name: 'User 2',
+        action: 'leave',
       }),
     })
   })
