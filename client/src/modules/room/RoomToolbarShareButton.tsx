@@ -29,7 +29,12 @@ export default function RoomToolbarShareButton({
 
   return (
     <>
-      <Button size="sm" variant="primary" onClick={() => setShow(true)}>
+      <Button
+        size="sm"
+        variant="primary"
+        onClick={() => setShow(true)}
+        data-cy="share-button"
+      >
         Share
       </Button>
       <BasicModal
@@ -38,6 +43,7 @@ export default function RoomToolbarShareButton({
         onHide={() => {
           setShow(false)
         }}
+        data-cy="share-modal"
       >
         <Stack gap={2}>
           <div>
@@ -46,13 +52,21 @@ export default function RoomToolbarShareButton({
           </div>
           <div>
             Room code:{' '}
-            <strong onClick={copyCode} className="cursor-pointer text-primary">
+            <strong
+              onClick={copyCode}
+              data-cy="room-id"
+              className="cursor-pointer text-primary"
+            >
               {roomId}
             </strong>
           </div>
           <div>
             Join URL:{' '}
-            <strong onClick={copyUrl} className="cursor-pointer text-primary">
+            <strong
+              onClick={copyUrl}
+              data-cy="url"
+              className="cursor-pointer text-primary"
+            >
               {url}
             </strong>
           </div>
