@@ -3,14 +3,16 @@ import Col from 'react-bootstrap/Col'
 import { useAppSelector } from '@/store/hooks'
 import { RoomToolbarShareButton } from '@/modules/room/RoomToolbarShareButton'
 import { RoomToolbarLeaveButton } from '@/modules/room/RoomToolbarLeaveButton'
+import { useNavigate } from 'react-router-dom'
 
 export function RoomToolbar() {
   const title = useAppSelector((app) => app.room.name)
+  const navigate = useNavigate()
 
   return (
     <Row className="justify-content-between align-items-center">
       <Col xs="auto">
-        <RoomToolbarLeaveButton />
+        <RoomToolbarLeaveButton onLeaveConfirm={() => navigate('/')} />
       </Col>
       <Col>
         <Row className="align-items-center gx-2">

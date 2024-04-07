@@ -1,10 +1,12 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import BasicModal from '@/modules/common/BasicModal'
 
-export function RoomToolbarLeaveButton() {
-  const navigate = useNavigate()
+export function RoomToolbarLeaveButton({
+  onLeaveConfirm,
+}: {
+  onLeaveConfirm: () => void
+}) {
   const [show, setShow] = useState(false)
 
   return (
@@ -29,7 +31,7 @@ export function RoomToolbarLeaveButton() {
         }}
         onOk={() => {
           setShow(false)
-          navigate('/')
+          onLeaveConfirm()
         }}
       >
         Are you sure you want to leave the room?
