@@ -4,12 +4,24 @@ import { useAppSelector } from '@/store/hooks'
 import { useNavigate, useParams } from 'react-router-dom'
 import RoomToolbarLeaveButton from '@/modules/room/RoomToolbarLeaveButton'
 import RoomToolbarShareButton from '@/modules/room/RoomToolbarShareButton'
+import { toast } from 'react-toastify'
+import { useCopyToClipboard } from 'react-use'
+import { useCallback } from 'react'
 
 export function RoomToolbar() {
   const title = useAppSelector((app) => app.room.name)
   const navigate = useNavigate()
 
   const { roomId } = useParams()
+  const copy = useCopyToClipboard()[1]
+
+  const copyHandler = useCallback(
+    (copied: string) => {
+      copy(copied)
+      toast(`Copied ${copied} to clipboard`)
+    },
+    [copy]
+  )
 
   return (
     <Row className="justify-content-between align-items-center">
@@ -27,7 +39,11 @@ export function RoomToolbar() {
         </Row>
       </Col>
       <Col xs="auto">
-        <RoomToolbarShareButton url={window.location.href} roomId={roomId!} />
+        <RoomToolbarShareButton
+          url={window.location.href}
+          roomId={roomId!}
+          onCopy={copyHandler}
+        />
       </Col>
     </Row>
   )

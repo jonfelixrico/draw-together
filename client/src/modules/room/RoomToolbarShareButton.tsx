@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import { toast } from 'react-toastify'
-import { useCopyToClipboard } from 'react-use'
 import Button from 'react-bootstrap/Button'
 import BasicModal from '@/modules/common/BasicModal'
 import Stack from 'react-bootstrap/Stack'
@@ -8,23 +6,17 @@ import Stack from 'react-bootstrap/Stack'
 export default function RoomToolbarShareButton({
   roomId,
   url,
+  onCopy,
 }: {
   roomId: string
   url: string
+  onCopy: (copied: string) => void
 }) {
   const [show, setShow] = useState(false)
-  const copy = useCopyToClipboard()[1]
 
-  function copyCode() {
-    copy(roomId as string)
+  function copyHandler(copied: string) {
+    onCopy(copied)
     setShow(false)
-    toast('The room code has been copied to the clipboard')
-  }
-
-  function copyUrl() {
-    copy(url)
-    setShow(false)
-    toast('The join URL has been copied to the clipboard')
   }
 
   return (
@@ -53,7 +45,7 @@ export default function RoomToolbarShareButton({
           <div>
             Room code:{' '}
             <strong
-              onClick={copyCode}
+              onClick={() => copyHandler(roomId)}
               data-cy="room-id"
               className="cursor-pointer text-primary"
             >
@@ -63,7 +55,7 @@ export default function RoomToolbarShareButton({
           <div>
             Join URL:{' '}
             <strong
-              onClick={copyUrl}
+              onClick={() => copyHandler(url)}
               data-cy="url"
               className="cursor-pointer text-primary"
             >
