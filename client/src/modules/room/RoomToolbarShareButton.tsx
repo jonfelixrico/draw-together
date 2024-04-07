@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button'
 import BasicModal from '@/modules/common/BasicModal'
 import Stack from 'react-bootstrap/Stack'
 
-export function RoomToolbarShareButton() {
+export default function RoomToolbarShareButton() {
   const [show, setShow] = useState(false)
   const { roomId } = useParams()
   const link = window.location.href

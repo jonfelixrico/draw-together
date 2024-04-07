@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import BasicModal from '@/modules/common/BasicModal'
 
-export function RoomToolbarLeaveButton({
+export default function RoomToolbarLeaveButton({
   onLeaveConfirm,
 }: {
   onLeaveConfirm: () => void

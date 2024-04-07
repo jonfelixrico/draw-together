@@ -1,9 +1,9 @@
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useAppSelector } from '@/store/hooks'
-import { RoomToolbarShareButton } from '@/modules/room/RoomToolbarShareButton'
-import { RoomToolbarLeaveButton } from '@/modules/room/RoomToolbarLeaveButton'
 import { useNavigate } from 'react-router-dom'
+import RoomToolbarLeaveButton from '@/modules/room/RoomToolbarLeaveButton'
+import RoomToolbarShareButton from '@/modules/room/RoomToolbarShareButton'
 
 export function RoomToolbar() {
   const title = useAppSelector((app) => app.room.name)
