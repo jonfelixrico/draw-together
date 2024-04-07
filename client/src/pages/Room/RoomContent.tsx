@@ -12,7 +12,7 @@ import { CursorServiceProvider } from '@/modules/pad-service/cursor-service.cont
 import { useCursorServiceImpl } from '@/modules/pad-service/cursor-service-impl.hook'
 import PadOptionsControls from '@/modules/pad/PadOptionsControls'
 import MobileScreenWarningModal from '@/pages/Room/MobileScreenWarningModal'
-import { RoomToolbar } from '@/pages/Room/RoomToolbar'
+import { RoomToolbar } from '@/modules/room/RoomToolbar'
 import manifest from '@manifest'
 
 const VERSION = import.meta.env.VITE_VERSION_OVERRIDE || manifest.version
