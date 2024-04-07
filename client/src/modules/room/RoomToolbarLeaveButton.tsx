@@ -11,10 +11,16 @@ export default function RoomToolbarLeaveButton({
 
   return (
     <>
-      <Button size="sm" variant="secondary" onClick={() => setShow(true)}>
+      <Button
+        size="sm"
+        variant="secondary"
+        onClick={() => setShow(true)}
+        data-cy="leave-button"
+      >
         Leave
       </Button>
       <BasicModal
+        data-cy="leave-modal"
         title="Leave Room"
         ok={{
           label: 'Yes',
