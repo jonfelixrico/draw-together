@@ -49,10 +49,10 @@ export default function BasicModal({
   return (
     <Modal show={show} onHide={onHide} {...dataAttrs}>
       <Modal.Header closeButton data-cy="header">
-        <Modal.Title>{title}</Modal.Title>
+        <Modal.Title data-cy="title">{title}</Modal.Title>
       </Modal.Header>
 
-      <Modal.Body>{children}</Modal.Body>
+      <Modal.Body data-cy="body">{children}</Modal.Body>
 
       <If condition={!!cancel || !!ok}>
         <Then>
@@ -62,6 +62,7 @@ export default function BasicModal({
                 <Button
                   variant={cancel?.variant ?? 'secondary'}
                   onClick={handleCancel}
+                  data-cy="cancel"
                 >
                   {/* At this point, we expect cancel to be not null. The `?` operator is just here to not make TS complain. */}
                   {cancel?.label}
@@ -71,7 +72,11 @@ export default function BasicModal({
 
             <If condition={!!ok}>
               <Then>
-                <Button variant={ok?.variant ?? 'primary'} onClick={handleOk}>
+                <Button
+                  variant={ok?.variant ?? 'primary'}
+                  onClick={handleOk}
+                  data-cy="ok"
+                >
                   {ok?.label}
                 </Button>
               </Then>
