@@ -2,6 +2,7 @@ import Modal from 'react-bootstrap/Modal'
 import Button, { ButtonProps } from 'react-bootstrap/Button'
 import { ReactNode } from 'react'
 import { If, Then } from 'react-if'
+import { DataAttributes } from '@/modules/common/react.types'
 
 const EMPTY_FN = () => {}
 
@@ -18,6 +19,7 @@ export default function BasicModal({
   title,
   onCancel = EMPTY_FN,
   onOk = EMPTY_FN,
+  ...dataAttrs
 }: {
   show: boolean
   onHide?: () => void
@@ -27,7 +29,7 @@ export default function BasicModal({
   title: string
   cancel?: BasicModalButtonProps
   ok?: BasicModalButtonProps
-}) {
+} & DataAttributes) {
   const handleCancel = () => {
     if (cancel?.emitHide) {
       onHide()
@@ -45,7 +47,7 @@ export default function BasicModal({
   }
 
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal show={show} onHide={onHide} {...dataAttrs}>
       <Modal.Header closeButton>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
