@@ -22,6 +22,8 @@ import './commands'
 // require('./commands')
 
 import { mount } from 'cypress/react18'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import '@/index.scss'
 
 // Augment the Cypress namespace to include type definitions for
 // your custom command.
