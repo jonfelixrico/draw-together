@@ -48,7 +48,7 @@ export default function BasicModal({
 
   return (
     <Modal show={show} onHide={onHide} {...dataAttrs}>
-      <Modal.Header closeButton>
+      <Modal.Header closeButton data-cy="header">
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
 
