@@ -1,15 +1,18 @@
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useCopyToClipboard } from 'react-use'
 import Button from 'react-bootstrap/Button'
 import BasicModal from '@/modules/common/BasicModal'
 import Stack from 'react-bootstrap/Stack'
 
-export default function RoomToolbarShareButton() {
+export default function RoomToolbarShareButton({
+  roomId,
+  url,
+}: {
+  roomId: string
+  url: string
+}) {
   const [show, setShow] = useState(false)
-  const { roomId } = useParams()
-  const link = window.location.href
   const copy = useCopyToClipboard()[1]
 
   function copyCode() {
@@ -19,7 +22,7 @@ export default function RoomToolbarShareButton() {
   }
 
   function copyUrl() {
-    copy(link)
+    copy(url)
     setShow(false)
     toast('The join URL has been copied to the clipboard')
   }
@@ -50,7 +53,7 @@ export default function RoomToolbarShareButton() {
           <div>
             Join URL:{' '}
             <strong onClick={copyUrl} className="cursor-pointer text-primary">
-              {link}
+              {url}
             </strong>
           </div>
         </Stack>

@@ -1,13 +1,15 @@
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useAppSelector } from '@/store/hooks'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import RoomToolbarLeaveButton from '@/modules/room/RoomToolbarLeaveButton'
 import RoomToolbarShareButton from '@/modules/room/RoomToolbarShareButton'
 
 export function RoomToolbar() {
   const title = useAppSelector((app) => app.room.name)
   const navigate = useNavigate()
+
+  const { roomId } = useParams()
 
   return (
     <Row className="justify-content-between align-items-center">
@@ -25,7 +27,7 @@ export function RoomToolbar() {
         </Row>
       </Col>
       <Col xs="auto">
-        <RoomToolbarShareButton />
+        <RoomToolbarShareButton url={window.location.href} roomId={roomId!} />
       </Col>
     </Row>
   )
