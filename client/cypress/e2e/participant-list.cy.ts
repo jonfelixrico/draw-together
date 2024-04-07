@@ -28,8 +28,8 @@ describe('participant-list', () => {
           roomId: getRoomId(),
         })
       )
-      .then((s: Socket) => {
-        socket = s
+      .then((s) => {
+        socket = s as Socket
         return s
       })
   }
@@ -53,7 +53,8 @@ describe('participant-list', () => {
     // other user shouldn't be connected yet
     cy.getCy('participants').findCy(otherUserId).should('not.exist')
 
-    startSocket().then((socket: Socket) => {
+    startSocket().then((s) => {
+      const socket = s as Socket
       // at this point, other user has joined
       cy.getCy('participants')
         .findCy(otherUserId)
