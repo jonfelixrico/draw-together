@@ -1,15 +1,14 @@
-import ToastProvider from '@/modules/common/ToastProvider'
 import RoomToolbarShareButton from '@/modules/room/RoomToolbarShareButton'
 
 describe('RoomToolbarShareButton', () => {
-  it('copies the data', () => {
+  it('copies the room id', () => {
+    const copyFn = cy.spy().as('copy')
     cy.mount(
-      <ToastProvider>
-        <RoomToolbarShareButton
-          roomId="test-id"
-          url="http://localhost:3000/rooms/test-id"
-        />
-      </ToastProvider>
+      <RoomToolbarShareButton
+        roomId="test-id"
+        url="http://localhost:3000/rooms/test-id"
+        onCopy={copyFn}
+      />
     )
 
     cy.getCy('share-modal').should('not.exist')
@@ -17,6 +16,29 @@ describe('RoomToolbarShareButton', () => {
     cy.getCy('share-button').click()
     cy.getCy('share-modal').should('exist')
 
-    // TODO create tests for the actual copied values.
+    cy.getCy('room-id').click()
+    cy.get('@copy').should('have.been.calledWith', 'test-id')
+  })
+
+  it('copies the url', () => {
+    const copyFn = cy.spy().as('copy')
+    cy.mount(
+      <RoomToolbarShareButton
+        roomId="test-id"
+        url="http://localhost:3000/rooms/test-id"
+        onCopy={copyFn}
+      />
+    )
+
+    cy.getCy('share-modal').should('not.exist')
+
+    cy.getCy('share-button').click()
+    cy.getCy('share-modal').should('exist')
+
+    cy.getCy('url').click()
+    cy.get('@copy').should(
+      'have.been.calledWith',
+      'http://localhost:3000/rooms/test-id'
+    )
   })
 })
