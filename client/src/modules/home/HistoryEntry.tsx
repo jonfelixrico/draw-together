@@ -55,7 +55,7 @@ export default function HistoryEntry({
             Delete
           </Button>
 
-          <Button href={`/rooms/${room.id}`} size="sm">
+          <Button href={`/rooms/${room.id}`} size="sm" data-cy="join">
             Join Room
           </Button>
         </Col>

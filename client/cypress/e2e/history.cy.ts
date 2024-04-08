@@ -55,4 +55,35 @@ describe('history', () => {
         cy.get(`[data-room-id=${roomId}]`).should('not.exist')
       })
   })
+
+  it('supports joining from history', () => {
+    cy.visit('/')
+
+    cy.getCy('entry').should('have.length', 4)
+
+    cy.getCy('entry')
+      .eq(3)
+      .then((el) => {
+        const roomId = el.attr('data-room-id')
+
+        cy.get(`[data-room-id=${roomId}]`).findCy('join').click()
+        cy.getCy('room-page').should('exist')
+
+        cy.visit('/')
+
+        // expect that the room last accessed should be the first one in the list now
+        cy.getCy('entry').eq(0).should('have.attr', 'data-room-id', roomId)
+      })
+  })
+
+  it('supports clearing of history', () => {
+    cy.visit('/')
+
+    cy.getCy('entry').should('have.length', 4)
+    cy.getCy('clear').click()
+    cy.getCy('clear-confirm-modal').findCy('ok').click()
+
+    cy.getCy('entry').should('not.exist')
+    cy.getCy('empty-notice').should('exist')
+  })
 })
