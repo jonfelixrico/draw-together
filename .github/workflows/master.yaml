@@ -21,8 +21,6 @@ jobs:
 
   docker-server:
     needs:
-      - verify-client
-      - verify-server
       - verify
     runs-on: ubuntu-latest
     steps:
@@ -61,8 +59,6 @@ jobs:
 
   docker-client:
     needs:
-      - verify-client
-      - verify-server
       - verify
     runs-on: ubuntu-latest
     steps:
