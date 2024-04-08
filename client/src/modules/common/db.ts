@@ -9,7 +9,7 @@ class LocalDb extends Dexie {
   rooms!: Table<RoomDbRecord>
 
   constructor() {
-    super('room-db')
+    super('db')
     this.version(1).stores({
       rooms: 'id',
     })

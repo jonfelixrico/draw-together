@@ -129,11 +129,13 @@ export function Component() {
   }, [socket, dispatch, room])
 
   return (
-    <PadEventsProvider socket={socket} roomId={roomId!}>
-      <ToastProvider>
-        <RoomContent />
-      </ToastProvider>
-    </PadEventsProvider>
+    <div data-cy="room-page">
+      <PadEventsProvider socket={socket} roomId={roomId!}>
+        <ToastProvider>
+          <RoomContent />
+        </ToastProvider>
+      </PadEventsProvider>
+    </div>
   )
 }
 

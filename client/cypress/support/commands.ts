@@ -67,7 +67,7 @@ Cypress.Commands.add(
   'findCy',
   { prevSubject: true },
   (subject: JQuery<HTMLElement>, value: string) => {
-    return cy.wrap(subject).get(`[data-cy=${value}]`)
+    return cy.wrap(subject).find(`[data-cy=${value}]`)
   }
 )
 
