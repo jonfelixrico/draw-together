@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button'
 import { useState } from 'react'
 import BasicModal from '@/modules/common/BasicModal'
 
-export default function HistoryListEntry({
+export default function HistoryEntry({
   room,
   onDelete,
 }: {

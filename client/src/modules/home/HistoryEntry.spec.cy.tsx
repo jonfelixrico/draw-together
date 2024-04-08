@@ -1,10 +1,10 @@
-import HistoryListEntry from '@/modules/home/HistoryListEntry'
+import HistoryEntry from '@/modules/home/HistoryEntry'
 
 describe('HistoryListEntry', () => {
   it('prompts for delete', () => {
     const deleteFn = cy.spy().as('delete')
     cy.mount(
-      <HistoryListEntry
+      <HistoryEntry
         onDelete={deleteFn}
         room={{
           id: 'test',
