@@ -12,8 +12,8 @@ export default function HistoryLayout({
   children,
 }: {
   onDeleteConfirm: () => void
-  noEntries: boolean
-  children: ReactNode
+  noEntries?: boolean
+  children?: ReactNode
 }) {
   const [show, setShow] = useState(false)
 
@@ -35,7 +35,7 @@ export default function HistoryLayout({
           label: 'No, cancel',
           emitHide: true,
         }}
-        data-cy="clear-prompt"
+        data-cy="clear-confirm-modal"
       >
         Are you sure you want to clear your history?
       </BasicModal>
@@ -53,6 +53,7 @@ export default function HistoryLayout({
                 size="sm"
                 onClick={() => setShow(true)}
                 disabled={noEntries}
+                data-cy="clear"
               >
                 Clear History
               </Button>
