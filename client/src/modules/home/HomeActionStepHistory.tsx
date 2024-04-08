@@ -21,21 +21,22 @@ export default function HomeActionStepHistory() {
   }
 
   return (
-    <HistoryLayout
-      noEntries={!rooms?.length}
-      onClearConfirm={() => localDb.rooms.clear()}
-    >
-      <ListGroup>
-        {rooms?.map((room) => (
-          <ListGroup.Item>
-            <HistoryEntry
-              room={room}
-              key={room.id}
-              onDelete={() => deleteHistoryEntry(room.id)}
-            />
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
-    </HistoryLayout>
+    <div data-cy="history">
+      <HistoryLayout
+        noEntries={!rooms?.length}
+        onClearConfirm={() => localDb.rooms.clear()}
+      >
+        <ListGroup>
+          {rooms?.map((room) => (
+            <ListGroup.Item key={room.id}>
+              <HistoryEntry
+                room={room}
+                onDelete={() => deleteHistoryEntry(room.id)}
+              />
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+      </HistoryLayout>
+    </div>
   )
 }
