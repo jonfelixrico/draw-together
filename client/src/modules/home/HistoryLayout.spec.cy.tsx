@@ -3,7 +3,7 @@ import HistoryLayout from '@/modules/home/HistoryLayout'
 describe('HistoryLayout', () => {
   it('prompts for clear', () => {
     const clearFn = cy.spy().as('clear')
-    cy.mount(<HistoryLayout onDeleteConfirm={clearFn} />)
+    cy.mount(<HistoryLayout onClearConfirm={clearFn} />)
 
     cy.getCy('clear-confirm-modal').should('not.exist')
 

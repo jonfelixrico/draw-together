@@ -7,11 +7,11 @@ import { ReactNode, useState } from 'react'
 import BasicModal from '@/modules/common/BasicModal'
 
 export default function HistoryLayout({
-  onDeleteConfirm,
+  onClearConfirm,
   noEntries,
   children,
 }: {
-  onDeleteConfirm: () => void
+  onClearConfirm: () => void
   noEntries?: boolean
   children?: ReactNode
 }) {
@@ -25,7 +25,7 @@ export default function HistoryLayout({
         onHide={() => setShow(false)}
         onOk={() => {
           setShow(false)
-          onDeleteConfirm()
+          onClearConfirm()
         }}
         ok={{
           label: 'Yes, clear history',
