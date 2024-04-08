@@ -22,7 +22,7 @@ export default function HomeActionStepHistory() {
 
   return (
     <HistoryLayout
-      noEntries={!!rooms?.length}
+      noEntries={!rooms?.length}
       onClearConfirm={() => localDb.rooms.clear()}
     >
       <ListGroup>
