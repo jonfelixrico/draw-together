@@ -71,11 +71,13 @@ export default function HomeActionStepHistory() {
             <Then>
               <ListGroup>
                 {rooms?.map((room) => (
-                  <HistoryListEntry
-                    room={room}
-                    key={room.id}
-                    onDelete={() => deleteHistoryEntry(room.id)}
-                  />
+                  <ListGroup.Item>
+                    <HistoryListEntry
+                      room={room}
+                      key={room.id}
+                      onDelete={() => deleteHistoryEntry(room.id)}
+                    />
+                  </ListGroup.Item>
                 ))}
               </ListGroup>
             </Then>
