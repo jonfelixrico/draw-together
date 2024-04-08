@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button'
 import { ReactNode, useState } from 'react'
 import BasicModal from '@/modules/common/BasicModal'
 
-export default function HomeActionStepHistory({
+export default function HistoryLayout({
   onDeleteConfirm,
   noEntries,
   children,
