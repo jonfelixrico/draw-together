@@ -36,7 +36,7 @@ export default function HistoryEntry({
         Are you sure you want to delete {room.name} from your history?
       </BasicModal>
 
-      <Row>
+      <Row data-cy="entry">
         <Col>
           <div className="h5">{room.name}</div>
           <div>Last opened {new Date(room.lastOpened).toString()}</div>
