@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/Button'
 import { useState } from 'react'
 import BasicModal from '@/modules/common/BasicModal'
 import sortBy from 'lodash/sortBy'
-import HistoryListEntry from '@/modules/home/HistoryListEntry'
+import HistoryEntry from '@/modules/home/HistoryEntry'
 
 export default function HomeActionStepHistory() {
   const [show, setShow] = useState(false)
@@ -72,7 +72,7 @@ export default function HomeActionStepHistory() {
               <ListGroup>
                 {rooms?.map((room) => (
                   <ListGroup.Item>
-                    <HistoryListEntry
+                    <HistoryEntry
                       room={room}
                       key={room.id}
                       onDelete={() => deleteHistoryEntry(room.id)}
