@@ -61,9 +61,7 @@ export default function HistoryLayout({
           </Row>
 
           <If condition={!noEntries}>
-            <Then>
-              <div data-cy="content">{children}</div>
-            </Then>
+            <Then>{children}</Then>
 
             <Else>
               <div data-cy="empty-notice">No items to show</div>

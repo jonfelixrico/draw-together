@@ -20,4 +20,26 @@ describe('HistoryLayout', () => {
     cy.getCy('clear-confirm-modal').findCy('ok').click()
     cy.get('@clear').should('have.been.calledOnce')
   })
+
+  it('shows content', () => {
+    cy.mount(
+      <HistoryLayout onClearConfirm={() => {}}>
+        <div data-cy="content">Content</div>
+      </HistoryLayout>
+    )
+
+    cy.getCy('content').should('exist')
+    cy.getCy('empty-notice').should('not.exist')
+  })
+
+  it('shows empty notice instead of content', () => {
+    cy.mount(
+      <HistoryLayout onClearConfirm={() => {}} noEntries>
+        <div data-cy="content">Content</div>
+      </HistoryLayout>
+    )
+
+    cy.getCy('content').should('not.exist')
+    cy.getCy('empty-notice').should('exist')
+  })
 })
