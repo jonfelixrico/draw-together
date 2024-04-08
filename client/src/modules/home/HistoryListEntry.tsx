@@ -41,13 +41,20 @@ export default function HistoryListEntry({
           <div className="h5">{room.name}</div>
           <div>Last opened {new Date(room.lastOpened).toString()}</div>
         </Col>
+
         <Col
           xs="auto"
           className="d-flex flex-row justify-content-center align-items-center gap-2"
         >
-          <Button variant="danger" size="sm" onClick={() => setShow(true)}>
+          <Button
+            variant="danger"
+            size="sm"
+            onClick={() => setShow(true)}
+            data-cy="delete"
+          >
             Delete
           </Button>
+
           <Button href={`/rooms/${room.id}`} size="sm">
             Join Room
           </Button>
