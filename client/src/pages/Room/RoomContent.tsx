@@ -53,10 +53,10 @@ export default function RoomContent() {
 
   const dispatch = useAppDispatch()
 
-  const [ref, dimensions] = useMeasure<HTMLDivElement>()
+  const [ref, { width, height }] = useMeasure<HTMLDivElement>()
   useEffect(() => {
-    dispatch(RoomActions.setViewportDimensions(dimensions))
-  }, [dimensions, dispatch])
+    dispatch(RoomActions.setViewportDimensions({ width, height }))
+  }, [width, height, dispatch])
 
   return (
     <>
@@ -78,7 +78,10 @@ export default function RoomContent() {
             <Row className="h-100">
               <Col className="p-0">
                 {/* Intermediate div is present because we can't easily attach ref to Col */}
-                <div className="h-100 w-100 position-relative" ref={ref}>
+                <div
+                  className="h-100 w-100 position-relative d-flex flex-column justify-content-center align-items-center"
+                  ref={ref}
+                >
                   <div className="position-absolute">
                     <PathInputServiceProvider value={pathInputService}>
                       <CursorServiceProvider value={cursorService}>
