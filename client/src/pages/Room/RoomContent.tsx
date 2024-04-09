@@ -14,6 +14,8 @@ import PadOptionsControls from '@/modules/pad/PadOptionsControls'
 import MobileScreenWarningModal from '@/pages/Room/MobileScreenWarningModal'
 import { RoomToolbar } from '@/modules/room/RoomToolbar'
 import manifest from '@manifest'
+import { useMemo } from 'react'
+import { useAppSelector } from '@/store/hooks'
 
 const VERSION = import.meta.env.VITE_VERSION_OVERRIDE || manifest.version
 
@@ -43,11 +45,20 @@ function Drawer() {
 
 export default function RoomContent() {
   useParticipantWatcher()
-  const [ref, dimensions] = useMeasure<HTMLDivElement>()
   usePathSocketWatcher()
 
   const pathInputService = usePathInputServiceImpl()
   const cursorService = useCursorServiceImpl()
+
+  const [ref, { width, height }] = useMeasure<HTMLDivElement>()
+  const padDims = useAppSelector((state) => state.room.padDimensions)
+
+  const scale = useMemo(() => {
+    const scaleViaWidth = width / padDims.width
+    const scaleViaHeight = height / padDims.height
+
+    return Math.min(scaleViaWidth, scaleViaHeight)
+  }, [width, height, padDims])
 
   return (
     <>
@@ -62,18 +73,21 @@ export default function RoomContent() {
         fluid
       >
         <Row className="h-100 flex-column">
-          <Col xs="auto" className="py-2 bg-body-secondary border-bottom">
+          <Col xs="auto" className="py-2 bg-body border-bottom">
             <RoomToolbar />
           </Col>
           <Col>
             <Row className="h-100">
               <Col className="p-0">
                 {/* Intermediate div is present because we can't easily attach ref to Col */}
-                <div className="h-100 w-100 position-relative" ref={ref}>
-                  <div className="position-absolute">
+                <div
+                  className="h-100 w-100 bg-body-secondary position-relative d-flex flex-column justify-content-center align-items-center"
+                  ref={ref}
+                >
+                  <div className="position-absolute bg-white">
                     <PathInputServiceProvider value={pathInputService}>
                       <CursorServiceProvider value={cursorService}>
-                        <Pad dimensions={dimensions} />
+                        <Pad scale={scale} dimensions={padDims} />
                       </CursorServiceProvider>
                     </PathInputServiceProvider>
                   </div>
