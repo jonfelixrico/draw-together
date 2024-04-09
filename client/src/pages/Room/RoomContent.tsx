@@ -82,7 +82,7 @@ export default function RoomContent() {
                   <div className="position-absolute">
                     <PathInputServiceProvider value={pathInputService}>
                       <CursorServiceProvider value={cursorService}>
-                        <Pad dimensions={dimensions} />
+                        <Pad />
                       </CursorServiceProvider>
                     </PathInputServiceProvider>
                   </div>
