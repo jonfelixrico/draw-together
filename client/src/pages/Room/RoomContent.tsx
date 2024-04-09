@@ -14,6 +14,9 @@ import PadOptionsControls from '@/modules/pad/PadOptionsControls'
 import MobileScreenWarningModal from '@/pages/Room/MobileScreenWarningModal'
 import { RoomToolbar } from '@/modules/room/RoomToolbar'
 import manifest from '@manifest'
+import { useEffect } from 'react'
+import { useAppDispatch } from '@/store/hooks'
+import { RoomActions } from '@/modules/room/room.slice'
 
 const VERSION = import.meta.env.VITE_VERSION_OVERRIDE || manifest.version
 
@@ -43,11 +46,17 @@ function Drawer() {
 
 export default function RoomContent() {
   useParticipantWatcher()
-  const [ref, dimensions] = useMeasure<HTMLDivElement>()
   usePathSocketWatcher()
 
   const pathInputService = usePathInputServiceImpl()
   const cursorService = useCursorServiceImpl()
+
+  const dispatch = useAppDispatch()
+
+  const [ref, dimensions] = useMeasure<HTMLDivElement>()
+  useEffect(() => {
+    dispatch(RoomActions.setViewportDimensions(dimensions))
+  }, [dimensions, dispatch])
 
   return (
     <>
