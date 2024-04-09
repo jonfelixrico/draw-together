@@ -6,9 +6,9 @@ import RoomToolbarLeaveButton from '@/modules/room/RoomToolbarLeaveButton'
 import RoomToolbarShareButton from '@/modules/room/RoomToolbarShareButton'
 import { toast } from 'react-toastify'
 import { useCopyToClipboard } from 'react-use'
-import { useCallback } from 'react'
+import { ReactNode, useCallback } from 'react'
 
-export function RoomToolbar() {
+export function RoomToolbar({ children }: { children?: ReactNode }) {
   const title = useAppSelector((app) => app.room.name)
   const navigate = useNavigate()
 
@@ -38,7 +38,12 @@ export function RoomToolbar() {
           </Col>
         </Row>
       </Col>
-      <Col xs="auto">
+      <Col
+        xs="auto"
+        className="d-flex flex-row justify-content-end items-align-center"
+      >
+        {children}
+
         <RoomToolbarShareButton
           url={window.location.href}
           roomId={roomId!}
