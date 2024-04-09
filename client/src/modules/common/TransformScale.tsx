@@ -19,6 +19,7 @@ export default function TransformScale({
         className="position-absolute"
         style={{
           transform: `scale(${contentScale})`,
+          transformOrigin: '0 0 ',
         }}
       >
         {children}
