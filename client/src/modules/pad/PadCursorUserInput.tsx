@@ -3,19 +3,21 @@ import { ReactNode, useCallback } from 'react'
 
 export default function PadCursorUserInput({
   children,
+  scale,
 }: {
   children: ReactNode
+  scale: number
 }) {
   const { setUserCursor, clearUserCursor } = useCursorService()
 
   const handleMouseMove: React.MouseEventHandler<HTMLDivElement> = useCallback(
     (evt) => {
       setUserCursor({
-        x: evt.nativeEvent.offsetX,
-        y: evt.nativeEvent.offsetY,
+        x: evt.nativeEvent.offsetX / scale,
+        y: evt.nativeEvent.offsetY / scale,
       })
     },
-    [setUserCursor]
+    [setUserCursor, scale]
   )
 
   return (

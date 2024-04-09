@@ -22,7 +22,7 @@ export function Pad({
   }, [dimensions, scale])
 
   return (
-    <PadCursorUserInput>
+    <PadCursorUserInput scale={scale}>
       <div
         className="position-relative isolate"
         style={scaledDims}
@@ -34,25 +34,27 @@ export function Pad({
           </PadOptionsThicknessWheelInput>
         </div>
 
-        <TransformScale containerDimensions={scaledDims} contentScale={scale}>
-          <div style={dimensions}>
-            <div
-              className="position-absolute"
-              style={{ zIndex: 1 }}
-              data-cy="pad-paths-renderer"
-            >
-              <PadPathsRenderer dimensions={dimensions} />
-            </div>
+        <div className="position-absolute">
+          <TransformScale containerDimensions={scaledDims} contentScale={scale}>
+            <div style={dimensions} className="position-relative">
+              <div
+                className="position-absolute"
+                style={{ zIndex: 1 }}
+                data-cy="pad-paths-renderer"
+              >
+                <PadPathsRenderer dimensions={dimensions} />
+              </div>
 
-            <div
-              className="position-absolute"
-              style={{ zIndex: 2 }}
-              data-cy="pad-cursors-renderer"
-            >
-              <PadCursorsRenderer dimensions={dimensions} />
+              <div
+                className="position-absolute"
+                style={{ zIndex: 2 }}
+                data-cy="pad-cursors-renderer"
+              >
+                <PadCursorsRenderer dimensions={dimensions} />
+              </div>
             </div>
-          </div>
-        </TransformScale>
+          </TransformScale>
+        </div>
       </div>
     </PadCursorUserInput>
   )
