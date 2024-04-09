@@ -3,22 +3,23 @@ import { PadInput } from '@/modules/pad/PadInput'
 import PadCursorsRenderer from '@/modules/pad/PadCursorsRenderer'
 import PadCursorUserInput from '@/modules/pad/PadCursorUserInput'
 import PadOptionsThicknessWheelInput from '@/modules/pad/PadOptionsThicknessWheelInput'
-import { useAppSelector } from '@/store/hooks'
-import { usePadScale } from '@/modules/pad-common/pad-scale.hook'
 import { useMemo } from 'react'
 import { Dimensions } from '@/modules/common/geometry.types'
 import TransformScale from '@/modules/common/TransformScale'
 
-export function Pad() {
-  const padDims = useAppSelector((state) => state.room.padDimensions)
-  const scale = usePadScale()
-
+export function Pad({
+  dimensions,
+  scale,
+}: {
+  dimensions: Dimensions
+  scale: number
+}) {
   const scaledDims: Dimensions = useMemo(() => {
     return {
-      width: padDims.width * scale,
-      height: padDims.height * scale,
+      width: dimensions.width * scale,
+      height: dimensions.height * scale,
     }
-  }, [padDims, scale])
+  }, [dimensions, scale])
 
   return (
     <PadCursorUserInput>
@@ -34,13 +35,13 @@ export function Pad() {
         </div>
 
         <TransformScale containerDimensions={scaledDims} contentScale={scale}>
-          <div style={padDims}>
+          <div style={dimensions}>
             <div
               className="position-absolute"
               style={{ zIndex: 1 }}
               data-cy="pad-paths-renderer"
             >
-              <PadPathsRenderer dimensions={padDims} />
+              <PadPathsRenderer dimensions={dimensions} />
             </div>
 
             <div
@@ -48,7 +49,7 @@ export function Pad() {
               style={{ zIndex: 2 }}
               data-cy="pad-cursors-renderer"
             >
-              <PadCursorsRenderer dimensions={padDims} />
+              <PadCursorsRenderer dimensions={dimensions} />
             </div>
           </div>
         </TransformScale>

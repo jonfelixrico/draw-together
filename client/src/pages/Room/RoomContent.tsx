@@ -14,9 +14,8 @@ import PadOptionsControls from '@/modules/pad/PadOptionsControls'
 import MobileScreenWarningModal from '@/pages/Room/MobileScreenWarningModal'
 import { RoomToolbar } from '@/modules/room/RoomToolbar'
 import manifest from '@manifest'
-import { useEffect } from 'react'
-import { useAppDispatch } from '@/store/hooks'
-import { RoomActions } from '@/modules/room/room.slice'
+import { useMemo } from 'react'
+import { useAppSelector } from '@/store/hooks'
 
 const VERSION = import.meta.env.VITE_VERSION_OVERRIDE || manifest.version
 
@@ -51,12 +50,15 @@ export default function RoomContent() {
   const pathInputService = usePathInputServiceImpl()
   const cursorService = useCursorServiceImpl()
 
-  const dispatch = useAppDispatch()
-
   const [ref, { width, height }] = useMeasure<HTMLDivElement>()
-  useEffect(() => {
-    dispatch(RoomActions.setViewportDimensions({ width, height }))
-  }, [width, height, dispatch])
+  const padDims = useAppSelector((state) => state.room.padDimensions)
+
+  const scale = useMemo(() => {
+    const scaleViaWidth = width / padDims.width
+    const scaleViaHeight = height / padDims.height
+
+    return Math.min(scaleViaWidth, scaleViaHeight)
+  }, [width, height, padDims])
 
   return (
     <>
@@ -85,7 +87,7 @@ export default function RoomContent() {
                   <div className="position-absolute bg-white">
                     <PathInputServiceProvider value={pathInputService}>
                       <CursorServiceProvider value={cursorService}>
-                        <Pad />
+                        <Pad scale={scale} dimensions={padDims} />
                       </CursorServiceProvider>
                     </PathInputServiceProvider>
                   </div>
