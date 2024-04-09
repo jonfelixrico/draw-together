@@ -40,7 +40,7 @@ export function RoomToolbar({ children }: { children?: ReactNode }) {
       </Col>
       <Col
         xs="auto"
-        className="d-flex flex-row justify-content-end items-align-center"
+        className="d-flex flex-row justify-content-end items-align-center gap-2"
       >
         {children}
 

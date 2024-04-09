@@ -9,7 +9,9 @@ export default function RoomDrawerModalButton() {
   return (
     <>
       {/* TODO adjust label */}
-      <Button onClick={() => setShow(true)}>Show Options</Button>
+      <Button size="sm" variant="secondary" onClick={() => setShow(true)}>
+        Show Options
+      </Button>
 
       <BasicModal show={show} onHide={() => setShow(false)} title="Options">
         <RoomDrawer />
