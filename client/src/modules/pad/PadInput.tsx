@@ -8,6 +8,10 @@ export function PadInput({
   counterScale,
 }: {
   dimensions: Dimensions
+  /**
+   * This is pretty much a normal scale value.
+   * Under the hood, this scale value is used to normalize the pad input points emitted.
+   */
   counterScale: number
 }) {
   const { emitDraw } = usePathInputService()

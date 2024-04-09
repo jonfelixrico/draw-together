@@ -9,6 +9,11 @@ export default function PadCursorUserInput({
   counterScale,
 }: {
   children: ReactNode
+
+  /**
+   * This is pretty much a normal scale value.
+   * Under the hood, this scale value is used to normalize the cursor points emitted.
+   */
   counterScale: number
 }) {
   const { setUserCursor, clearUserCursor } = useCursorService()
