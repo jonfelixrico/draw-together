@@ -8,7 +8,6 @@ interface RoomSlice {
 
   viewportDimensions: Dimensions
   padDimensions: Dimensions
-  scale: number
 }
 
 const INITIAL_STATE: RoomSlice = {
@@ -24,8 +23,6 @@ const INITIAL_STATE: RoomSlice = {
     width: 1920,
     height: 1080,
   },
-
-  scale: 1,
 }
 
 const roomSlice = createSlice({
@@ -50,10 +47,6 @@ const roomSlice = createSlice({
 
     setViewportDimensions: (state, action: PayloadAction<Dimensions>) => {
       state.viewportDimensions = action.payload
-    },
-
-    setScale: (state, action: PayloadAction<number>) => {
-      state.scale = action.payload
     },
   },
 })
