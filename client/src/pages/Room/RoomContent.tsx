@@ -16,6 +16,8 @@ import { RoomToolbar } from '@/modules/room/RoomToolbar'
 import manifest from '@manifest'
 import { useMemo } from 'react'
 import { useAppSelector } from '@/store/hooks'
+import { If, Then } from 'react-if'
+import { useScreen } from '@/modules/common/screen.hook'
 
 const VERSION = import.meta.env.VITE_VERSION_OVERRIDE || manifest.version
 
@@ -60,6 +62,8 @@ export default function RoomContent() {
     return Math.min(scaleViaWidth, scaleViaHeight)
   }, [width, height, padDims])
 
+  const screen = useScreen()
+
   return (
     <>
       <MobileScreenWarningModal />
@@ -94,13 +98,19 @@ export default function RoomContent() {
                 </div>
               </Col>
 
-              <Col
-                xs="2"
-                className="p-2 bg-body-tertiary border-start"
-                data-cy="participants-drawer"
-              >
-                <Drawer />
-              </Col>
+              <If condition={screen.gt.sm}>
+                <Then>
+                  <Col
+                    md="4"
+                    lg="3"
+                    xl="2"
+                    className="p-2 bg-body-tertiary border-start"
+                    data-cy="participants-drawer"
+                  >
+                    <Drawer />
+                  </Col>
+                </Then>
+              </If>
             </Row>
           </Col>
         </Row>
