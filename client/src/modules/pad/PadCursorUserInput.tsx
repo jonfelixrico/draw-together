@@ -13,8 +13,8 @@ export default function PadCursorUserInput({
   const handleMouseMove: React.MouseEventHandler<HTMLDivElement> = useCallback(
     (evt) => {
       setUserCursor({
-        x: evt.nativeEvent.offsetX / scale,
-        y: evt.nativeEvent.offsetY / scale,
+        x: evt.nativeEvent.offsetX * scale,
+        y: evt.nativeEvent.offsetY * scale,
       })
     },
     [setUserCursor, scale]

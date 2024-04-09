@@ -15,8 +15,8 @@ export function PadInput({
   const normalize = useCallback(
     (point: Point): Point => {
       return {
-        x: point.x / scale,
-        y: point.y / scale,
+        x: point.x * scale,
+        y: point.y * scale,
       }
     },
     [scale]
