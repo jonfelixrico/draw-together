@@ -16,6 +16,7 @@ import { useAppSelector } from '@/store/hooks'
 import { If, Then } from 'react-if'
 import { useScreen } from '@/modules/common/screen.hook'
 import RoomDrawer from '@/modules/room/RoomDrawer'
+import RoomDrawerModalButton from '@/modules/room/RoomDrawerModalButton'
 
 export default function RoomContent() {
   useParticipantWatcher()
@@ -50,7 +51,13 @@ export default function RoomContent() {
       >
         <Row className="h-100 flex-column">
           <Col xs="auto" className="py-2 bg-body border-bottom">
-            <RoomToolbar />
+            <RoomToolbar>
+              <If condition={screen.lt.md}>
+                <Then>
+                  <RoomDrawerModalButton />
+                </Then>
+              </If>
+            </RoomToolbar>
           </Col>
           <Col>
             <Row className="h-100">
