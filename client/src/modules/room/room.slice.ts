@@ -6,7 +6,6 @@ interface RoomSlice {
   participants: Record<string, Participant>
   name: string
 
-  viewportDimensions: Dimensions
   padDimensions: Dimensions
 }
 
@@ -14,11 +13,10 @@ const INITIAL_STATE: RoomSlice = {
   participants: {},
   name: '',
 
-  viewportDimensions: {
-    width: 1920,
-    height: 1080,
-  },
-
+  /*
+   * TODO add reducers once we allow configuration
+   * For now, this is hard-coded since users can't change the pad dimensions anyway
+   */
   padDimensions: {
     width: 1920,
     height: 1080,
@@ -43,10 +41,6 @@ const roomSlice = createSlice({
 
     setName: (state, { payload }: PayloadAction<string>) => {
       state.name = payload
-    },
-
-    setViewportDimensions: (state, action: PayloadAction<Dimensions>) => {
-      state.viewportDimensions = action.payload
     },
   },
 })
