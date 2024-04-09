@@ -71,7 +71,7 @@ export default function RoomContent() {
         fluid
       >
         <Row className="h-100 flex-column">
-          <Col xs="auto" className="py-2 bg-body-secondary border-bottom">
+          <Col xs="auto" className="py-2 bg-body border-bottom">
             <RoomToolbar />
           </Col>
           <Col>
@@ -79,10 +79,10 @@ export default function RoomContent() {
               <Col className="p-0">
                 {/* Intermediate div is present because we can't easily attach ref to Col */}
                 <div
-                  className="h-100 w-100 position-relative d-flex flex-column justify-content-center align-items-center"
+                  className="h-100 w-100 bg-body-secondary position-relative d-flex flex-column justify-content-center align-items-center"
                   ref={ref}
                 >
-                  <div className="position-absolute">
+                  <div className="position-absolute bg-white">
                     <PathInputServiceProvider value={pathInputService}>
                       <CursorServiceProvider value={cursorService}>
                         <Pad />
