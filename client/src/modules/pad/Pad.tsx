@@ -30,7 +30,7 @@ export function Pad({
       >
         <div className="position-absolute" style={{ zIndex: 100 }}>
           <PadOptionsThicknessWheelInput>
-            <PadInput dimensions={scaledDims} />
+            <PadInput dimensions={scaledDims} scale={scale} />
           </PadOptionsThicknessWheelInput>
         </div>
 

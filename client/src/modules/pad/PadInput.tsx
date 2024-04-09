@@ -1,10 +1,26 @@
 import { useCallback } from 'react'
-import { Dimensions } from '@/modules/common/geometry.types'
+import { Dimensions, Point } from '@/modules/common/geometry.types'
 import Draggable, { DraggableEvent } from './Draggable'
 import { usePathInputService } from '@/modules/pad-service/path-input-service.context'
 
-export function PadInput({ dimensions }: { dimensions: Dimensions }) {
+export function PadInput({
+  dimensions,
+  scale,
+}: {
+  dimensions: Dimensions
+  scale: number
+}) {
   const { emitDraw } = usePathInputService()
+
+  const normalize = useCallback(
+    (point: Point): Point => {
+      return {
+        x: point.x / scale,
+        y: point.y / scale,
+      }
+    },
+    [scale]
+  )
 
   const handleDrag = useCallback(
     (event: DraggableEvent) => {
@@ -12,30 +28,30 @@ export function PadInput({ dimensions }: { dimensions: Dimensions }) {
 
       if (isStart) {
         emitDraw({
-          point: {
+          point: normalize({
             x,
             y,
-          },
+          }),
           isStart: true,
         })
       } else if (isEnd) {
         emitDraw({
-          point: {
+          point: normalize({
             x,
             y,
-          },
+          }),
           isEnd: true,
         })
       } else {
         emitDraw({
-          point: {
+          point: normalize({
             x,
             y,
-          },
+          }),
         })
       }
     },
-    [emitDraw]
+    [emitDraw, normalize]
   )
 
   // Removing the cursor since we have implemented our own
