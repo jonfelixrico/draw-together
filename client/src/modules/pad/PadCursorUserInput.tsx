@@ -1,23 +1,26 @@
 import { useCursorService } from '@/modules/pad-service/cursor-service.context'
 import { ReactNode, useCallback } from 'react'
 
+/**
+ * Follows the dimensions of the content
+ */
 export default function PadCursorUserInput({
   children,
-  scale,
+  counterScale,
 }: {
   children: ReactNode
-  scale: number
+  counterScale: number
 }) {
   const { setUserCursor, clearUserCursor } = useCursorService()
 
   const handleMouseMove: React.MouseEventHandler<HTMLDivElement> = useCallback(
     (evt) => {
       setUserCursor({
-        x: evt.nativeEvent.offsetX * scale,
-        y: evt.nativeEvent.offsetY * scale,
+        x: evt.nativeEvent.offsetX / counterScale,
+        y: evt.nativeEvent.offsetY / counterScale,
       })
     },
-    [setUserCursor, scale]
+    [setUserCursor, counterScale]
   )
 
   return (

@@ -5,21 +5,21 @@ import { usePathInputService } from '@/modules/pad-service/path-input-service.co
 
 export function PadInput({
   dimensions,
-  scale,
+  counterScale,
 }: {
   dimensions: Dimensions
-  scale: number
+  counterScale: number
 }) {
   const { emitDraw } = usePathInputService()
 
   const normalize = useCallback(
     (point: Point): Point => {
       return {
-        x: point.x * scale,
-        y: point.y * scale,
+        x: point.x / counterScale,
+        y: point.y / counterScale,
       }
     },
-    [scale]
+    [counterScale]
   )
 
   const handleDrag = useCallback(

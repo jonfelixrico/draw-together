@@ -22,7 +22,7 @@ export function Pad({
   }, [dimensions, scale])
 
   return (
-    <PadCursorUserInput scale={1 / scale}>
+    <PadCursorUserInput counterScale={scale}>
       <div
         className="position-relative isolate"
         style={scaledDims}
@@ -30,7 +30,7 @@ export function Pad({
       >
         <div className="position-absolute" style={{ zIndex: 100 }}>
           <PadOptionsThicknessWheelInput>
-            <PadInput dimensions={scaledDims} scale={1 / scale} />
+            <PadInput dimensions={scaledDims} counterScale={scale} />
           </PadOptionsThicknessWheelInput>
         </div>
 
