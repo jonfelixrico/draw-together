@@ -2,7 +2,17 @@ import { Dimensions } from '@/modules/common/geometry.types'
 import PadCursors from '@/modules/pad/PadCursors'
 import { useAppSelector } from '@/store/hooks'
 import mapValues from 'lodash/mapValues'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
+import { useInterval } from 'react-use'
+
+function useCurrentTime(updateInterval: number) {
+  const [now, setNow] = useState(Date.now())
+  useInterval(() => {
+    setNow(Date.now())
+  }, updateInterval)
+
+  return now
+}
 
 export default function PadCursorsRenderer({
   dimensions,
@@ -23,6 +33,8 @@ export default function PadCursorsRenderer({
 
   const userDiameter = useAppSelector((root) => root.pad.options.thickness)
 
+  const now = useCurrentTime(1000)
+
   return (
     <PadCursors
       cursorData={cursorMap}
@@ -31,6 +43,7 @@ export default function PadCursorsRenderer({
       nameData={nameMap}
       scale={scale}
       hideCursorThreshold={hideCursorThreshold}
+      nowTimestamp={now}
     />
   )
 }

@@ -1,8 +1,7 @@
 import { Dimensions, Point } from '@/modules/common/geometry.types'
 import { useScaledDimensions } from '@/modules/common/scale-dimensions.hook'
 import { PadCursor as IPadCursor } from '@/modules/pad-common/pad.types'
-import { useMemo, useState } from 'react'
-import { useInterval } from 'react-use'
+import { useMemo } from 'react'
 import sortBy from 'lodash/sortBy'
 
 const CURSOR_STROKE_WIDTH = 1
@@ -87,15 +86,6 @@ export function Cursor({
   )
 }
 
-function useCurrentTime(updateInterval: number) {
-  const [now, setNow] = useState(Date.now())
-  useInterval(() => {
-    setNow(Date.now())
-  }, updateInterval)
-
-  return now
-}
-
 export default function PadCursors({
   dimensions,
   hideCursorThreshold = 7_000,
@@ -103,6 +93,7 @@ export default function PadCursors({
   cursorData,
   nameData,
   defaultDiameter,
+  nowTimestamp,
 }: {
   dimensions: Dimensions
   hideCursorThreshold?: number
@@ -110,21 +101,21 @@ export default function PadCursors({
   cursorData: Record<string, IPadCursor>
   nameData: Record<string, string>
   defaultDiameter: number
+  nowTimestamp: number
 }) {
-  const now = useCurrentTime(1000)
-
   const cursorList = useMemo(() => {
     /*
      * To display, the "age" of the cursor data must be no longer than the time set in the props
      * No timestamp means that the cursor is immortal
      */
     const toDisplay = Object.values(cursorData).filter(
-      ({ timestamp }) => !timestamp || now - timestamp < hideCursorThreshold
+      ({ timestamp }) =>
+        !timestamp || nowTimestamp - timestamp < hideCursorThreshold
     )
 
     // We're sorting by id to keep the ordering consistent between recomputes
     return sortBy(toDisplay, ({ id }) => id)
-  }, [cursorData, hideCursorThreshold, now])
+  }, [cursorData, hideCursorThreshold, nowTimestamp])
 
   const scaledDimensions = useScaledDimensions(dimensions, scale)
 
