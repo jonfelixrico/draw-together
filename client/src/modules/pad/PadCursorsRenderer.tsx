@@ -1,5 +1,5 @@
-import TransformScale from '@/modules/common/TransformScale'
 import { Dimensions } from '@/modules/common/geometry.types'
+import { useScaledDimensions } from '@/modules/common/scale-dimensions.hook'
 import PadCursor from '@/modules/pad/PadCursor'
 import { useAppSelector } from '@/store/hooks'
 import mapValues from 'lodash/mapValues'
@@ -49,23 +49,24 @@ export default function PadCursorsRenderer({
 
   const userDiameter = useAppSelector((root) => root.pad.options.thickness)
 
+  const scaledDimensions = useScaledDimensions(dimensions, scale)
+
   return (
-    <TransformScale dimensions={dimensions} scale={scale}>
-      <div className="position-relative" style={dimensions}>
-        {cursorList.map(({ id, point, diameter }) => {
-          const safeDiameter = diameter ?? userDiameter
-          return (
-            <div className="position-absolute" key={id}>
-              <PadCursor
-                point={point}
-                label={nameMap[id] ?? 'Unknown'}
-                dimensions={dimensions}
-                diameter={safeDiameter}
-              />
-            </div>
-          )
-        })}
-      </div>
-    </TransformScale>
+    <div className="position-relative" style={scaledDimensions}>
+      {cursorList.map(({ id, point, diameter }) => {
+        const safeDiameter = diameter ?? userDiameter
+        return (
+          <div className="position-absolute" key={id}>
+            <PadCursor
+              point={point}
+              label={nameMap[id] ?? 'Unknown'}
+              dimensions={dimensions}
+              diameter={safeDiameter}
+              scale={scale}
+            />
+          </div>
+        )
+      })}
+    </div>
   )
 }

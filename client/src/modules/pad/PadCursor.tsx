@@ -1,4 +1,6 @@
 import { Dimensions, Point } from '@/modules/common/geometry.types'
+import { useScaledDimensions } from '@/modules/common/scale-dimensions.hook'
+import { useMemo } from 'react'
 
 const CURSOR_STROKE_WIDTH = 1
 function Cursor({ diameter }: { diameter: number }) {
@@ -24,15 +26,28 @@ export default function PadCursor({
   dimensions,
   diameter,
   label,
+  scale,
 }: {
   dimensions: Dimensions
   point: Point
   diameter: number
   label: string
+  scale: number
 }) {
+  const scaledDims = useScaledDimensions(dimensions, scale)
+
+  const scaledDiameter = useMemo(() => scale * diameter, [scale, diameter])
+  const scaledPoint = useMemo(() => {
+    const { x, y } = point
+    return {
+      x: scale * x,
+      y: scale * y,
+    }
+  }, [point, scale])
+
   return (
     <div
-      style={dimensions}
+      style={scaledDims}
       /*
        * overflow-clip is here because:
        * - translate can trigger the appearance of scrollbars -- we don't want that
@@ -43,7 +58,7 @@ export default function PadCursor({
       <div
         className="position-absolute lh-0"
         style={{
-          transform: `translate(${point.x}px, ${point.y}px)`,
+          transform: `translate(${scaledPoint.x}px, ${scaledPoint.y}px)`,
         }}
       >
         <div
@@ -52,7 +67,7 @@ export default function PadCursor({
           }}
           className="d-inline-block"
         >
-          <Cursor diameter={diameter} />
+          <Cursor diameter={scaledDiameter} />
         </div>
       </div>
 
@@ -60,7 +75,7 @@ export default function PadCursor({
         className="position-absolute lh-0"
         style={{
           // The additional value to point.x is to make the label appear on the right of the cursor
-          transform: `translate(${point.x + diameter / 2 + CURSOR_STROKE_WIDTH}px, ${point.y}px)`,
+          transform: `translate(${scaledPoint.x + scaledDiameter / 2 + CURSOR_STROKE_WIDTH}px, ${scaledPoint.y}px)`,
         }}
       >
         {label}
