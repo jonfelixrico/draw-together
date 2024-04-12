@@ -27,6 +27,7 @@ export default function MobileScreenWarningModal() {
       show={show}
       onHide={handleClose}
       onOk={handleClose}
+      data-cy="mobile-warning-modal"
     >
       We noticed that you are using a mobile device. We don't fully support
       mobile devices as of now. For a better experience, please use a desktop or
