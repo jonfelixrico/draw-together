@@ -1,6 +1,9 @@
 import { Dimensions, Point } from '@/modules/common/geometry.types'
 import { useScaledDimensions } from '@/modules/common/scale-dimensions.hook'
-import { useMemo } from 'react'
+import { PadCursor as IPadCursor } from '@/modules/pad-common/pad.types'
+import { useMemo, useState } from 'react'
+import { useInterval } from 'react-use'
+import sortBy from 'lodash/sortBy'
 
 const CURSOR_STROKE_WIDTH = 1
 function Cursor({ diameter }: { diameter: number }) {
@@ -80,6 +83,66 @@ export default function PadCursor({
       >
         {label}
       </div>
+    </div>
+  )
+}
+
+function useCurrentTime(updateInterval: number) {
+  const [now, setNow] = useState(Date.now())
+  useInterval(() => {
+    setNow(Date.now())
+  }, updateInterval)
+
+  return now
+}
+
+export function PadCursors({
+  dimensions,
+  hideCursorThreshold = 7_000,
+  scale,
+  cursorData,
+  nameData,
+  defaultDiameter,
+}: {
+  dimensions: Dimensions
+  hideCursorThreshold?: number
+  scale: number
+  cursorData: Record<string, IPadCursor>
+  nameData: Record<string, string>
+  defaultDiameter: number
+}) {
+  const now = useCurrentTime(1000)
+
+  const cursorList = useMemo(() => {
+    /*
+     * To display, the "age" of the cursor data must be no longer than the time set in the props
+     * No timestamp means that the cursor is immortal
+     */
+    const toDisplay = Object.values(cursorData).filter(
+      ({ timestamp }) => !timestamp || now - timestamp < hideCursorThreshold
+    )
+
+    // We're sorting by id to keep the ordering consistent between recomputes
+    return sortBy(toDisplay, ({ id }) => id)
+  }, [cursorData, hideCursorThreshold, now])
+
+  const scaledDimensions = useScaledDimensions(dimensions, scale)
+
+  return (
+    <div className="position-relative" style={scaledDimensions}>
+      {cursorList.map(({ id, point, diameter }) => {
+        return (
+          <div className="position-absolute" key={id}>
+            <PadCursor
+              point={point}
+              label={nameData[id] ?? 'Unknown'}
+              dimensions={dimensions}
+              diameter={diameter ?? defaultDiameter}
+              scale={scale}
+            />
+          </div>
+        )
+      })}
     </div>
   )
 }
