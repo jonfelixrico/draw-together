@@ -16,7 +16,7 @@ import { useAppSelector } from '@/store/hooks'
 import { If, Then } from 'react-if'
 import { useScreen } from '@/modules/common/screen.hook'
 import RoomDrawer from '@/modules/room/RoomDrawer'
-import RoomDrawerModalButton from '@/modules/room/RoomDrawerModalButton'
+import BasicButtonTriggeredModal from '@/modules/common/BasicButtonTriggeredModal'
 
 export default function RoomContent() {
   useParticipantWatcher()
@@ -54,7 +54,18 @@ export default function RoomContent() {
             <RoomToolbar>
               <If condition={screen.lt.md}>
                 <Then>
-                  <RoomDrawerModalButton />
+                  <BasicButtonTriggeredModal
+                    buttonProps={{
+                      label: 'Show Options',
+                      size: 'sm',
+                      variant: 'secondary',
+                    }}
+                    modalProps={{
+                      title: 'Options',
+                    }}
+                  >
+                    <RoomDrawer />
+                  </BasicButtonTriggeredModal>
                 </Then>
               </If>
             </RoomToolbar>
