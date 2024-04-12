@@ -34,7 +34,7 @@ describe('PadCursors', () => {
     cy.getCy('cursor').should('not.exist')
   })
 
-  it('shows cursors that pass the threshold', () => {
+  it('shows cursors correctly', () => {
     cy.mount(
       <PadCursors
         scale={1}
@@ -42,8 +42,8 @@ describe('PadCursors', () => {
         currentTime={20000}
         hideCursorThreshold={5000}
         dimensions={{
-          width: 1000,
-          height: 500,
+          width: 250,
+          height: 100,
         }}
         nameData={{
           user1: 'User 1',
@@ -77,10 +77,32 @@ describe('PadCursors', () => {
     cy.getCy('cursor').should('have.length', 1)
     cy.get('[data-cursor-id=user1]').should('exist')
 
-    cy.getCy('cursors').invoke('outerWidth').should('eq', 1000)
-    cy.getCy('cursors').invoke('outerHeight').should('eq', 500)
+    cy.getCy('cursors').invoke('outerWidth').should('eq', 250)
+    cy.getCy('cursors').invoke('outerHeight').should('eq', 100)
 
     cy.get('[data-cursor-id=user1]').findCy('label').contains('User 1')
+
+    function getPoint() {
+      const containerRect = Cypress.$('[data-cy=cursors]')
+        .get(0)
+        .getBoundingClientRect()
+      const cursorRect = Cypress.$(
+        '[data-cursor-id=user1] [data-cy=cursor-svg]'
+      )
+        .get(0)
+        .getBoundingClientRect()
+
+      return {
+        x: cursorRect.x - containerRect.x + (5 + 2) / 2,
+        y: cursorRect.y - containerRect.y + (5 + 2) / 2,
+      }
+    }
+    cy.then(() => getPoint())
+      .its('x')
+      .should('be.approximately', 50, 1)
+    cy.then(() => getPoint())
+      .its('y')
+      .should('be.approximately', 50, 1)
 
     cy.get('[data-cursor-id=user1]')
       .findCy('cursor-svg')
@@ -129,5 +151,27 @@ describe('PadCursors', () => {
       .findCy('cursor-svg')
       .invoke('outerWidth')
       .should('eq', 10 + 2) // 10 is the thickness scaled by 2. borders remain constant (1px) per edge
+
+    function getPoint() {
+      const containerRect = Cypress.$('[data-cy=cursors]')
+        .get(0)
+        .getBoundingClientRect()
+      const cursorRect = Cypress.$(
+        '[data-cursor-id=user1] [data-cy=cursor-svg]'
+      )
+        .get(0)
+        .getBoundingClientRect()
+
+      return {
+        x: cursorRect.x - containerRect.x + (10 + 2) / 2,
+        y: cursorRect.y - containerRect.y + (10 + 2) / 2,
+      }
+    }
+    cy.then(() => getPoint())
+      .its('x')
+      .should('be.approximately', 100, 1)
+    cy.then(() => getPoint())
+      .its('y')
+      .should('be.approximately', 100, 1)
   })
 })
