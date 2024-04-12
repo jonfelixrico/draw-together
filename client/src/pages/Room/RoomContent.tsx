@@ -4,44 +4,19 @@ import Col from 'react-bootstrap/Col'
 import { useParticipantWatcher } from '@/modules/participants/participants.hook'
 import { useMeasure } from 'react-use'
 import { usePathSocketWatcher } from '@/modules/pad-socket/socket-path-watcher.hook'
-import ParticipantsList from '@/modules/participants/ParticipantsList'
 import { PathInputServiceProvider } from '@/modules/pad-service/path-input-service.context'
 import { usePathInputServiceImpl } from '@/modules/pad-service/path-input-service-impl.hook'
 import { Pad } from '@/modules/pad/Pad'
 import { CursorServiceProvider } from '@/modules/pad-service/cursor-service.context'
 import { useCursorServiceImpl } from '@/modules/pad-service/cursor-service-impl.hook'
-import PadOptionsControls from '@/modules/pad/PadOptionsControls'
 import MobileScreenWarningModal from '@/pages/Room/MobileScreenWarningModal'
 import { RoomToolbar } from '@/modules/room/RoomToolbar'
-import manifest from '@manifest'
 import { useMemo } from 'react'
 import { useAppSelector } from '@/store/hooks'
-
-const VERSION = import.meta.env.VITE_VERSION_OVERRIDE || manifest.version
-
-function Drawer() {
-  return (
-    <Row className="h-100 w-100 flex-column gy-3 m-0">
-      <Col xs="auto">
-        <div className="h6">Participants</div>
-        <ParticipantsList />
-      </Col>
-
-      <div>
-        <div className="border-bottom" />
-      </div>
-
-      <Col>
-        <div className="h6">Options</div>
-        <PadOptionsControls />
-      </Col>
-
-      <Col xs="auto" className="text-end">
-        v{VERSION}
-      </Col>
-    </Row>
-  )
-}
+import { If, Then } from 'react-if'
+import { useScreen } from '@/modules/common/screen.hook'
+import RoomDrawer from '@/modules/room/RoomDrawer'
+import BasicButtonTriggeredModal from '@/modules/common/BasicButtonTriggeredModal'
 
 export default function RoomContent() {
   useParticipantWatcher()
@@ -60,6 +35,8 @@ export default function RoomContent() {
     return Math.min(scaleViaWidth, scaleViaHeight)
   }, [width, height, padDims])
 
+  const screen = useScreen()
+
   return (
     <>
       <MobileScreenWarningModal />
@@ -74,7 +51,27 @@ export default function RoomContent() {
       >
         <Row className="h-100 flex-column">
           <Col xs="auto" className="py-2 bg-body border-bottom">
-            <RoomToolbar />
+            <RoomToolbar>
+              <If condition={screen.lt.md}>
+                <Then>
+                  <BasicButtonTriggeredModal
+                    buttonProps={{
+                      label: 'Show Options',
+                      size: 'sm',
+                      variant: 'secondary',
+                    }}
+                    modalProps={{
+                      title: 'Options',
+                    }}
+                    buttonAttrs={{
+                      'data-cy': 'options-modal-button',
+                    }}
+                  >
+                    <RoomDrawer />
+                  </BasicButtonTriggeredModal>
+                </Then>
+              </If>
+            </RoomToolbar>
           </Col>
           <Col>
             <Row className="h-100">
@@ -94,13 +91,19 @@ export default function RoomContent() {
                 </div>
               </Col>
 
-              <Col
-                xs="2"
-                className="p-2 bg-body-tertiary border-start"
-                data-cy="participants-drawer"
-              >
-                <Drawer />
-              </Col>
+              <If condition={screen.gt.sm}>
+                <Then>
+                  <Col
+                    md="4"
+                    lg="3"
+                    xl="2"
+                    className="p-2 bg-body-tertiary border-start"
+                    data-cy="options-drawer"
+                  >
+                    <RoomDrawer />
+                  </Col>
+                </Then>
+              </If>
             </Row>
           </Col>
         </Row>
