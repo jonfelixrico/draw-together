@@ -3,6 +3,7 @@ import { useScaledDimensions } from '@/modules/common/scale-dimensions.hook'
 import { PadCursor as IPadCursor } from '@/modules/pad-common/pad.types'
 import { useMemo } from 'react'
 import sortBy from 'lodash/sortBy'
+import { DataAttributes } from '@/modules/common/react.types'
 
 const CURSOR_STROKE_WIDTH = 1
 function CursorSvg({ diameter }: { diameter: number }) {
@@ -23,19 +24,20 @@ function CursorSvg({ diameter }: { diameter: number }) {
   )
 }
 
-export function Cursor({
+function Cursor({
   point,
   dimensions,
   diameter,
   label,
   scale,
+  ...dataAttrs
 }: {
   dimensions: Dimensions
   point: Point
   diameter: number
   label: string
   scale: number
-}) {
+} & DataAttributes) {
   const scaledDims = useScaledDimensions(dimensions, scale)
 
   const scaledDiameter = useMemo(() => scale * diameter, [scale, diameter])
@@ -56,6 +58,7 @@ export function Cursor({
        * - we don't want the cursors to appear outside of the boundary
        */
       className="position-relative overflow-clip"
+      {...dataAttrs}
     >
       <div
         className="position-absolute lh-0"
@@ -141,6 +144,8 @@ export default function PadCursors({
               dimensions={dimensions}
               diameter={diameter ?? defaultDiameter}
               scale={scale}
+              data-cy="cursor"
+              data-cursor-id={id}
             />
           </div>
         )
