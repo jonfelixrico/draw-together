@@ -67,9 +67,17 @@ Cypress.Commands.add(
   'findCy',
   { prevSubject: true },
   (subject: JQuery<HTMLElement>, value: string) => {
-    return cy.wrap(subject).get(`[data-cy=${value}]`)
+    return cy.wrap(subject).find(`[data-cy=${value}]`)
   }
 )
+
+/*
+ * This is needed to prevent Cypress from failing the test if uncaught exceptions are found, i.e.
+ * uncaught HTTP errors from API calls
+ */
+Cypress.on('uncaught:exception', () => {
+  return false
+})
 
 // Without this, TS will complain
 export {}

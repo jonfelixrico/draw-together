@@ -20,14 +20,13 @@ import { Socket } from 'socket.io-client'
 import { createRoomSocket } from '@/modules/common/room-socket.util'
 import store from '@/store'
 import { UiActions } from '@/modules/ui/ui.slice'
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import { localDb } from '@/modules/common/db'
 import { PadEventsProvider } from '@/modules/pad-socket/pad-events-v2.context'
 import { useEffect } from 'react'
 import { useAppDispatch } from '@/store/hooks'
 import { PadActions } from '@/modules/pad-common/pad.slice'
 import { RoomActions } from '@/modules/room/room.slice'
+import ToastProvider from '@/modules/common/ToastProvider'
 
 enum RoomErrorType {
   NO_USERNAME,
@@ -130,18 +129,13 @@ export function Component() {
   }, [socket, dispatch, room])
 
   return (
-    <PadEventsProvider socket={socket} roomId={roomId!}>
-      <RoomContent />
-      <ToastContainer
-        position="bottom-center"
-        autoClose={5000}
-        hideProgressBar
-        closeOnClick
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-    </PadEventsProvider>
+    <div data-cy="room-page">
+      <PadEventsProvider socket={socket} roomId={roomId!}>
+        <ToastProvider>
+          <RoomContent />
+        </ToastProvider>
+      </PadEventsProvider>
+    </div>
   )
 }
 
