@@ -28,9 +28,9 @@ export default function MobileScreenWarningModal() {
       onHide={handleClose}
       onOk={handleClose}
     >
-      We noticed that you are using a mobile device. Currently it is not
-      supported by the web app. For the best experience, please use a laptop or
-      a desktop.
+      We noticed that you are using a mobile device. We don't fully support
+      mobile devices as of now. For a better experience, please use a desktop or
+      a laptop.
     </BasicModal>
   )
 }
