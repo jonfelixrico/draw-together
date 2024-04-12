@@ -6,7 +6,7 @@ import { useInterval } from 'react-use'
 import sortBy from 'lodash/sortBy'
 
 const CURSOR_STROKE_WIDTH = 1
-function Cursor({ diameter }: { diameter: number }) {
+function CursorSvg({ diameter }: { diameter: number }) {
   const radius = diameter / 2
   const size = diameter + CURSOR_STROKE_WIDTH * 2
 
@@ -24,7 +24,7 @@ function Cursor({ diameter }: { diameter: number }) {
   )
 }
 
-export default function PadCursor({
+export function Cursor({
   point,
   dimensions,
   diameter,
@@ -70,7 +70,7 @@ export default function PadCursor({
           }}
           className="d-inline-block"
         >
-          <Cursor diameter={scaledDiameter} />
+          <CursorSvg diameter={scaledDiameter} />
         </div>
       </div>
 
@@ -96,7 +96,7 @@ function useCurrentTime(updateInterval: number) {
   return now
 }
 
-export function PadCursors({
+export default function PadCursors({
   dimensions,
   hideCursorThreshold = 7_000,
   scale,
@@ -133,7 +133,7 @@ export function PadCursors({
       {cursorList.map(({ id, point, diameter }) => {
         return (
           <div className="position-absolute" key={id}>
-            <PadCursor
+            <Cursor
               point={point}
               label={nameData[id] ?? 'Unknown'}
               dimensions={dimensions}
