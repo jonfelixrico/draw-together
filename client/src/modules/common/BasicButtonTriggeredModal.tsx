@@ -1,7 +1,7 @@
 import BasicModal from '@/modules/common/BasicModal'
 import { DataAttributes } from '@/modules/common/react.types'
 import { ReactNode, useState } from 'react'
-import Button from 'react-bootstrap/Button'
+import Button, { ButtonProps } from 'react-bootstrap/Button'
 
 export default function BasicButtonTriggeredModal({
   children,
@@ -18,8 +18,7 @@ export default function BasicButtonTriggeredModal({
 
   buttonProps: {
     label: string
-    variant?: string
-  }
+  } & Partial<Pick<ButtonProps, 'variant' | 'size'>>
 
   buttonAttrs?: DataAttributes
   modalAttrs?: DataAttributes
@@ -30,6 +29,7 @@ export default function BasicButtonTriggeredModal({
       <Button
         variant={buttonProps.variant}
         onClick={() => setShow(true)}
+        size={buttonProps.size}
         {...buttonAttrs}
       >
         {buttonProps.label}
