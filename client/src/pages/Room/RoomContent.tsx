@@ -63,6 +63,9 @@ export default function RoomContent() {
                     modalProps={{
                       title: 'Options',
                     }}
+                    buttonAttrs={{
+                      'data-cy': 'options-modal-button',
+                    }}
                   >
                     <RoomDrawer />
                   </BasicButtonTriggeredModal>
@@ -95,7 +98,7 @@ export default function RoomContent() {
                     lg="3"
                     xl="2"
                     className="p-2 bg-body-tertiary border-start"
-                    data-cy="participants-drawer"
+                    data-cy="options-drawer"
                   >
                     <RoomDrawer />
                   </Col>

@@ -25,4 +25,19 @@ describe('layout', () => {
 
     cy.getCy('mobile-warning-modal').should('not.exist')
   })
+
+  it('should show the options drawer', () => {
+    cy.visit(`/rooms/${roomId}`)
+
+    cy.getCy('options-drawer').should('exist')
+    cy.getCy('options-modal-button').should('not.exist')
+  })
+
+  it('should show options modal button', () => {
+    cy.viewport('iphone-x')
+    cy.visit(`/rooms/${roomId}`)
+
+    cy.getCy('options-drawer').should('not.exist')
+    cy.getCy('options-modal-button').should('exist')
+  })
 })
