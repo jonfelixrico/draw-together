@@ -128,6 +128,10 @@ export default function PadCursors({
 
   const scaledDimensions = useScaledDimensions(dimensions, scale)
 
+  /*
+   * We're doing the scaling "manually" instead of relying on something like TransformScale
+   * because we want the size of the names to remain native regardless of scale levels.
+   */
   return (
     <div className="position-relative" style={scaledDimensions}>
       {cursorList.map(({ id, point, diameter }) => {
