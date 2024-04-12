@@ -43,7 +43,7 @@ export default function PadCursorsRenderer({
       nameData={nameMap}
       scale={scale}
       hideCursorThreshold={hideCursorThreshold}
-      nowTimestamp={now}
+      currentTime={now}
     />
   )
 }

@@ -93,15 +93,22 @@ export default function PadCursors({
   cursorData,
   nameData,
   defaultDiameter,
-  nowTimestamp,
+  currentTime,
 }: {
   dimensions: Dimensions
-  hideCursorThreshold?: number
   scale: number
+
   cursorData: Record<string, IPadCursor>
   nameData: Record<string, string>
   defaultDiameter: number
-  nowTimestamp: number
+
+  /**
+   * Time in millis
+   * This is intended to represent the current time, and is intended to work with the "age"
+   * of the cursors.
+   */
+  currentTime: number
+  hideCursorThreshold?: number
 }) {
   const cursorList = useMemo(() => {
     /*
@@ -110,12 +117,12 @@ export default function PadCursors({
      */
     const toDisplay = Object.values(cursorData).filter(
       ({ timestamp }) =>
-        !timestamp || nowTimestamp - timestamp < hideCursorThreshold
+        !timestamp || currentTime - timestamp < hideCursorThreshold
     )
 
     // We're sorting by id to keep the ordering consistent between recomputes
     return sortBy(toDisplay, ({ id }) => id)
-  }, [cursorData, hideCursorThreshold, nowTimestamp])
+  }, [cursorData, hideCursorThreshold, currentTime])
 
   const scaledDimensions = useScaledDimensions(dimensions, scale)
 
