@@ -1,3 +1,4 @@
+import TransformScale from '@/modules/common/TransformScale'
 import { Dimensions } from '@/modules/common/geometry.types'
 import PadCursor from '@/modules/pad/PadCursor'
 import { useAppSelector } from '@/store/hooks'
@@ -18,9 +19,11 @@ function useCurrentTime(updateInterval = 1000) {
 export default function PadCursorsRenderer({
   dimensions,
   hideCursorThreshold = 7_000,
+  scale,
 }: {
   dimensions: Dimensions
   hideCursorThreshold?: number
+  scale: number
 }) {
   const now = useCurrentTime()
 
@@ -47,20 +50,22 @@ export default function PadCursorsRenderer({
   const userDiameter = useAppSelector((root) => root.pad.options.thickness)
 
   return (
-    <div className="position-relative" style={dimensions}>
-      {cursorList.map(({ id, point, diameter }) => {
-        const safeDiameter = diameter ?? userDiameter
-        return (
-          <div className="position-absolute" key={id}>
-            <PadCursor
-              point={point}
-              label={nameMap[id] ?? 'Unknown'}
-              dimensions={dimensions}
-              diameter={safeDiameter}
-            />
-          </div>
-        )
-      })}
-    </div>
+    <TransformScale dimensions={dimensions} scale={scale}>
+      <div className="position-relative" style={dimensions}>
+        {cursorList.map(({ id, point, diameter }) => {
+          const safeDiameter = diameter ?? userDiameter
+          return (
+            <div className="position-absolute" key={id}>
+              <PadCursor
+                point={point}
+                label={nameMap[id] ?? 'Unknown'}
+                dimensions={dimensions}
+                diameter={safeDiameter}
+              />
+            </div>
+          )
+        })}
+      </div>
+    </TransformScale>
   )
 }
