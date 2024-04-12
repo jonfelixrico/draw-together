@@ -11,7 +11,7 @@ function CursorSvg({ diameter }: { diameter: number }) {
   const size = diameter + CURSOR_STROKE_WIDTH * 2
 
   return (
-    <svg width={size} height={size}>
+    <svg width={size} height={size} data-cy="cursor-svg">
       <circle
         cx={radius + CURSOR_STROKE_WIDTH}
         cy={radius + CURSOR_STROKE_WIDTH}
@@ -82,6 +82,7 @@ function Cursor({
           // The additional value to point.x is to make the label appear on the right of the cursor
           transform: `translate(${scaledPoint.x + scaledDiameter / 2 + CURSOR_STROKE_WIDTH}px, ${scaledPoint.y}px)`,
         }}
+        data-cy="label"
       >
         {label}
       </div>
@@ -134,7 +135,11 @@ export default function PadCursors({
    * because we want the size of the names to remain native regardless of scale levels.
    */
   return (
-    <div className="position-relative" style={scaledDimensions}>
+    <div
+      className="position-relative"
+      style={scaledDimensions}
+      data-cy="cursors"
+    >
       {cursorList.map(({ id, point, diameter }) => {
         return (
           <div className="position-absolute" key={id}>
