@@ -3,11 +3,14 @@ import { useAppSelector } from '@/store/hooks'
 import sortBy from 'lodash/sortBy'
 import { Dimensions } from '@/modules/common/geometry.types'
 import PadPath from './PadPath'
+import TransformScale from '@/modules/common/TransformScale'
 
 export default function PadPathsRenderer({
   dimensions,
+  scale,
 }: {
   dimensions: Dimensions
+  scale: number
 }) {
   const draftPaths = useAppSelector((state) => state.pad.draftPaths)
   const paths = useAppSelector((state) => state.pad.paths)
@@ -19,18 +22,20 @@ export default function PadPathsRenderer({
   }, [draftPaths, paths])
 
   return (
-    <div style={dimensions} className="position-relative">
-      {pathsToRender.map((data) => {
-        return (
-          <div
-            className="position-absolute"
-            key={data.id}
-            data-path-id={data.id}
-          >
-            <PadPath value={data} dimensions={dimensions} />
-          </div>
-        )
-      })}
-    </div>
+    <TransformScale dimensions={dimensions} scale={scale}>
+      <div style={dimensions} className="position-relative">
+        {pathsToRender.map((data) => {
+          return (
+            <div
+              className="position-absolute"
+              key={data.id}
+              data-path-id={data.id}
+            >
+              <PadPath value={data} dimensions={dimensions} />
+            </div>
+          )
+        })}
+      </div>
+    </TransformScale>
   )
 }
