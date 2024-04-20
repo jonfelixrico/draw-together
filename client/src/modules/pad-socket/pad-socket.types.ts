@@ -31,10 +31,11 @@ interface PathCreate {
   [PadSocketCode.PATH_CREATE]: PathCreatePayload
 }
 
+export interface PathDeletePayload {
+  id: string
+}
 interface PathDelete {
-  [PadSocketCode.PATH_DELETE]: {
-    id: string
-  }
+  [PadSocketCode.PATH_DELETE]: PathDeletePayload
 }
 
 export type PadResponse = Partial<
