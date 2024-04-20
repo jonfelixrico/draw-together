@@ -6,7 +6,6 @@ export default function useUndoCommandListener() {
 
   const handleUndo = useCallback(
     async ({ ctrlKey, key }: KeyboardEvent) => {
-      console.log(ctrlKey, key)
       if (ctrlKey && key.toLowerCase() === 'z' && stack.length) {
         console.debug('Executing undo...')
         await undo()
