@@ -7,6 +7,7 @@ export enum PadSocketCode {
   PATH_DRAFT_START = 'PATH_DRAFT_START',
   PATH_DRAFT_MOVE = 'PATH_DRAFT_MOVE',
   PATH_CREATE = 'PATH_CREATE',
+  PATH_DELETE = 'PATH_DELETE',
 }
 
 export interface PathDraftStartPayload extends PathData {
@@ -30,5 +31,14 @@ interface PathCreate {
   [PadSocketCode.PATH_CREATE]: PathCreatePayload
 }
 
-export type PadResponse = Partial<PathDraftStart & PathDraftMove & PathCreate>
-export type PadRequest = PadResponse
+export interface PathDeletePayload {
+  id: string
+}
+interface PathDelete {
+  [PadSocketCode.PATH_DELETE]: PathDeletePayload
+}
+
+export type PadResponse = Partial<
+  PathDraftStart & PathDraftMove & PathCreate & PathDelete
+>
+export type PadRequest = Partial<PadResponse & PathDelete>

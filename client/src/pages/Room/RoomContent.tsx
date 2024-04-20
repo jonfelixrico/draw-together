@@ -17,10 +17,12 @@ import { If, Then } from 'react-if'
 import { useScreen } from '@/modules/common/screen.hook'
 import RoomDrawer from '@/modules/room/RoomDrawer'
 import BasicButtonTriggeredModal from '@/modules/common/BasicButtonTriggeredModal'
+import useUndoCommandListener from '@/modules/pad-common/undo-command-listener.hook'
 
 export default function RoomContent() {
   useParticipantWatcher()
   usePathSocketWatcher()
+  useUndoCommandListener()
 
   const pathInputService = usePathInputServiceImpl()
   const cursorService = useCursorServiceImpl()
