@@ -5,6 +5,12 @@ import appStore from '@/store'
 import { Socket } from 'socket.io-client'
 import { useRoomSocket } from '@/modules/socket/room-socket.hook'
 
+/**
+ * The stuff provided here MUST be atomic. It shouldn't be reactive.
+ * If you provide a reactive value, you might end up having unexpected behaviors if the undo function
+ * tries to reference it down the room lifecycle (i.e. several rerenders/recompute happened then the undo
+ * function utilizes the reference of the service)
+ */
 interface UndoInjectables {
   store: typeof appStore
   socket: Socket
@@ -49,6 +55,10 @@ export function UndoStackProvider({ children }: { children?: ReactNode }) {
       stack.pop()
     })
 
+    /*
+     * Socket is guaranteed to be render-safe, despite being provided via useRoomSocket.
+     * A room will use the same socket reference throughout its lifecycle.
+     */
     await top({ store: appStore, socket })
   }, [stack, setStack, socket])
 
