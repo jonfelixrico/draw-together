@@ -133,7 +133,7 @@ export function Component() {
     <div data-cy="room-page">
       <PadEventsProvider socket={socket} roomId={roomId!}>
         <ToastProvider>
-          <UndoStackProvider>
+          <UndoStackProvider store={store}>
             <RoomContent />
           </UndoStackProvider>
         </ToastProvider>
