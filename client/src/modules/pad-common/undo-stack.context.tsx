@@ -1,11 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import {
-  ReactNode,
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-} from 'react'
+import { ReactNode, createContext, useCallback, useContext } from 'react'
 import { useImmer } from 'use-immer'
 import appStore from '@/store'
 
@@ -18,11 +12,13 @@ type UndoFn = (services: UndoInjectables) => Promise<void>
 interface UndoStackService {
   push(fn: UndoFn): void
   undo(): Promise<void>
+  stack: UndoFn[]
 }
 
 const DUMMY_SERVICE: UndoStackService = {
   push: () => {},
   undo: async () => {},
+  stack: [],
 }
 
 const UndoStackContext = createContext(DUMMY_SERVICE)
@@ -58,15 +54,14 @@ export function UndoStackProvider({
     await top({ store })
   }, [stack, setStack, store])
 
-  const service: UndoStackService = useMemo(() => {
-    return {
-      push,
-      undo,
-    }
-  }, [push, undo])
-
   return (
-    <UndoStackContext.Provider value={service}>
+    <UndoStackContext.Provider
+      value={{
+        undo,
+        push,
+        stack,
+      }}
+    >
       {children}
     </UndoStackContext.Provider>
   )
