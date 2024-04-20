@@ -42,11 +42,11 @@ export function UndoStackProvider({
   )
 
   const undo: UndoStackService['undo'] = useCallback(async () => {
-    const top = stack[stack.length - 1]
-    if (!top) {
+    if (!stack.length) {
       return
     }
 
+    const top = stack[stack.length - 1]
     setStack((stack) => {
       stack.pop()
     })
