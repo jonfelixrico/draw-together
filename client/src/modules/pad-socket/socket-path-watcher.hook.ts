@@ -5,6 +5,7 @@ import {
   PathDraftMovePayload,
   PathDraftStartPayload,
   PadSocketCode,
+  PathDeletePayload,
 } from '@/modules/pad-socket/pad-socket.types'
 import { useMessageEffect } from '@/modules/socket/room-socket.hook'
 import { useCallback } from 'react'
@@ -14,12 +15,12 @@ export function usePathSocketWatcher() {
 
   const pathCreateHandler = useCallback(
     (payload: PathCreatePayload) => {
+      console.debug('Socket: created path %s', payload.id)
       dispatch(PadActions.setPath(payload))
       dispatch(PadActions.removeDraftPath(payload.id))
     },
     [dispatch]
   )
-
   useMessageEffect(PadSocketCode.PATH_CREATE, pathCreateHandler)
 
   const pathDraftStartHandler = useCallback(
@@ -28,7 +29,6 @@ export function usePathSocketWatcher() {
     },
     [dispatch]
   )
-
   useMessageEffect(PadSocketCode.PATH_DRAFT_START, pathDraftStartHandler)
 
   const pathDraftMoveHandler = useCallback(
@@ -42,6 +42,14 @@ export function usePathSocketWatcher() {
     },
     [dispatch]
   )
-
   useMessageEffect(PadSocketCode.PATH_DRAFT_MOVE, pathDraftMoveHandler)
+
+  const pathDeleteHandler = useCallback(
+    ({ id }: PathDeletePayload) => {
+      console.debug('Socket: deleted path %s', id)
+      dispatch(PadActions.removePath(id))
+    },
+    [dispatch]
+  )
+  useMessageEffect(PadSocketCode.PATH_DELETE, pathDeleteHandler)
 }
