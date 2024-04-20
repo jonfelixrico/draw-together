@@ -1,28 +1,23 @@
 import { useUndoStackService } from '@/modules/pad-common/undo-stack.context'
-import { ReactNode, useEffect } from 'react'
+import { KeyboardEvent, ReactNode, useCallback } from 'react'
 
 export default function UndoCommandListener({
   children,
 }: {
   children: ReactNode
 }) {
-  const { undo } = useUndoStackService()
+  const { undo, stack } = useUndoStackService()
 
-  useEffect(() => {
-    const undoWrapper = async (ev: KeyboardEvent) => {
-      if (ev.ctrlKey && ev.key.toLowerCase() === 'z') {
+  const handleUndo = useCallback(
+    async ({ ctrlKey, key }: KeyboardEvent) => {
+      if (ctrlKey && key.toLowerCase() === 'z' && stack.length) {
         console.debug('Executing undo...')
         await undo()
         console.log('Undo executed')
       }
-    }
+    },
+    [undo, stack]
+  )
 
-    document.addEventListener('keydown', undoWrapper)
-
-    return () => {
-      document.removeEventListener('keydown', undoWrapper)
-    }
-  }, [undo])
-
-  return <>{children}</>
+  return <div onKeyDown={handleUndo}>{children}</div>
 }

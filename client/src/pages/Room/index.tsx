@@ -28,6 +28,7 @@ import { PadActions } from '@/modules/pad-common/pad.slice'
 import { RoomActions } from '@/modules/room/room.slice'
 import ToastProvider from '@/modules/common/ToastProvider'
 import { UndoStackProvider } from '@/modules/pad-common/undo-stack.context'
+import UndoCommandListener from '@/modules/pad-common/UndoCommandListener'
 
 enum RoomErrorType {
   NO_USERNAME,
@@ -134,7 +135,9 @@ export function Component() {
       <PadEventsProvider socket={socket} roomId={roomId!}>
         <ToastProvider>
           <UndoStackProvider store={store}>
-            <RoomContent />
+            <UndoCommandListener>
+              <RoomContent />
+            </UndoCommandListener>
           </UndoStackProvider>
         </ToastProvider>
       </PadEventsProvider>
