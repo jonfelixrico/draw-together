@@ -73,6 +73,10 @@ export const padSlice = createSlice({
       delete state.draftPaths[payload]
     },
 
+    removePath: (state, { payload }: PayloadAction<string>) => {
+      delete state.paths[payload]
+    },
+
     setColor: (state, { payload }: PayloadAction<PathColor>) => {
       state.options.color = payload
     },
