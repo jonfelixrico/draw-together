@@ -1,6 +1,13 @@
+/* eslint-disable react-refresh/only-export-components */
 import { AppDispatch } from '@/store'
 import { useAppDispatch } from '@/store/hooks'
-import { ReactNode, createContext, useCallback, useMemo } from 'react'
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+} from 'react'
 import { useImmer } from 'use-immer'
 
 interface UndoInjectables {
@@ -14,10 +21,12 @@ interface UndoStackService {
   undo(): Promise<void>
 }
 
-const UndoStackContext = createContext<UndoStackService>({
+const DUMMY_SERVICE: UndoStackService = {
   push: () => {},
   undo: async () => {},
-})
+}
+
+const UndoStackContext = createContext(DUMMY_SERVICE)
 
 export function UndoStackProvider({ children }: { children?: ReactNode }) {
   const [stack, setStack] = useImmer<UndoFn[]>([])
@@ -57,4 +66,9 @@ export function UndoStackProvider({ children }: { children?: ReactNode }) {
       {children}
     </UndoStackContext.Provider>
   )
+}
+
+export function useUndoStackService() {
+  const service = useContext(UndoStackContext)
+  return service
 }
