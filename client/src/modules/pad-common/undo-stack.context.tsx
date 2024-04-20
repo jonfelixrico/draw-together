@@ -2,9 +2,12 @@
 import { ReactNode, createContext, useCallback, useContext } from 'react'
 import { useImmer } from 'use-immer'
 import appStore from '@/store'
+import { Socket } from 'socket.io-client'
+import { useRoomSocket } from '@/modules/socket/room-socket.hook'
 
 interface UndoInjectables {
   store: typeof appStore
+  socket: Socket
 }
 
 type UndoFn = (services: UndoInjectables) => Promise<void>
@@ -23,14 +26,9 @@ const DUMMY_SERVICE: UndoStackService = {
 
 const UndoStackContext = createContext(DUMMY_SERVICE)
 
-export function UndoStackProvider({
-  children,
-  store,
-}: {
-  children?: ReactNode
-  store: typeof appStore
-}) {
+export function UndoStackProvider({ children }: { children?: ReactNode }) {
   const [stack, setStack] = useImmer<UndoFn[]>([])
+  const socket = useRoomSocket()
 
   const push: UndoStackService['push'] = useCallback(
     (undoFn) => {
@@ -51,8 +49,8 @@ export function UndoStackProvider({
       stack.pop()
     })
 
-    await top({ store })
-  }, [stack, setStack, store])
+    await top({ store: appStore, socket })
+  }, [stack, setStack, socket])
 
   return (
     <UndoStackContext.Provider

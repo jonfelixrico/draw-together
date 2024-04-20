@@ -9,7 +9,11 @@ import {
   selectThickness,
 } from '@/modules/pad-common/pad.slice'
 import { nanoid } from 'nanoid'
-import { PadSocketCode } from '@/modules/pad-socket/pad-socket.types'
+import {
+  PAD_SOCKET_EVENT,
+  PadRequest,
+  PadSocketCode,
+} from '@/modules/pad-socket/pad-socket.types'
 import { useUndoStackService } from '@/modules/pad-common/undo-stack.context'
 
 export function usePathInputServiceImpl() {
@@ -23,14 +27,17 @@ export function usePathInputServiceImpl() {
   const { push } = useUndoStackService()
   const createUndo = useCallback(
     ({ id }: { id: string }) => {
-      push(async ({ store }) => {
+      push(async ({ store, socket }) => {
         store.dispatch(PadActions.removePath(id))
-      })
-      sendMessage(PadSocketCode.PATH_DELETE, {
-        id,
+
+        socket.emit(PAD_SOCKET_EVENT, {
+          PATH_DELETE: {
+            id,
+          },
+        } as PadRequest)
       })
     },
-    [push, sendMessage]
+    [push]
   )
 
   const handleDraw = useCallback(
