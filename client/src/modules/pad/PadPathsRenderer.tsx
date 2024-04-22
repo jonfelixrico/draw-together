@@ -39,7 +39,6 @@ export default function PadPathsRenderer({
   dimensions,
 }: {
   dimensions: Dimensions
-  scale: number
 }) {
   const draftPaths = useAppSelector((state) => state.pad.draftPaths)
   const paths = useAppSelector((state) => state.pad.paths)
