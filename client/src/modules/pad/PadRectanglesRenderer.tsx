@@ -29,7 +29,7 @@ function Rectangles({
   )
 }
 
-export default function PadPathsRenderer({
+export default function PadRectanglesRenderer({
   dimensions,
 }: {
   dimensions: Dimensions
