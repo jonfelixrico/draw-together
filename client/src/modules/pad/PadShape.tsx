@@ -1,22 +1,15 @@
-import { Dimensions, Point } from '@/modules/common/geometry.types'
-import { SVGColor } from '@/modules/pad-common/pad.types'
+import { Dimensions } from '@/modules/common/geometry.types'
+import { RectangleRenderData } from '@/modules/pad-common/pad.types'
 import { useMemo } from 'react'
-
-interface Shape {
-  anchor: Point
-  focus: Point
-  thickness: number
-  color: SVGColor
-}
 
 export default function PadShape({
   dimensions,
   value: { anchor, focus, thickness, color },
 }: {
   dimensions: Dimensions
-  value: Shape
+  value: RectangleRenderData
 }) {
-  const { x, y, width, height } = useMemo(() => {
+  const svgProps = useMemo(() => {
     const [start, end] = [anchor, focus].sort((a, b) => {
       const left = a.x - b.y
       if (left) {
@@ -35,15 +28,7 @@ export default function PadShape({
 
   return (
     <svg width={dimensions.width} height={dimensions.height}>
-      <rect
-        x={x}
-        y={y}
-        width={width}
-        height={height}
-        strokeWidth={thickness}
-        fill="none"
-        stroke={color}
-      />
+      <rect {...svgProps} strokeWidth={thickness} fill="none" stroke={color} />
     </svg>
   )
 }

@@ -23,3 +23,10 @@ export type PadCursor = {
    */
   diameter?: number
 }
+
+export interface RectangleRenderData {
+  anchor: Point
+  focus: Point
+  thickness: number
+  color: SVGColor
+}
