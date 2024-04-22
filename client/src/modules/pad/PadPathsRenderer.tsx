@@ -4,19 +4,14 @@ import { Dimensions } from '@/modules/common/geometry.types'
 import PadPath from './PadPath'
 import { PathData } from '@/modules/pad-common/pad.types'
 import { shortenMillis } from '@/modules/common/datetime.utils'
-import { ClassName } from '@/modules/common/react.types'
-
-type CommonProps = {
-  dimensions: Dimensions
-} & ClassName
 
 function PadPaths({
   values,
   dimensions,
-  className,
 }: {
   values: Record<string, PathData>
-} & CommonProps) {
+  dimensions: Dimensions
+}) {
   const asArray = useMemo(() => Object.values(values), [values])
 
   return (
@@ -24,7 +19,7 @@ function PadPaths({
       {asArray.map((data) => {
         return (
           <div
-            className={className}
+            className="position-absolute"
             key={data.id}
             data-path-id={data.id}
             style={{
@@ -40,14 +35,18 @@ function PadPaths({
   )
 }
 
-export default function PadPathsRenderer(props: CommonProps) {
+export default function PadPathsRenderer({
+  dimensions,
+}: {
+  dimensions: Dimensions
+}) {
   const draftPaths = useAppSelector((state) => state.pad.draftPaths)
   const paths = useAppSelector((state) => state.pad.paths)
 
   return (
     <>
-      <PadPaths {...props} values={draftPaths} />
-      <PadPaths {...props} values={paths} />
+      <PadPaths dimensions={dimensions} values={draftPaths} />
+      <PadPaths dimensions={dimensions} values={paths} />
     </>
   )
 }
