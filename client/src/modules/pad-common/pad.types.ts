@@ -8,10 +8,12 @@ export interface PathRenderData {
   thickness: number
 }
 
-export interface PathData extends PathRenderData {
+interface PadElementData {
   id: string
   timestamp: number
 }
+
+export type PathData = PathRenderData & PadElementData
 
 export type PadCursor = {
   point: Point
@@ -30,3 +32,5 @@ export interface RectangleRenderData {
   thickness: number
   color: SVGColor
 }
+
+export type RectangleData = RectangleRenderData & PadElementData
