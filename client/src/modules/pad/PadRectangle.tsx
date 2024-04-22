@@ -2,7 +2,7 @@ import { Dimensions } from '@/modules/common/geometry.types'
 import { RectangleRenderData } from '@/modules/pad-common/pad.types'
 import { useMemo } from 'react'
 
-export default function PadShape({
+export default function PadRectangle({
   dimensions,
   value: { anchor, focus, thickness, color },
 }: {
