@@ -5,6 +5,8 @@ import PadCursorUserInput from '@/modules/pad/PadCursorUserInput'
 import PadOptionsThicknessWheelInput from '@/modules/pad/PadOptionsThicknessWheelInput'
 import { Dimensions } from '@/modules/common/geometry.types'
 import { useScaledDimensions } from '@/modules/common/scale-dimensions.hook'
+import TransformScale from '@/modules/common/TransformScale'
+import PadRectanglesRenderer from '@/modules/pad/PadRectanglesRenderer'
 
 export function Pad({
   dimensions,
@@ -33,7 +35,12 @@ export function Pad({
           style={{ zIndex: 1 }}
           data-cy="pad-paths-renderer"
         >
-          <PadPathsRenderer dimensions={dimensions} scale={scale} />
+          <TransformScale scale={scale} dimensions={dimensions}>
+            <div style={dimensions} className="position-relative">
+              <PadPathsRenderer dimensions={dimensions} />
+              <PadRectanglesRenderer dimensions={dimensions} />
+            </div>
+          </TransformScale>
         </div>
 
         <div
