@@ -1,10 +1,10 @@
 import { Point } from '@/modules/common/geometry.types'
 
-export type PathColor = React.SVGAttributes<SVGPathElement>['stroke']
+export type SVGColor = React.SVGAttributes<SVGPathElement>['stroke']
 
 export interface PathRenderData {
   points: Point[]
-  color: PathColor
+  color: SVGColor
   thickness: number
 }
 

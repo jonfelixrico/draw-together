@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { PadCursor, PathColor, PathData } from '@/modules/pad-common/pad.types'
+import { PadCursor, SVGColor, PathData } from '@/modules/pad-common/pad.types'
 import { Point } from '@/modules/common/geometry.types'
 import type { RootState } from '@/store'
 import clamp from 'lodash/clamp'
@@ -19,7 +19,7 @@ export interface PadState {
 
   options: {
     thickness: number
-    color: PathColor
+    color: SVGColor
   }
 
   cursors: {
@@ -77,7 +77,7 @@ export const padSlice = createSlice({
       delete state.paths[payload]
     },
 
-    setColor: (state, { payload }: PayloadAction<PathColor>) => {
+    setColor: (state, { payload }: PayloadAction<SVGColor>) => {
       state.options.color = payload
     },
 
