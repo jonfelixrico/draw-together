@@ -1,5 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { PadCursor, SVGColor, PathData } from '@/modules/pad-common/pad.types'
+import {
+  PadCursor,
+  SVGColor,
+  PathData,
+  RectangleData,
+} from '@/modules/pad-common/pad.types'
 import { Point } from '@/modules/common/geometry.types'
 import type { RootState } from '@/store'
 import clamp from 'lodash/clamp'
@@ -25,6 +30,9 @@ export interface PadState {
   cursors: {
     [id: string]: PadCursor
   }
+
+  rectangles: Record<string, RectangleData>
+  draftRectangles: Record<string, RectangleData>
 }
 
 const INITIAL_STATE: PadState = {
@@ -37,6 +45,9 @@ const INITIAL_STATE: PadState = {
   },
 
   cursors: {},
+
+  rectangles: {},
+  draftRectangles: {},
 }
 
 export const padSlice = createSlice({
@@ -102,6 +113,22 @@ export const padSlice = createSlice({
     },
 
     resetSlice: () => INITIAL_STATE,
+
+    setRectangle: (state, { payload }: PayloadAction<RectangleData>) => {
+      state.rectangles[payload.id] = payload
+    },
+
+    setDraftRectangle: (state, { payload }: PayloadAction<RectangleData>) => {
+      state.rectangles[payload.id] = payload
+    },
+
+    removeRectangle: (state, { payload }: PayloadAction<string>) => {
+      delete state.rectangles[payload]
+    },
+
+    removeDraftRectangle: (state, { payload }: PayloadAction<string>) => {
+      delete state.rectangles[payload]
+    },
   },
 })
 
