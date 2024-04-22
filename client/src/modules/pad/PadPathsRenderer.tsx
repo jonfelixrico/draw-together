@@ -3,6 +3,7 @@ import { useAppSelector } from '@/store/hooks'
 import { Dimensions } from '@/modules/common/geometry.types'
 import PadPath from './PadPath'
 import { PathData } from '@/modules/pad-common/pad.types'
+import { shortenMillis } from '@/modules/common/datetime.utils'
 
 function PadPaths({
   values,
@@ -22,7 +23,8 @@ function PadPaths({
             key={data.id}
             data-path-id={data.id}
             style={{
-              zIndex: data.timestamp,
+              // We want to shorten the millis since zIndex is 32 bit (assumed spec)
+              zIndex: shortenMillis(data.timestamp),
             }}
           >
             <PadPath value={data} dimensions={dimensions} />

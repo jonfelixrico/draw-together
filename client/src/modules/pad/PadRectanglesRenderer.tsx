@@ -3,6 +3,7 @@ import { Dimensions } from '@/modules/common/geometry.types'
 import PadRectangle from '@/modules/pad/PadRectangle'
 import { useMemo } from 'react'
 import { RectangleData } from '@/modules/pad-common/pad.types'
+import { shortenMillis } from '@/modules/common/datetime.utils'
 
 function Rectangles({
   values,
@@ -19,7 +20,8 @@ function Rectangles({
           className="position-absolute"
           key={data.id}
           style={{
-            zIndex: data.timestamp,
+            // We want to shorten the millis since zIndex is 32 bit (assumed spec)
+            zIndex: shortenMillis(data.timestamp),
           }}
         >
           <PadRectangle dimensions={dimensions} value={data} />
