@@ -1,5 +1,5 @@
 import { Point } from '@/modules/common/geometry.types'
-import { PathData } from '@/modules/pad-common/pad.types'
+import { PathData, RectangleData } from '@/modules/pad-common/pad.types'
 
 export const PAD_SOCKET_EVENT = 'PAD'
 
@@ -43,7 +43,42 @@ interface PathDelete {
   [PadSocketCode.PATH_DELETE]: PathDeletePayload
 }
 
+export type ShapeDraftStartPayload = RectangleData & {
+  counter: number
+}
+interface ShapeDraftStart {
+  [PadSocketCode.SHAPE_DRAFT_START]: ShapeDraftStartPayload
+}
+
+export interface ShapeDraftMovePayload {
+  focus: Point
+  id: string
+  counter: number
+}
+interface ShapeDraftMove {
+  [PadSocketCode.SHAPE_DRAFT_MOVE]: ShapeDraftMovePayload
+}
+
+export type ShapeCreatePayload = RectangleData
+interface ShapeCreate {
+  [PadSocketCode.SHAPE_CREATE]: ShapeCreatePayload
+}
+
+export interface ShapeDeletePayload {
+  id: string
+}
+interface ShapeDelete {
+  [PadSocketCode.SHAPE_DELETE]: ShapeDeletePayload
+}
+
 export type PadResponse = Partial<
-  PathDraftStart & PathDraftMove & PathCreate & PathDelete
+  PathDraftStart &
+    PathDraftMove &
+    PathCreate &
+    PathDelete &
+    ShapeDraftStart &
+    ShapeDraftMove &
+    ShapeCreate &
+    ShapeDelete
 >
-export type PadRequest = Partial<PadResponse & PathDelete>
+export type PadRequest = PadResponse
