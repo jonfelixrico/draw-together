@@ -40,7 +40,7 @@ export function useRectangleInputServiceImpl(): RectangleInputService {
 
       if (event.isEnd) {
         const id = draft.current!.id
-        draft.current!.counter += 1
+        draft.current!.counter++
 
         dispatch(PadActions.removeDraftRectangle(id))
         dispatch(
