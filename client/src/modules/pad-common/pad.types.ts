@@ -35,4 +35,4 @@ export interface RectangleRenderData {
 
 export type RectangleData = RectangleRenderData & PadElementData
 
-export type PadElementType = 'DRAW' | 'RECTANGLE'
+export type PadElementType = 'PATH' | 'RECTANGLE'

@@ -52,7 +52,7 @@ const INITIAL_STATE: PadState = {
   rectangles: {},
   draftRectangles: {},
 
-  activeType: 'DRAW',
+  activeType: 'PATH',
 }
 
 export const padSlice = createSlice({
