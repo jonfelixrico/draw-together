@@ -5,6 +5,7 @@ import ParticipantsList from '@/modules/participants/ParticipantsList'
 import PadOptionsControls from '@/modules/pad/PadOptionsControls'
 import Stack from 'react-bootstrap/Stack'
 import PadTypeButton from '@/modules/room/PadTypeButton'
+import { MdDraw, MdOutlineRectangle } from 'react-icons/md'
 
 const VERSION = import.meta.env.VITE_VERSION_OVERRIDE || manifest.version
 
@@ -13,9 +14,13 @@ export default function RoomDrawer() {
     <Row className="h-100 w-100">
       <Col xs="auto" className="border-end">
         <Stack gap={1}>
-          <PadTypeButton type="PATH">Path</PadTypeButton>
+          <PadTypeButton type="PATH">
+            <MdDraw size="24px" />
+          </PadTypeButton>
 
-          <PadTypeButton type="RECTANGLE">Rect</PadTypeButton>
+          <PadTypeButton type="RECTANGLE">
+            <MdOutlineRectangle size="24px" />
+          </PadTypeButton>
         </Stack>
       </Col>
 
