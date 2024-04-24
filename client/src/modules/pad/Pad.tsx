@@ -7,6 +7,7 @@ import { Dimensions } from '@/modules/common/geometry.types'
 import { useScaledDimensions } from '@/modules/common/scale-dimensions.hook'
 import TransformScale from '@/modules/common/TransformScale'
 import PadRectanglesRenderer from '@/modules/pad/PadRectanglesRenderer'
+import { PadShapeInput } from '@/modules/pad/PadShapeInput'
 
 export function Pad({
   dimensions,
@@ -26,7 +27,8 @@ export function Pad({
       >
         <div className="position-absolute" style={{ zIndex: 100 }}>
           <PadOptionsThicknessWheelInput>
-            <PadPathInput dimensions={scaledDims} counterScale={scale} />
+            {/* <PadPathInput dimensions={scaledDims} counterScale={scale} /> */}
+            <PadShapeInput dimensions={scaledDims} counterScale={scale} />
           </PadOptionsThicknessWheelInput>
         </div>
 
