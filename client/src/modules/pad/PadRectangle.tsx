@@ -11,7 +11,7 @@ export default function PadRectangle({
 }) {
   const svgProps = useMemo(() => {
     const [start, end] = [anchor, focus].sort((a, b) => {
-      const left = a.x - b.y
+      const left = a.x - b.x
       if (left) {
         return left
       }
