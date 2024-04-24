@@ -111,6 +111,12 @@ describe('pad-socket', () => {
         })
       })
 
+    /*
+     * Test seems to fail without the wait
+     * TODO figure out how to solve this
+     */
+    cy.wait(500)
+
     cy.get(`[data-path-id=${pathId}]`)
       .findCy('rendered-path')
       .should('have.attr', 'data-points-length', 50)
