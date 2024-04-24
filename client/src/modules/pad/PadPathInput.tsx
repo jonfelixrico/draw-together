@@ -4,7 +4,13 @@ import { DraggableEvent } from './Draggable'
 import { usePathInputService } from '@/modules/pad-service/path-input-service.context'
 import { PadBaseInput } from '@/modules/pad/PadBaseInput'
 
-export function PadPathInput({ dimensions }: { dimensions: Dimensions }) {
+export function PadPathInput({
+  dimensions,
+  counterScale,
+}: {
+  dimensions: Dimensions
+  counterScale: number
+}) {
   const { emitDraw } = usePathInputService()
 
   const handleDrag = useCallback(
@@ -21,5 +27,11 @@ export function PadPathInput({ dimensions }: { dimensions: Dimensions }) {
     [emitDraw]
   )
 
-  return <PadBaseInput dimensions={dimensions} onDrag={handleDrag} />
+  return (
+    <PadBaseInput
+      dimensions={dimensions}
+      onDrag={handleDrag}
+      counterScale={counterScale}
+    />
+  )
 }
