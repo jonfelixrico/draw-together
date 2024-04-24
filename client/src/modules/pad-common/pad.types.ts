@@ -35,7 +35,7 @@ export interface RectangleRenderData {
 
 export type RectangleData = RectangleRenderData &
   PadElementData & {
-    changeCount: number
+    counter: number
   }
 
 export type PadElementType = 'PATH' | 'RECTANGLE'
