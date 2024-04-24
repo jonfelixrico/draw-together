@@ -4,7 +4,7 @@ import { DraggableEvent } from './Draggable'
 import { PadBaseInput } from '@/modules/pad/PadBaseInput'
 import { useRectangleInputServiceImpl } from '@/modules/pad-service/rectangle-input-service-impl.context'
 
-export function PadPathInput({
+export function PadShapeInput({
   dimensions,
   counterScale,
 }: {
