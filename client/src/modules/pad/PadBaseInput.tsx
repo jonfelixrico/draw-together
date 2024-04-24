@@ -12,7 +12,7 @@ export function PadBaseInput({
    * Under the hood, this scale value is used to normalize the pad input points emitted.
    */
   counterScale?: number
-} & DraggableProps) {
+} & Pick<DraggableProps, 'onDrag' | 'dimensions'>) {
   const normalize = useCallback(
     (point: Point): Point => {
       if (counterScale === 1) {
