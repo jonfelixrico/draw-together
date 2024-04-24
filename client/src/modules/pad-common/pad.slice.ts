@@ -127,6 +127,25 @@ export const padSlice = createSlice({
       state.rectangles[payload.id] = payload
     },
 
+    updateDraftRectangle: (
+      state,
+      {
+        payload,
+      }: PayloadAction<{
+        id: string
+        focus: Point
+        counter: number
+      }>
+    ) => {
+      const inState = state.rectangles[payload.id]
+      if (!inState) {
+        return
+      }
+
+      inState.counter = payload.counter
+      inState.focus = payload.focus
+    },
+
     removeRectangle: (state, { payload }: PayloadAction<string>) => {
       delete state.rectangles[payload]
     },
