@@ -38,6 +38,5 @@ export function PadBaseInput({
     [onDrag, normalize]
   )
 
-  // Removing the cursor since we have implemented our own
   return <Draggable dimensions={dimensions} onDrag={handleDrag} cursor="none" />
 }
