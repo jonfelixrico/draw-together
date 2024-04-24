@@ -8,6 +8,11 @@ export enum PadSocketCode {
   PATH_DRAFT_MOVE = 'PATH_DRAFT_MOVE',
   PATH_CREATE = 'PATH_CREATE',
   PATH_DELETE = 'PATH_DELETE',
+
+  SHAPE_DRAFT_START = 'SHAPE_DRAFT_START',
+  SHAPE_DRAFT_MOVE = 'SHAPE_DRAFT_MOVE',
+  SHAPE_CREATE = 'SHAPE_CREATE',
+  SHAPE_DELETE = 'SHAPE_DELETE',
 }
 
 export interface PathDraftStartPayload extends PathData {
