@@ -43,9 +43,7 @@ interface PathDelete {
   [PadSocketCode.PATH_DELETE]: PathDeletePayload
 }
 
-export type ShapeDraftStartPayload = RectangleData & {
-  counter: number
-}
+export type ShapeDraftStartPayload = RectangleData
 interface ShapeDraftStart {
   [PadSocketCode.SHAPE_DRAFT_START]: ShapeDraftStartPayload
 }

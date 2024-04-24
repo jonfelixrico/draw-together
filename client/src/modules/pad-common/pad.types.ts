@@ -33,6 +33,9 @@ export interface RectangleRenderData {
   color: SVGColor
 }
 
-export type RectangleData = RectangleRenderData & PadElementData
+export type RectangleData = RectangleRenderData &
+  PadElementData & {
+    changeCount: number
+  }
 
 export type PadElementType = 'PATH' | 'RECTANGLE'
