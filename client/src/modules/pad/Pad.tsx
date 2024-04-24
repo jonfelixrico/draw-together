@@ -1,5 +1,5 @@
 import PadPathsRenderer from '@/modules/pad/PadPathsRenderer'
-import { PadInput } from '@/modules/pad/PadInput'
+import { PadPathInput } from '@/modules/pad/PadPathInput'
 import PadCursorsRenderer from '@/modules/pad/PadCursorsRenderer'
 import PadCursorUserInput from '@/modules/pad/PadCursorUserInput'
 import PadOptionsThicknessWheelInput from '@/modules/pad/PadOptionsThicknessWheelInput'
@@ -26,7 +26,7 @@ export function Pad({
       >
         <div className="position-absolute" style={{ zIndex: 100 }}>
           <PadOptionsThicknessWheelInput>
-            <PadInput dimensions={scaledDims} counterScale={scale} />
+            <PadPathInput dimensions={scaledDims} counterScale={scale} />
           </PadOptionsThicknessWheelInput>
         </div>
 

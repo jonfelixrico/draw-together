@@ -3,7 +3,7 @@ import { Dimensions, Point } from '@/modules/common/geometry.types'
 import Draggable, { DraggableEvent } from './Draggable'
 import { usePathInputService } from '@/modules/pad-service/path-input-service.context'
 
-export function PadInput({
+export function PadPathInput({
   dimensions,
   counterScale,
 }: {
