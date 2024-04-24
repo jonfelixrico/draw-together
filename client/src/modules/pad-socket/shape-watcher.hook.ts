@@ -52,5 +52,5 @@ export function useShapeSocketWatcher() {
     },
     [dispatch]
   )
-  useMessageEffect(PadSocketCode.PATH_DELETE, shapeDeleteHandler)
+  useMessageEffect(PadSocketCode.SHAPE_DELETE, shapeDeleteHandler)
 }
