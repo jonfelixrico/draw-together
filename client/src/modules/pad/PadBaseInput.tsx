@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import Draggable, { DraggableEvent, DraggableProps } from './Draggable'
 import { Point } from '@/modules/common/geometry.types'
 
-export function PadPathInput({
+export function PadBaseInput({
   dimensions,
   counterScale,
   onDrag,
