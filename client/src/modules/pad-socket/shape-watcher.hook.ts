@@ -16,8 +16,8 @@ export function useShapeSocketWatcher() {
   const shapeCreateHandler = useCallback(
     (payload: ShapeCreatePayload) => {
       console.debug('Socket: created shape %s', payload.id)
+      dispatch(PadActions.removeDraftRectangle(payload.id))
       dispatch(PadActions.setRectangle(payload))
-      dispatch(PadActions.removeRectangle(payload.id))
     },
     [dispatch]
   )
