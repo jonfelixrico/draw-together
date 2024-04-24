@@ -33,14 +33,14 @@ export function useRectangleInputServiceImpl(): RectangleInputService {
           id: nanoid(),
         }
 
-        dispatch(PadActions.setDraftRectangle(data))
+        dispatch(PadActions.setDraftRectangle({ ...data }))
         sendMessage(PadSocketCode.SHAPE_DRAFT_START, data)
         draft.current = data
       }
 
       if (event.isEnd) {
         const id = draft.current!.id
-        draft.current!.counter++
+        draft.current!.counter += 1
 
         dispatch(PadActions.removeDraftRectangle(id))
         dispatch(
@@ -71,11 +71,11 @@ export function useRectangleInputServiceImpl(): RectangleInputService {
         counter: draft.current!.counter + 1,
       }
 
-      dispatch(PadActions.setDraftRectangle(updated))
+      dispatch(PadActions.setDraftRectangle({ ...updated }))
       sendMessage(PadSocketCode.SHAPE_DRAFT_MOVE, {
         counter: updated.counter,
-        focus: event.point,
-        id: draft.current!.id,
+        focus: updated.focus,
+        id: updated.id,
       })
       draft.current = updated
     },
