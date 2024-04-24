@@ -4,6 +4,7 @@ import {
   SVGColor,
   PathData,
   RectangleData,
+  PadElementType,
 } from '@/modules/pad-common/pad.types'
 import { Point } from '@/modules/common/geometry.types'
 import type { RootState } from '@/store'
@@ -33,6 +34,8 @@ export interface PadState {
 
   rectangles: Record<string, RectangleData>
   draftRectangles: Record<string, RectangleData>
+
+  activeType: PadElementType
 }
 
 const INITIAL_STATE: PadState = {
@@ -48,6 +51,8 @@ const INITIAL_STATE: PadState = {
 
   rectangles: {},
   draftRectangles: {},
+
+  activeType: 'DRAW',
 }
 
 export const padSlice = createSlice({
@@ -128,6 +133,10 @@ export const padSlice = createSlice({
 
     removeDraftRectangle: (state, { payload }: PayloadAction<string>) => {
       delete state.rectangles[payload]
+    },
+
+    setActiveType: (state, { payload }: PayloadAction<PadElementType>) => {
+      state.activeType = payload
     },
   },
 })
