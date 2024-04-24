@@ -8,6 +8,8 @@ import { useScaledDimensions } from '@/modules/common/scale-dimensions.hook'
 import TransformScale from '@/modules/common/TransformScale'
 import PadRectanglesRenderer from '@/modules/pad/PadRectanglesRenderer'
 import { PadShapeInput } from '@/modules/pad/PadShapeInput'
+import { Case, Switch } from 'react-if'
+import { useAppSelector } from '@/store/hooks'
 
 export function Pad({
   dimensions,
@@ -17,6 +19,7 @@ export function Pad({
   scale: number
 }) {
   const scaledDims = useScaledDimensions(dimensions, scale)
+  const activeType = useAppSelector((state) => state.pad.activeType)
 
   return (
     <PadCursorUserInput counterScale={scale}>
@@ -27,8 +30,15 @@ export function Pad({
       >
         <div className="position-absolute" style={{ zIndex: 100 }}>
           <PadOptionsThicknessWheelInput>
-            {/* <PadPathInput dimensions={scaledDims} counterScale={scale} /> */}
-            <PadShapeInput dimensions={scaledDims} counterScale={scale} />
+            <Switch>
+              <Case condition={activeType === 'PATH'}>
+                <PadPathInput dimensions={scaledDims} counterScale={scale} />
+              </Case>
+
+              <Case condition={activeType === 'RECTANGLE'}>
+                <PadShapeInput dimensions={scaledDims} counterScale={scale} />
+              </Case>
+            </Switch>
           </PadOptionsThicknessWheelInput>
         </div>
 
