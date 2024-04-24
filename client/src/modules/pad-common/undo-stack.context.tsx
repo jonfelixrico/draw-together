@@ -16,7 +16,7 @@ interface UndoInjectables {
   socket: Socket
 }
 
-type UndoFn = (services: UndoInjectables) => Promise<void>
+type UndoFn = (services: UndoInjectables) => Promise<void> | void
 
 interface UndoStackService {
   push(fn: UndoFn): void
