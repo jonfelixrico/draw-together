@@ -20,11 +20,13 @@ import BasicButtonTriggeredModal from '@/modules/common/BasicButtonTriggeredModa
 import useUndoCommandListener from '@/modules/pad-common/undo-command-listener.hook'
 import { RectangleInputServiceProvider } from '@/modules/pad-service/rectangle-input-service.context'
 import { useRectangleInputServiceImpl } from '@/modules/pad-service/rectangle-input-service-impl.context'
+import { useShapeSocketWatcher } from '@/modules/pad-socket/shape-watcher.hook'
 
 export default function RoomContent() {
   useParticipantWatcher()
   usePathSocketWatcher()
   useUndoCommandListener()
+  useShapeSocketWatcher()
 
   const pathInputService = usePathInputServiceImpl()
   const cursorService = useCursorServiceImpl()
