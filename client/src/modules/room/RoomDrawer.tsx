@@ -11,7 +11,7 @@ const VERSION = import.meta.env.VITE_VERSION_OVERRIDE || manifest.version
 export default function RoomDrawer() {
   return (
     <Row className="h-100 w-100">
-      <Col xs="auto">
+      <Col xs="auto" className="border-end">
         <Stack gap={1}>
           <PadTypeButton type="PATH">Path</PadTypeButton>
 

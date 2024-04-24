@@ -101,9 +101,9 @@ export default function RoomContent() {
               <If condition={screen.gt.sm}>
                 <Then>
                   <Col
-                    md="4"
-                    lg="3"
-                    xl="2"
+                    md="5"
+                    lg="4"
+                    xl="3"
                     className="p-2 bg-body-tertiary border-start"
                     data-cy="options-drawer"
                   >
