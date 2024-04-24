@@ -33,6 +33,11 @@ export function useRectangleInputServiceImpl(): RectangleInputService {
           id: nanoid(),
         }
 
+        /*
+         * It's important that we create pass a shallow copy of the data instead of passing it directly.
+         * Passing a shallow copy will end up causing writes to the draft ref to be blocked by React since
+         * that same ref is being used in the state now.
+         */
         dispatch(PadActions.setDraftRectangle({ ...data }))
         sendMessage(PadSocketCode.SHAPE_DRAFT_START, data)
         draft.current = data
