@@ -1,5 +1,4 @@
 import PadPathsRenderer from '@/modules/pad/PadPathsRenderer'
-import { PadPathInput } from '@/modules/pad/PadPathInput'
 import PadCursorsRenderer from '@/modules/pad/PadCursorsRenderer'
 import PadCursorUserInput from '@/modules/pad/PadCursorUserInput'
 import PadOptionsThicknessWheelInput from '@/modules/pad/PadOptionsThicknessWheelInput'
@@ -10,6 +9,7 @@ import PadRectanglesRenderer from '@/modules/pad/PadRectanglesRenderer'
 import { PadShapeInput } from '@/modules/pad/PadShapeInput'
 import { Case, Switch } from 'react-if'
 import { useAppSelector } from '@/store/hooks'
+import { PadPathInput } from '@/modules/pad/PadPathInput'
 
 export function Pad({
   dimensions,
