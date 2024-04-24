@@ -1,5 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { PadCursor, PathColor, PathData } from '@/modules/pad-common/pad.types'
+import {
+  PadCursor,
+  SVGColor,
+  PathData,
+  RectangleData,
+  PadElementType,
+} from '@/modules/pad-common/pad.types'
 import { Point } from '@/modules/common/geometry.types'
 import type { RootState } from '@/store'
 import clamp from 'lodash/clamp'
@@ -19,12 +25,17 @@ export interface PadState {
 
   options: {
     thickness: number
-    color: PathColor
+    color: SVGColor
   }
 
   cursors: {
     [id: string]: PadCursor
   }
+
+  rectangles: Record<string, RectangleData>
+  draftRectangles: Record<string, RectangleData>
+
+  activeType: PadElementType
 }
 
 const INITIAL_STATE: PadState = {
@@ -37,6 +48,11 @@ const INITIAL_STATE: PadState = {
   },
 
   cursors: {},
+
+  rectangles: {},
+  draftRectangles: {},
+
+  activeType: 'PATH',
 }
 
 export const padSlice = createSlice({
@@ -77,7 +93,7 @@ export const padSlice = createSlice({
       delete state.paths[payload]
     },
 
-    setColor: (state, { payload }: PayloadAction<PathColor>) => {
+    setColor: (state, { payload }: PayloadAction<SVGColor>) => {
       state.options.color = payload
     },
 
@@ -102,6 +118,26 @@ export const padSlice = createSlice({
     },
 
     resetSlice: () => INITIAL_STATE,
+
+    setRectangle: (state, { payload }: PayloadAction<RectangleData>) => {
+      state.rectangles[payload.id] = payload
+    },
+
+    setDraftRectangle: (state, { payload }: PayloadAction<RectangleData>) => {
+      state.rectangles[payload.id] = payload
+    },
+
+    removeRectangle: (state, { payload }: PayloadAction<string>) => {
+      delete state.rectangles[payload]
+    },
+
+    removeDraftRectangle: (state, { payload }: PayloadAction<string>) => {
+      delete state.rectangles[payload]
+    },
+
+    setActiveType: (state, { payload }: PayloadAction<PadElementType>) => {
+      state.activeType = payload
+    },
   },
 })
 

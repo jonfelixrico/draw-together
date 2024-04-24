@@ -1,17 +1,19 @@
 import { Point } from '@/modules/common/geometry.types'
 
-export type PathColor = React.SVGAttributes<SVGPathElement>['stroke']
+export type SVGColor = React.SVGAttributes<SVGPathElement>['stroke']
 
 export interface PathRenderData {
   points: Point[]
-  color: PathColor
+  color: SVGColor
   thickness: number
 }
 
-export interface PathData extends PathRenderData {
+interface PadElementData {
   id: string
   timestamp: number
 }
+
+export type PathData = PathRenderData & PadElementData
 
 export type PadCursor = {
   point: Point
@@ -23,3 +25,14 @@ export type PadCursor = {
    */
   diameter?: number
 }
+
+export interface RectangleRenderData {
+  anchor: Point
+  focus: Point
+  thickness: number
+  color: SVGColor
+}
+
+export type RectangleData = RectangleRenderData & PadElementData
+
+export type PadElementType = 'PATH' | 'RECTANGLE'

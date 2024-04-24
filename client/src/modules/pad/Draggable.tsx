@@ -11,12 +11,7 @@ interface PrevPoint extends Point {
   counter: number
 }
 
-export default function Draggable({
-  dimensions,
-  onDrag,
-  cursor,
-  skipRate = 1,
-}: {
+export interface DraggableProps {
   onDrag: (event: DraggableEvent) => void
 
   dimensions: Dimensions
@@ -29,7 +24,14 @@ export default function Draggable({
    * Lower value will make the line smudgy, but there will be less polygons.
    */
   skipRate?: number
-}) {
+}
+
+export default function Draggable({
+  dimensions,
+  onDrag,
+  cursor,
+  skipRate = 1,
+}: DraggableProps) {
   const elRef = useRef<HTMLDivElement>(null)
 
   /*
