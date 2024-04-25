@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { Dimensions } from '@/modules/common/geometry.types'
 import { DraggableEvent } from './Draggable'
 import { PadBaseInput } from '@/modules/pad/PadBaseInput'
-import { useShapeInputServiceImpl } from '@/modules/pad-service/rectangle-input-service-impl.context'
+import { useShapeInputServiceImpl } from '@/modules/pad-service/shape-input-service-impl.context'
 
 export function PadShapeInput({
   dimensions,

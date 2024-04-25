@@ -17,7 +17,7 @@ export interface ShapeInputService {
 const ShapeInputServiceContext = createContext<ShapeInputService>({
   emitDraw: () => {
     console.warn(
-      'RectangleInput: emitDraw was called, but context was not provided'
+      'ShapeInput: emitDraw was called, but context was not provided'
     )
   },
 })
