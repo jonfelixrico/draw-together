@@ -16,8 +16,8 @@ export function useShapeSocketWatcher() {
   const shapeCreateHandler = useCallback(
     (payload: ShapeCreatePayload) => {
       console.debug('Socket: created shape %s', payload.id)
-      dispatch(PadActions.removeDraftRectangle(payload.id))
-      dispatch(PadActions.setRectangle(payload))
+      dispatch(PadActions.removeDraftShape(payload.id))
+      dispatch(PadActions.setShape(payload))
     },
     [dispatch]
   )
@@ -25,7 +25,7 @@ export function useShapeSocketWatcher() {
 
   const shapeDraftStartHandler = useCallback(
     (payload: ShapeDraftStartPayload) => {
-      dispatch(PadActions.setDraftRectangle(payload))
+      dispatch(PadActions.setDraftShape(payload))
     },
     [dispatch]
   )
@@ -34,7 +34,7 @@ export function useShapeSocketWatcher() {
   const shapeDraftMoveHAndler = useCallback(
     ({ id, focus, counter }: ShapeDraftMovePayload) => {
       dispatch(
-        PadActions.updateDraftRectangle({
+        PadActions.updateDraftShape({
           id,
           focus,
           counter,
@@ -48,7 +48,7 @@ export function useShapeSocketWatcher() {
   const shapeDeleteHandler = useCallback(
     ({ id }: ShapeDeletePayload) => {
       console.debug('Socket: deleted shape %s', id)
-      dispatch(PadActions.removeRectangle(id))
+      dispatch(PadActions.removeShape(id))
     },
     [dispatch]
   )

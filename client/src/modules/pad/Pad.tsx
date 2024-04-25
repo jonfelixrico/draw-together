@@ -5,7 +5,7 @@ import PadOptionsThicknessWheelInput from '@/modules/pad/PadOptionsThicknessWhee
 import { Dimensions } from '@/modules/common/geometry.types'
 import { useScaledDimensions } from '@/modules/common/scale-dimensions.hook'
 import TransformScale from '@/modules/common/TransformScale'
-import PadRectanglesRenderer from '@/modules/pad/PadRectanglesRenderer'
+import PadShapesRenderer from '@/modules/pad/PadShapesRenderer'
 import { PadShapeInput } from '@/modules/pad/PadShapeInput'
 import { Case, Switch } from 'react-if'
 import { useAppSelector } from '@/store/hooks'
@@ -50,7 +50,7 @@ export function Pad({
           <TransformScale scale={scale} dimensions={dimensions}>
             <div style={dimensions} className="position-relative">
               <PadPathsRenderer dimensions={dimensions} />
-              <PadRectanglesRenderer dimensions={dimensions} />
+              <PadShapesRenderer dimensions={dimensions} />
             </div>
           </TransformScale>
         </div>

@@ -3,7 +3,7 @@ import {
   PadCursor,
   SVGColor,
   PathData,
-  RectangleData,
+  ShapeData,
   PadElementType,
 } from '@/modules/pad-common/pad.types'
 import { Point } from '@/modules/common/geometry.types'
@@ -32,8 +32,8 @@ export interface PadState {
     [id: string]: PadCursor
   }
 
-  rectangles: Record<string, RectangleData>
-  draftRectangles: Record<string, RectangleData>
+  shapes: Record<string, ShapeData>
+  draftShapes: Record<string, ShapeData>
 
   activeType: PadElementType
 }
@@ -49,8 +49,8 @@ const INITIAL_STATE: PadState = {
 
   cursors: {},
 
-  rectangles: {},
-  draftRectangles: {},
+  shapes: {},
+  draftShapes: {},
 
   activeType: 'PATH',
 }
@@ -119,15 +119,15 @@ export const padSlice = createSlice({
 
     resetSlice: () => INITIAL_STATE,
 
-    setRectangle: (state, { payload }: PayloadAction<RectangleData>) => {
-      state.rectangles[payload.id] = payload
+    setShape: (state, { payload }: PayloadAction<ShapeData>) => {
+      state.shapes[payload.id] = payload
     },
 
-    setDraftRectangle: (state, { payload }: PayloadAction<RectangleData>) => {
-      state.rectangles[payload.id] = payload
+    setDraftShape: (state, { payload }: PayloadAction<ShapeData>) => {
+      state.shapes[payload.id] = payload
     },
 
-    updateDraftRectangle: (
+    updateDraftShape: (
       state,
       {
         payload,
@@ -137,7 +137,7 @@ export const padSlice = createSlice({
         counter: number
       }>
     ) => {
-      const inState = state.rectangles[payload.id]
+      const inState = state.shapes[payload.id]
       if (!inState) {
         return
       }
@@ -146,12 +146,12 @@ export const padSlice = createSlice({
       inState.focus = payload.focus
     },
 
-    removeRectangle: (state, { payload }: PayloadAction<string>) => {
-      delete state.rectangles[payload]
+    removeShape: (state, { payload }: PayloadAction<string>) => {
+      delete state.shapes[payload]
     },
 
-    removeDraftRectangle: (state, { payload }: PayloadAction<string>) => {
-      delete state.rectangles[payload]
+    removeDraftShape: (state, { payload }: PayloadAction<string>) => {
+      delete state.shapes[payload]
     },
 
     setActiveType: (state, { payload }: PayloadAction<PadElementType>) => {

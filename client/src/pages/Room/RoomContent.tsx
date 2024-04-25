@@ -18,8 +18,8 @@ import { useScreen } from '@/modules/common/screen.hook'
 import RoomDrawer from '@/modules/room/RoomDrawer'
 import BasicButtonTriggeredModal from '@/modules/common/BasicButtonTriggeredModal'
 import useUndoCommandListener from '@/modules/pad-common/undo-command-listener.hook'
-import { RectangleInputServiceProvider } from '@/modules/pad-service/rectangle-input-service.context'
-import { useRectangleInputServiceImpl } from '@/modules/pad-service/rectangle-input-service-impl.context'
+import { ShapeInputServiceProvider } from '@/modules/pad-service/shape-input-service.context'
+import { useShapeInputServiceImpl } from '@/modules/pad-service/shape-input-service-impl.context'
 import { useShapeSocketWatcher } from '@/modules/pad-socket/shape-watcher.hook'
 
 export default function RoomContent() {
@@ -30,7 +30,7 @@ export default function RoomContent() {
 
   const pathInputService = usePathInputServiceImpl()
   const cursorService = useCursorServiceImpl()
-  const rectangleService = useRectangleInputServiceImpl()
+  const shapeService = useShapeInputServiceImpl()
 
   const [ref, { width, height }] = useMeasure<HTMLDivElement>()
   const padDims = useAppSelector((state) => state.room.padDimensions)
@@ -91,9 +91,9 @@ export default function RoomContent() {
                   <div className="position-absolute bg-white">
                     <PathInputServiceProvider value={pathInputService}>
                       <CursorServiceProvider value={cursorService}>
-                        <RectangleInputServiceProvider value={rectangleService}>
+                        <ShapeInputServiceProvider value={shapeService}>
                           <Pad scale={scale} dimensions={padDims} />
-                        </RectangleInputServiceProvider>
+                        </ShapeInputServiceProvider>
                       </CursorServiceProvider>
                     </PathInputServiceProvider>
                   </div>

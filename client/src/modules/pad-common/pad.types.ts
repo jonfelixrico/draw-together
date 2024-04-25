@@ -26,14 +26,14 @@ export type PadCursor = {
   diameter?: number
 }
 
-export interface RectangleRenderData {
+export interface ShapeRenderData {
   anchor: Point
   focus: Point
   thickness: number
   color: SVGColor
 }
 
-export type RectangleData = RectangleRenderData &
+export type ShapeData = ShapeRenderData &
   PadElementData & {
     counter: number
   }
