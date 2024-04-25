@@ -40,4 +40,24 @@ describe('layout', () => {
     cy.getCy('options-drawer').should('not.exist')
     cy.getCy('options-modal-button').should('exist')
   })
+
+  it('changes the input element based on the mode', () => {
+    cy.visit(`/rooms/${roomId}`)
+
+    cy.get('[data-cy=type-button][data-type=PATH]').click()
+    cy.get('[data-cy=type-button][data-active=true]').should(
+      'have.attr',
+      'data-type',
+      'PATH'
+    )
+    cy.getCy('input-pad').should('have.attr', 'data-type', 'PATH')
+
+    cy.get('[data-cy=type-button][data-type=RECTANGLE]').click()
+    cy.get('[data-cy=type-button][data-active=true]').should(
+      'have.attr',
+      'data-type',
+      'RECTANGLE'
+    )
+    cy.getCy('input-pad').should('have.attr', 'data-type', 'RECTANGLE')
+  })
 })
