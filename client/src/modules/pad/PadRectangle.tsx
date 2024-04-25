@@ -1,5 +1,5 @@
 import { Dimensions } from '@/modules/common/geometry.types'
-import { RectangleRenderData } from '@/modules/pad-common/pad.types'
+import { ShapeRenderData } from '@/modules/pad-common/pad.types'
 import { useMemo } from 'react'
 
 export default function PadRectangle({
@@ -7,7 +7,7 @@ export default function PadRectangle({
   value: { anchor, focus, thickness, color },
 }: {
   dimensions: Dimensions
-  value: RectangleRenderData
+  value: ShapeRenderData
 }) {
   const svgProps = useMemo(() => {
     const start = {

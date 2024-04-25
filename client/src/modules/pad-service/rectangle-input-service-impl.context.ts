@@ -1,5 +1,5 @@
 import { PadActions } from '@/modules/pad-common/pad.slice'
-import { RectangleData } from '@/modules/pad-common/pad.types'
+import { ShapeData } from '@/modules/pad-common/pad.types'
 import { useUndoStackService } from '@/modules/pad-common/undo-stack.context'
 import { RectangleInputService } from '@/modules/pad-service/rectangle-input-service.context'
 import {
@@ -14,7 +14,7 @@ import { useCallback, useRef } from 'react'
 
 export function useRectangleInputServiceImpl(): RectangleInputService {
   const dispatch = useAppDispatch()
-  const draft = useRef<RectangleData | null>(null)
+  const draft = useRef<ShapeData | null>(null)
 
   const { color, thickness } = useAppSelector(({ pad }) => pad.options)
   const { push } = useUndoStackService()
@@ -23,7 +23,7 @@ export function useRectangleInputServiceImpl(): RectangleInputService {
   const handler: RectangleInputService['emitDraw'] = useCallback(
     (event) => {
       if (event.isStart) {
-        const data: RectangleData = {
+        const data: ShapeData = {
           anchor: event.point,
           focus: event.point,
           color,
@@ -70,7 +70,7 @@ export function useRectangleInputServiceImpl(): RectangleInputService {
         return
       }
 
-      const updated: RectangleData = {
+      const updated: ShapeData = {
         ...draft.current!,
         focus: event.point,
         counter: draft.current!.counter + 1,

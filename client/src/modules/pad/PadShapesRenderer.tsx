@@ -2,14 +2,14 @@ import { useAppSelector } from '@/store/hooks'
 import { Dimensions } from '@/modules/common/geometry.types'
 import PadRectangle from '@/modules/pad/PadRectangle'
 import { useMemo } from 'react'
-import { RectangleData } from '@/modules/pad-common/pad.types'
+import { ShapeData } from '@/modules/pad-common/pad.types'
 import { shortenMillis } from '@/modules/common/datetime.utils'
 
 function Rectangles({
   values,
   dimensions,
 }: {
-  values: Record<string, RectangleData>
+  values: Record<string, ShapeData>
   dimensions: Dimensions
 }) {
   const asArray = useMemo(() => Object.values(values), [values])

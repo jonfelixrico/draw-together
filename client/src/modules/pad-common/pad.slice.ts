@@ -3,7 +3,7 @@ import {
   PadCursor,
   SVGColor,
   PathData,
-  RectangleData,
+  ShapeData,
   PadElementType,
 } from '@/modules/pad-common/pad.types'
 import { Point } from '@/modules/common/geometry.types'
@@ -32,8 +32,8 @@ export interface PadState {
     [id: string]: PadCursor
   }
 
-  shapes: Record<string, RectangleData>
-  draftShapes: Record<string, RectangleData>
+  shapes: Record<string, ShapeData>
+  draftShapes: Record<string, ShapeData>
 
   activeType: PadElementType
 }
@@ -119,11 +119,11 @@ export const padSlice = createSlice({
 
     resetSlice: () => INITIAL_STATE,
 
-    setShape: (state, { payload }: PayloadAction<RectangleData>) => {
+    setShape: (state, { payload }: PayloadAction<ShapeData>) => {
       state.shapes[payload.id] = payload
     },
 
-    setDraftShape: (state, { payload }: PayloadAction<RectangleData>) => {
+    setDraftShape: (state, { payload }: PayloadAction<ShapeData>) => {
       state.shapes[payload.id] = payload
     },
 
