@@ -31,7 +31,7 @@ function Rectangles({
   )
 }
 
-export default function PadRectanglesRenderer({
+export default function PadShapesRenderer({
   dimensions,
 }: {
   dimensions: Dimensions
