@@ -119,15 +119,15 @@ export const padSlice = createSlice({
 
     resetSlice: () => INITIAL_STATE,
 
-    setRectangle: (state, { payload }: PayloadAction<RectangleData>) => {
+    setShape: (state, { payload }: PayloadAction<RectangleData>) => {
       state.rectangles[payload.id] = payload
     },
 
-    setDraftRectangle: (state, { payload }: PayloadAction<RectangleData>) => {
+    setDraftShape: (state, { payload }: PayloadAction<RectangleData>) => {
       state.rectangles[payload.id] = payload
     },
 
-    updateDraftRectangle: (
+    updateDraftShape: (
       state,
       {
         payload,
@@ -146,11 +146,11 @@ export const padSlice = createSlice({
       inState.focus = payload.focus
     },
 
-    removeRectangle: (state, { payload }: PayloadAction<string>) => {
+    removeShape: (state, { payload }: PayloadAction<string>) => {
       delete state.rectangles[payload]
     },
 
-    removeDraftRectangle: (state, { payload }: PayloadAction<string>) => {
+    removeDraftShape: (state, { payload }: PayloadAction<string>) => {
       delete state.rectangles[payload]
     },
 

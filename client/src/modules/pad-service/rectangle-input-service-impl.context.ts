@@ -38,7 +38,7 @@ export function useRectangleInputServiceImpl(): RectangleInputService {
          * Passing a shallow copy will end up causing writes to the draft ref to be blocked by React since
          * that same ref is being used in the state now.
          */
-        dispatch(PadActions.setDraftRectangle({ ...data }))
+        dispatch(PadActions.setDraftShape({ ...data }))
         sendMessage(PadSocketCode.SHAPE_DRAFT_START, data)
         draft.current = data
       }
@@ -47,16 +47,16 @@ export function useRectangleInputServiceImpl(): RectangleInputService {
         const id = draft.current!.id
         draft.current!.counter++
 
-        dispatch(PadActions.removeDraftRectangle(id))
+        dispatch(PadActions.removeDraftShape(id))
         dispatch(
-          PadActions.setRectangle({
+          PadActions.setShape({
             ...draft.current!,
             focus: event.point,
           })
         )
 
         push(({ store, socket }) => {
-          store.dispatch(PadActions.removeRectangle(id))
+          store.dispatch(PadActions.removeShape(id))
           socket.emit(PAD_SOCKET_EVENT, {
             SHAPE_DELETE: {
               id,
@@ -76,7 +76,7 @@ export function useRectangleInputServiceImpl(): RectangleInputService {
         counter: draft.current!.counter + 1,
       }
 
-      dispatch(PadActions.setDraftRectangle({ ...updated }))
+      dispatch(PadActions.setDraftShape({ ...updated }))
       sendMessage(PadSocketCode.SHAPE_DRAFT_MOVE, {
         counter: updated.counter,
         focus: updated.focus,
