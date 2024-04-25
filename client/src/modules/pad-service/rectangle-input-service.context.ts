@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react'
 import { Point } from '@/modules/common/geometry.types'
 
-export interface RectangleDrawEvent {
+export interface ShapeDrawEvent {
   point: Point
   isStart?: boolean
   isEnd?: boolean
@@ -10,11 +10,11 @@ export interface RectangleDrawEvent {
 /**
  * Facade/abstract for path input mechanisms
  */
-export interface RectangleInputService {
-  emitDraw(event: RectangleDrawEvent): void
+export interface ShapeInputService {
+  emitDraw(event: ShapeDrawEvent): void
 }
 
-const RectangleInputServiceContext = createContext<RectangleInputService>({
+const RectangleInputServiceContext = createContext<ShapeInputService>({
   emitDraw: () => {
     console.warn(
       'RectangleInput: emitDraw was called, but context was not provided'

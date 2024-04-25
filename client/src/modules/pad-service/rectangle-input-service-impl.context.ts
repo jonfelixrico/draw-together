@@ -1,7 +1,7 @@
 import { PadActions } from '@/modules/pad-common/pad.slice'
 import { ShapeData } from '@/modules/pad-common/pad.types'
 import { useUndoStackService } from '@/modules/pad-common/undo-stack.context'
-import { RectangleInputService } from '@/modules/pad-service/rectangle-input-service.context'
+import { ShapeInputService } from '@/modules/pad-service/rectangle-input-service.context'
 import {
   PAD_SOCKET_EVENT,
   PadRequest,
@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { nanoid } from 'nanoid'
 import { useCallback, useRef } from 'react'
 
-export function useRectangleInputServiceImpl(): RectangleInputService {
+export function useRectangleInputServiceImpl(): ShapeInputService {
   const dispatch = useAppDispatch()
   const draft = useRef<ShapeData | null>(null)
 
@@ -20,7 +20,7 @@ export function useRectangleInputServiceImpl(): RectangleInputService {
   const { push } = useUndoStackService()
   const sendMessage = useSendMessage()
 
-  const handler: RectangleInputService['emitDraw'] = useCallback(
+  const handler: ShapeInputService['emitDraw'] = useCallback(
     (event) => {
       if (event.isStart) {
         const data: ShapeData = {
