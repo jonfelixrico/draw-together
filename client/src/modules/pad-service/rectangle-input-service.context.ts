@@ -14,7 +14,7 @@ export interface ShapeInputService {
   emitDraw(event: ShapeDrawEvent): void
 }
 
-const RectangleInputServiceContext = createContext<ShapeInputService>({
+const ShapeInputServiceContext = createContext<ShapeInputService>({
   emitDraw: () => {
     console.warn(
       'RectangleInput: emitDraw was called, but context was not provided'
@@ -26,9 +26,8 @@ const RectangleInputServiceContext = createContext<ShapeInputService>({
  * To be used at the ancestor level.
  * This will provide the implementation of `PathInputService`
  */
-export const RectangleInputServiceProvider =
-  RectangleInputServiceContext.Provider
+export const ShapeInputServiceProvider = ShapeInputServiceContext.Provider
 
-export function usePathInputService() {
-  return useContext(RectangleInputServiceContext)
+export function useShapeInputService() {
+  return useContext(ShapeInputServiceContext)
 }

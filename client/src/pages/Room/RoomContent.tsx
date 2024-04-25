@@ -18,7 +18,7 @@ import { useScreen } from '@/modules/common/screen.hook'
 import RoomDrawer from '@/modules/room/RoomDrawer'
 import BasicButtonTriggeredModal from '@/modules/common/BasicButtonTriggeredModal'
 import useUndoCommandListener from '@/modules/pad-common/undo-command-listener.hook'
-import { RectangleInputServiceProvider } from '@/modules/pad-service/rectangle-input-service.context'
+import { ShapeInputServiceProvider } from '@/modules/pad-service/rectangle-input-service.context'
 import { useRectangleInputServiceImpl } from '@/modules/pad-service/rectangle-input-service-impl.context'
 import { useShapeSocketWatcher } from '@/modules/pad-socket/shape-watcher.hook'
 
@@ -91,9 +91,9 @@ export default function RoomContent() {
                   <div className="position-absolute bg-white">
                     <PathInputServiceProvider value={pathInputService}>
                       <CursorServiceProvider value={cursorService}>
-                        <RectangleInputServiceProvider value={rectangleService}>
+                        <ShapeInputServiceProvider value={rectangleService}>
                           <Pad scale={scale} dimensions={padDims} />
-                        </RectangleInputServiceProvider>
+                        </ShapeInputServiceProvider>
                       </CursorServiceProvider>
                     </PathInputServiceProvider>
                   </div>
