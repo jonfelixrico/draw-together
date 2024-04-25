@@ -36,8 +36,8 @@ export default function PadShapesRenderer({
 }: {
   dimensions: Dimensions
 }) {
-  const draft = useAppSelector((state) => state.pad.draftRectangles)
-  const stable = useAppSelector((state) => state.pad.rectangles)
+  const draft = useAppSelector((state) => state.pad.draftShapes)
+  const stable = useAppSelector((state) => state.pad.shapes)
 
   return (
     <>
