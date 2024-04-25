@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { nanoid } from 'nanoid'
 import { useCallback, useRef } from 'react'
 
-export function useRectangleInputServiceImpl(): ShapeInputService {
+export function useShapeInputServiceImpl(): ShapeInputService {
   const dispatch = useAppDispatch()
   const draft = useRef<ShapeData | null>(null)
 

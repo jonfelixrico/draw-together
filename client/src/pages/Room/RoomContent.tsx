@@ -19,7 +19,7 @@ import RoomDrawer from '@/modules/room/RoomDrawer'
 import BasicButtonTriggeredModal from '@/modules/common/BasicButtonTriggeredModal'
 import useUndoCommandListener from '@/modules/pad-common/undo-command-listener.hook'
 import { ShapeInputServiceProvider } from '@/modules/pad-service/rectangle-input-service.context'
-import { useRectangleInputServiceImpl } from '@/modules/pad-service/rectangle-input-service-impl.context'
+import { useShapeInputServiceImpl } from '@/modules/pad-service/rectangle-input-service-impl.context'
 import { useShapeSocketWatcher } from '@/modules/pad-socket/shape-watcher.hook'
 
 export default function RoomContent() {
@@ -30,7 +30,7 @@ export default function RoomContent() {
 
   const pathInputService = usePathInputServiceImpl()
   const cursorService = useCursorServiceImpl()
-  const rectangleService = useRectangleInputServiceImpl()
+  const rectangleService = useShapeInputServiceImpl()
 
   const [ref, { width, height }] = useMeasure<HTMLDivElement>()
   const padDims = useAppSelector((state) => state.room.padDimensions)
