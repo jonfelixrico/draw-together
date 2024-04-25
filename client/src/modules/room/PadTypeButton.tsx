@@ -16,7 +16,7 @@ export default function PadTypeButton({
     <Button
       {...others}
       onClick={() => setActiveType(type)}
-      variant={activeType ? 'primary' : 'outline-primary'}
+      variant={isActive ? 'primary' : 'outline-primary'}
       data-cy="type-button"
       data-type={type}
       data-active={isActive}
