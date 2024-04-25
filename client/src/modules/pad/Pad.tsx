@@ -28,7 +28,12 @@ export function Pad({
         style={scaledDims}
         data-cy="pad"
       >
-        <div className="position-absolute" style={{ zIndex: 100 }}>
+        <div
+          className="position-absolute"
+          style={{ zIndex: 100 }}
+          data-cy="input-pad"
+          data-active-type={activeType}
+        >
           <PadOptionsThicknessWheelInput>
             <Switch>
               <Case condition={activeType === 'PATH'}>

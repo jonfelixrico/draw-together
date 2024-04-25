@@ -50,7 +50,7 @@ describe('layout', () => {
       'data-type',
       'PATH'
     )
-    cy.getCy('input-pad').should('have.attr', 'data-type', 'PATH')
+    cy.getCy('input-pad').should('have.attr', 'data-active-type', 'PATH')
 
     cy.get('[data-cy=type-button][data-type=RECTANGLE]').click()
     cy.get('[data-cy=type-button][data-active=true]').should(
@@ -58,6 +58,6 @@ describe('layout', () => {
       'data-type',
       'RECTANGLE'
     )
-    cy.getCy('input-pad').should('have.attr', 'data-type', 'RECTANGLE')
+    cy.getCy('input-pad').should('have.attr', 'data-active-type', 'RECTANGLE')
   })
 })
