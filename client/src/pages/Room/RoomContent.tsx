@@ -18,14 +18,19 @@ import { useScreen } from '@/modules/common/screen.hook'
 import RoomDrawer from '@/modules/room/RoomDrawer'
 import BasicButtonTriggeredModal from '@/modules/common/BasicButtonTriggeredModal'
 import useUndoCommandListener from '@/modules/pad-common/undo-command-listener.hook'
+import { ShapeInputServiceProvider } from '@/modules/pad-service/shape-input-service.context'
+import { useShapeInputServiceImpl } from '@/modules/pad-service/shape-input-service-impl.context'
+import { useShapeSocketWatcher } from '@/modules/pad-socket/shape-watcher.hook'
 
 export default function RoomContent() {
   useParticipantWatcher()
   usePathSocketWatcher()
   useUndoCommandListener()
+  useShapeSocketWatcher()
 
   const pathInputService = usePathInputServiceImpl()
   const cursorService = useCursorServiceImpl()
+  const shapeService = useShapeInputServiceImpl()
 
   const [ref, { width, height }] = useMeasure<HTMLDivElement>()
   const padDims = useAppSelector((state) => state.room.padDimensions)
@@ -75,6 +80,7 @@ export default function RoomContent() {
               </If>
             </RoomToolbar>
           </Col>
+
           <Col>
             <Row className="h-100">
               <Col className="p-0">
@@ -86,7 +92,9 @@ export default function RoomContent() {
                   <div className="position-absolute bg-white">
                     <PathInputServiceProvider value={pathInputService}>
                       <CursorServiceProvider value={cursorService}>
-                        <Pad scale={scale} dimensions={padDims} />
+                        <ShapeInputServiceProvider value={shapeService}>
+                          <Pad scale={scale} dimensions={padDims} />
+                        </ShapeInputServiceProvider>
                       </CursorServiceProvider>
                     </PathInputServiceProvider>
                   </div>
@@ -96,9 +104,9 @@ export default function RoomContent() {
               <If condition={screen.gt.sm}>
                 <Then>
                   <Col
-                    md="4"
-                    lg="3"
-                    xl="2"
+                    md="5"
+                    lg="4"
+                    xl="3"
                     className="p-2 bg-body-tertiary border-start"
                     data-cy="options-drawer"
                   >

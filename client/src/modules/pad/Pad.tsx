@@ -1,10 +1,15 @@
 import PadPathsRenderer from '@/modules/pad/PadPathsRenderer'
-import { PadInput } from '@/modules/pad/PadInput'
 import PadCursorsRenderer from '@/modules/pad/PadCursorsRenderer'
 import PadCursorUserInput from '@/modules/pad/PadCursorUserInput'
 import PadOptionsThicknessWheelInput from '@/modules/pad/PadOptionsThicknessWheelInput'
 import { Dimensions } from '@/modules/common/geometry.types'
 import { useScaledDimensions } from '@/modules/common/scale-dimensions.hook'
+import TransformScale from '@/modules/common/TransformScale'
+import PadShapesRenderer from '@/modules/pad/PadShapesRenderer'
+import { PadShapeInput } from '@/modules/pad/PadShapeInput'
+import { Case, Switch } from 'react-if'
+import { useAppSelector } from '@/store/hooks'
+import { PadPathInput } from '@/modules/pad/PadPathInput'
 
 export function Pad({
   dimensions,
@@ -14,6 +19,7 @@ export function Pad({
   scale: number
 }) {
   const scaledDims = useScaledDimensions(dimensions, scale)
+  const activeType = useAppSelector((state) => state.pad.activeType)
 
   return (
     <PadCursorUserInput counterScale={scale}>
@@ -22,9 +28,22 @@ export function Pad({
         style={scaledDims}
         data-cy="pad"
       >
-        <div className="position-absolute" style={{ zIndex: 100 }}>
+        <div
+          className="position-absolute"
+          style={{ zIndex: 100 }}
+          data-cy="input-pad"
+          data-active-type={activeType}
+        >
           <PadOptionsThicknessWheelInput>
-            <PadInput dimensions={scaledDims} counterScale={scale} />
+            <Switch>
+              <Case condition={activeType === 'PATH'}>
+                <PadPathInput dimensions={scaledDims} counterScale={scale} />
+              </Case>
+
+              <Case condition={activeType === 'RECTANGLE'}>
+                <PadShapeInput dimensions={scaledDims} counterScale={scale} />
+              </Case>
+            </Switch>
           </PadOptionsThicknessWheelInput>
         </div>
 
@@ -33,7 +52,12 @@ export function Pad({
           style={{ zIndex: 1 }}
           data-cy="pad-paths-renderer"
         >
-          <PadPathsRenderer dimensions={dimensions} scale={scale} />
+          <TransformScale scale={scale} dimensions={dimensions}>
+            <div style={dimensions} className="position-relative">
+              <PadPathsRenderer dimensions={dimensions} />
+              <PadShapesRenderer dimensions={dimensions} />
+            </div>
+          </TransformScale>
         </div>
 
         <div

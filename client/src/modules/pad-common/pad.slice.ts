@@ -1,5 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { PadCursor, PathColor, PathData } from '@/modules/pad-common/pad.types'
+import {
+  PadCursor,
+  SVGColor,
+  PathData,
+  ShapeData,
+  PadElementType,
+} from '@/modules/pad-common/pad.types'
 import { Point } from '@/modules/common/geometry.types'
 import type { RootState } from '@/store'
 import clamp from 'lodash/clamp'
@@ -19,12 +25,17 @@ export interface PadState {
 
   options: {
     thickness: number
-    color: PathColor
+    color: SVGColor
   }
 
   cursors: {
     [id: string]: PadCursor
   }
+
+  shapes: Record<string, ShapeData>
+  draftShapes: Record<string, ShapeData>
+
+  activeType: PadElementType
 }
 
 const INITIAL_STATE: PadState = {
@@ -37,6 +48,11 @@ const INITIAL_STATE: PadState = {
   },
 
   cursors: {},
+
+  shapes: {},
+  draftShapes: {},
+
+  activeType: 'PATH',
 }
 
 export const padSlice = createSlice({
@@ -77,7 +93,7 @@ export const padSlice = createSlice({
       delete state.paths[payload]
     },
 
-    setColor: (state, { payload }: PayloadAction<PathColor>) => {
+    setColor: (state, { payload }: PayloadAction<SVGColor>) => {
       state.options.color = payload
     },
 
@@ -102,6 +118,45 @@ export const padSlice = createSlice({
     },
 
     resetSlice: () => INITIAL_STATE,
+
+    setShape: (state, { payload }: PayloadAction<ShapeData>) => {
+      state.shapes[payload.id] = payload
+    },
+
+    setDraftShape: (state, { payload }: PayloadAction<ShapeData>) => {
+      state.shapes[payload.id] = payload
+    },
+
+    updateDraftShape: (
+      state,
+      {
+        payload,
+      }: PayloadAction<{
+        id: string
+        focus: Point
+        counter: number
+      }>
+    ) => {
+      const inState = state.shapes[payload.id]
+      if (!inState) {
+        return
+      }
+
+      inState.counter = payload.counter
+      inState.focus = payload.focus
+    },
+
+    removeShape: (state, { payload }: PayloadAction<string>) => {
+      delete state.shapes[payload]
+    },
+
+    removeDraftShape: (state, { payload }: PayloadAction<string>) => {
+      delete state.shapes[payload]
+    },
+
+    setActiveType: (state, { payload }: PayloadAction<PadElementType>) => {
+      state.activeType = payload
+    },
   },
 })
 
