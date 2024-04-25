@@ -10,12 +10,16 @@ export default function PadTypeButton({
   type: PadElementType
 }) {
   const { activeType, setActiveType } = usePadActiveType()
+  const isActive = type === activeType
 
   return (
     <Button
       {...others}
       onClick={() => setActiveType(type)}
-      variant={type === activeType ? 'primary' : 'outline-primary'}
+      variant={activeType ? 'primary' : 'outline-primary'}
+      data-cy="type-button"
+      data-type={type}
+      data-active={isActive}
     >
       {children}
     </Button>
