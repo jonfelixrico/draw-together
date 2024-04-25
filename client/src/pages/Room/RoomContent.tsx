@@ -80,6 +80,7 @@ export default function RoomContent() {
               </If>
             </RoomToolbar>
           </Col>
+
           <Col>
             <Row className="h-100">
               <Col className="p-0">
