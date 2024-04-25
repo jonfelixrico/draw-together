@@ -9,7 +9,12 @@ import {
   selectThickness,
 } from '@/modules/pad-common/pad.slice'
 import { nanoid } from 'nanoid'
-import { PadSocketCode } from '@/modules/pad-socket/pad-socket.types'
+import {
+  PAD_SOCKET_EVENT,
+  PadRequest,
+  PadSocketCode,
+} from '@/modules/pad-socket/pad-socket.types'
+import { useUndoStackService } from '@/modules/pad-common/undo-stack.context'
 
 export function usePathInputServiceImpl() {
   const color = useAppSelector(selectColor)
@@ -18,6 +23,22 @@ export function usePathInputServiceImpl() {
   const sendMessage = useSendMessage()
   const dispatch = useAppDispatch()
   const draftRef = useRef<PathData | null>(null)
+
+  const { push } = useUndoStackService()
+  const createUndo = useCallback(
+    ({ id }: { id: string }) => {
+      push(async ({ store, socket }) => {
+        store.dispatch(PadActions.removePath(id))
+
+        socket.emit(PAD_SOCKET_EVENT, {
+          PATH_DELETE: {
+            id,
+          },
+        } as PadRequest)
+      })
+    },
+    [push]
+  )
 
   const handleDraw = useCallback(
     (event: DrawEvent) => {
@@ -59,6 +80,7 @@ export function usePathInputServiceImpl() {
         sendMessage(PadSocketCode.PATH_CREATE, updated)
         dispatch(PadActions.setPath(updated))
         dispatch(PadActions.removeDraftPath(draft.id))
+        createUndo(updated)
       } else {
         // reaching this line means that we're processing regular move events
         dispatch(PadActions.setDraftPath(updated))
@@ -66,7 +88,7 @@ export function usePathInputServiceImpl() {
 
       draftRef.current = updated
     },
-    [sendMessage, dispatch, color, thickness]
+    [sendMessage, dispatch, color, thickness, createUndo]
   )
 
   return useMemo(() => {
