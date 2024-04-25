@@ -1,7 +1,7 @@
 import { PadActions } from '@/modules/pad-common/pad.slice'
 import { ShapeData } from '@/modules/pad-common/pad.types'
 import { useUndoStackService } from '@/modules/pad-common/undo-stack.context'
-import { ShapeInputService } from '@/modules/pad-service/rectangle-input-service.context'
+import { ShapeInputService } from '@/modules/pad-service/shape-input-service.context'
 import {
   PAD_SOCKET_EVENT,
   PadRequest,
